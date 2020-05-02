@@ -38,9 +38,17 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents"/>
+   <widget class="SessionControlWidget" name="dockWidgetContents"/>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SessionControlWidget</class>
+   <extends>QWidget</extends>
+   <header>sessioncontrolwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
