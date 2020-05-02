@@ -39,3 +39,13 @@ INCLUDEPATH += $${PWD}/gui/
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+# Tixi library from DLR:
+win32: LIBS += -L$$PWD/../lib/TIXI-3.0.0-win64/lib/ -ltixi3
+
+INCLUDEPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
+DEPENDPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/tixi3.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/libtixi3.a
