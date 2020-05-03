@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include <gui/trainingsessionwindow.h>
+#include "datamanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void connectDataManager(DataManager *mgr);
 protected slots:
     void onRunClicked();
 private:

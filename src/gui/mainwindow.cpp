@@ -20,3 +20,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::connectDataManager(DataManager *mgr)
+{
+    mgr->sayHello();
+}
+

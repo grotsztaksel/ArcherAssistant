@@ -51,3 +51,10 @@ INCLUDEPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
 DEPENDPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
 
 PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/tixi3.lib
+
+# pugixml
+INCLUDEPATH += $$PWD/../lib/pugixml-1.10/src
+
+HEADERS +=  $$PWD/../lib/pugixml-1.10/src/pugixml.hpp \
+            $$PWD/../lib/pugixml-1.10/src/pugiconfig.hpp
+SOURCES += $$PWD/../lib/pugixml-1.10/src/pugixml.cpp
