@@ -18,12 +18,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 UI_DIR = ui
 
 SOURCES += \
+    data_manager/datamanager.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/trainingsessionwindow.cpp \
     gui/mainwindow.cpp \
     main.cpp
 
 HEADERS += \
+    data_manager/datamanager.h \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
     gui/mainwindow.h
@@ -34,6 +36,7 @@ FORMS += \
     gui/mainwindow.ui
 
 INCLUDEPATH += $${PWD}/gui/
+INCLUDEPATH += $${PWD}/data_manager/
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -47,5 +50,4 @@ win32: LIBS += -L$$PWD/../lib/TIXI-3.0.0-win64/lib/ -ltixi3
 INCLUDEPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
 DEPENDPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
 
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/tixi3.lib
-else:win32-g++: PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/libtixi3.a
+PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/tixi3.lib
