@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArcherAssistant xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="config.xsd">
+  <equipment>
+    <bows>
+      <bow name="Windfighter" type="traditional" poundage="30" drawLength="50"/>
+    </bows>
+    <arrows>
+      <arrow name="Easton Inspire"/>
+      <arrow name="Easton Powerflight"/>
+      <arrow name="Easton Inspire small"/>
+    </arrows>
+    <targets>
+      <target name="FITA Indoor 60cm" sheetsize="61.6">
+        <ring score="10x" diameter="3" color="#f8d200"/>
+        <ring score="10" diameter="6" color="#f8d200"/>
+        <ring score="9" diameter="12" color="#f8d200"/>
+        <ring score="8" diameter="18" color="#d91919"/>
+        <ring score="7" diameter="24" color="#d91919"/>
+        <ring score="6" diameter="30" color="#009ece"/>
+        <ring score="5" diameter="36" color="#009ece"/>
+        <ring score="4" diameter="42" color="#131314"/>
+        <ring score="3" diameter="48" color="#131314"/>
+        <ring score="2" diameter="54" color="#ffffff"/>
+        <ring score="1" diameter="60" color="#ffffff"/>
+      </target>
+      <target name="FITA Indoor 60cm" sheetsize="32">
+        <ring score="10x" diameter="3" color="#f8d200"/>
+        <ring score="10" diameter="6" color="#f8d200"/>
+        <ring score="9" diameter="12" color="#f8d200"/>
+        <ring score="8" diameter="18" color="#d91919"/>
+        <ring score="7" diameter="24" color="#d91919"/>
+        <ring score="6" diameter="30" color="#009ece"/>
+      </target>
+    </targets>
+  </equipment>
+  <sessions>
+</sessions>
+</ArcherAssistant>
