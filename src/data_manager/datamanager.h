@@ -17,6 +17,8 @@ public:
     ~DataManager();
 
     void sayHello();
+public slots:
+    bool openConfigFile();
 private: //methods
 
     QDir getImagesPath();
@@ -26,11 +28,13 @@ private: //methods
 private: // variables
     const QStringList args;
     const bool gui;
-
-    QSettings *settings;
-
     pugi::xml_document config;
-    QFile *configFile;
+
+    QSettings *settings = nullptr;
+    QFile *configFile = nullptr;
+
+
+    void setupConfigFile();
 
 signals:
 
