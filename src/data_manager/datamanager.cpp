@@ -16,8 +16,9 @@ DataManager::DataManager(QObject *parent, const QStringList args, const bool gui
 
 DataManager::~DataManager()
 {
-    auto fileName = settings->value("configFile").toString().toStdString().c_str();
-    config.save_file(fileName);    
+    if (cfg.opened) {
+        cfg.pugi.save_file(cfg.file->fileName().toStdString().c_str(), "  ");
+    }
 }
 
 void DataManager::setupConfigFile()
@@ -45,8 +46,8 @@ void DataManager::sayHello()
 
 QDir DataManager::getImagesPath(){
 
-    QString filedir = QFileInfo(configFile->fileName()).absolutePath();
-    auto imageAttr = config.document_element().child("sessions").attribute("imageDir");
+    QString filedir = QFileInfo(cfg.file->fileName()).absolutePath();
+    auto imageAttr = cfg.pugi.document_element().child("sessions").attribute("imageDir");
     if (!imageAttr.empty()){
         filedir.append("/" + QString(imageAttr.value()));
     }
@@ -54,12 +55,12 @@ QDir DataManager::getImagesPath(){
 }
 
 bool DataManager::openConfigFile(){
-    if (configFile != nullptr){
-        configFile->deleteLater();
+    if (cfg.file != nullptr){
+        cfg.file->deleteLater();
     }
-    configFile = new QFile(settings->value("configFile").toString(), this);
-    return config.load_file(configFile->fileName().toStdString().c_str());
-
+    cfg.file = new QFile(settings->value("configFile").toString(), this);
+    cfg.opened = cfg.pugi.load_file(cfg.file->fileName().toStdString().c_str());
+    return cfg.opened;
 }
 
 void DataManager::updateSessions(){
