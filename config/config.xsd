@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:simpleType name="colorType">
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+      <xsd:pattern value="#[a-fA-F0-9]{6}([a-fA-F0-9]{2})?"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:element name="ArcherAssistant">
+    <xsd:complexType>
+      <xsd:annotation>
+        <xsd:documentation>
+          The root element of the configuration file
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:sequence>
+        <xsd:element name="equipment" minOccurs="1" maxOccurs="1">
+          <xsd:annotation>
+            <xsd:documentation>
+              Definition of the archery equipment
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="bow" minOccurs = "0" maxOccurs="unbounded" type="bow_def"/>
+              <xsd:element name="arrow" minOccurs = "0" maxOccurs="unbounded" type="arrow_def"/>
+              <xsd:element name="target" minOccurs = "0" maxOccurs="unbounded" type="target_def"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="archers" minOccurs="1" maxOccurs="1">
+          <xsd:annotation>
+            <xsd:documentation>
+              List of archers, their preferences and data location
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:choice minOccurs = "0" maxOccurs="unbounded">
+            <xsd:element name="archer" type="archer_def"/>
+          </xsd:choice>
+        </xsd:element>
+
+        <xsd:element name = "sessions"  minOccurs="1" maxOccurs="1">
+          <xsd:annotation>
+            <xsd:documentation>
+              List of shooting sessions
+            </xsd:documentation>
+          </xsd:annotation>
+
+          <xsd:choice minOccurs = "0" maxOccurs="unbounded">
+            <xsd:element name="session" type="session_def"/>
+          </xsd:choice>
+        </xsd:element>
+
+        <xsd:element name = "excluded_images"  minOccurs="0" maxOccurs="1">
+          <xsd:annotation>
+            <xsd:documentation>
+              List of images that for some reasons should not be removed from the result photos directories,
+              but also should not to be taken into consideration as result records while analyzing the content 
+              of directories.
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:choice minOccurs = "0" maxOccurs="unbounded">
+            <xsd:element name="excluded_image" type="image_def"/>
+          </xsd:choice>
+        </xsd:element>
+
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:complexType name="bow_def">
+    <xsd:attribute name="name" type="xsd:string"/>
+    <xsd:attribute name="type">
+      <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="traditional longbow"/>
+        <xsd:enumeration value="olympic recurve"/>
+        <xsd:enumeration value="compound"/>
+        <xsd:enumeration value="traditional reflex"/>
+        <xsd:enumeration value="traditional recurve"/>
+      </xsd:restriction>
+    </xsd:attribute>
+    <xsd:attribute name="poundage" type="xsd:double"/>
+    <xsd:attribute name="drawLength" type="xsd:double"/>
+    <xsd:attribute name="manufacturer" type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="arrow_def">
+    <xsd:sequence>
+      <xsd:element name="fletching" minOccurs="0" maxOccurs="1">
+        <xsd:complexType>
+          <xsd:attribute name="material">
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="natural feather"/>
+              <xsd:enumeration value="rubber"/>
+              <xsd:enumeration value="plastic"/>
+            </xsd:restriction>
+          </xsd:attribute>
+          <xsd:attribute name="shape">
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="triangular"/>
+              <xsd:enumeration value="eliptic"/>
+              <xsd:enumeration value="parallel"/>
+            </xsd:restriction>
+          </xsd:attribute>
+          <xsd:attribute name="color1" type="colorType"/>
+          <xsd:attribute name="color2" type="colorType"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="shaft" minOccurs="0" maxOccurs="1">
+        <xsd:complexType>
+          <xsd:attribute name="material">
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="wood"/>
+              <xsd:enumeration value="aluminum"/>
+              <xsd:enumeration value="carbon"/>
+            </xsd:restriction>
+          </xsd:attribute>
+          <xsd:attribute name="spine" type="xsd:double"/>
+          <xsd:attribute name="length" type="xsd:double"/>
+          <xsd:attribute name="color" type="colorType"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="head" minOccurs="0" maxOccurs="1">
+        <xsd:complexType>
+          <xsd:attribute name="type">
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="sport"/>
+              <xsd:enumeration value="broadhead"/>
+            </xsd:restriction>
+          </xsd:attribute>
+          <xsd:attribute name="weight" type="xsd:double"/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="nock" minOccurs="0" maxOccurs="1">
+        <xsd:complexType>
+          <xsd:attribute name="color" type = "colorType"/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="name" type = "xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="target_def">
+    <xsd:sequence>
+      <xsd:element name="ring" minOccurs="1" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:attribute name="score" type="xsd:integer"/>
+          <xsd:attribute name="diameter" type="xsd:double"/>
+          <xsd:attribute name="color" type="colorType"/>
+          <xsd:attribute name="cross" type="xsd:boolean" default="false"/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="name" type = "xsd:string"/>
+    <xsd:attribute name="sheetSize" type = "xsd:double"/>
+  </xsd:complexType>
+<xsd:complexType name="archer_def">
+    <xsd:sequence>
+      <xsd:element name="defaults" minOccurs="0" maxOccurs="1">
+      <xsd:complexType>
+      
+      </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+</xsd:schema>

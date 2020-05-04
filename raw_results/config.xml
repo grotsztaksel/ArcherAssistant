@@ -1,78 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <ArcherAssistant xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="config.xsd">
   <equipment>
     <bows>
-      <bow name="Windfighter" type="traditional" poundage="30" drawLength="50" manufacturer="Kaya Archery"/>
-      <bow name="Snake" type="traditional" poundage="18" drawLength="48" manufacturer="Rolan"/>
+      <bow name="Windfighter" type="traditional" poundage="30" drawLength="50" manufacturer="Kaya Archery" />
+      <bow name="Snake" type="traditional" poundage="18" drawLength="48" manufacturer="Rolan" />
     </bows>
     <arrows>
-      <arrow name="Easton Inspire"/>
-      <arrow name="Easton Powerflight"/>
-      <arrow name="Easton Inspire small"/>
+      <arrow name="Easton Inspire" />
+      <arrow name="Easton Powerflight" />
+      <arrow name="Easton Inspire small" />
     </arrows>
     <targets>
       <target name="FITA Indoor 60cm" sheetsize="61.6">
-        <ring score="10x" diameter="3" color="#f8d200"/>
-        <ring score="10" diameter="6" color="#f8d200"/>
-        <ring score="9" diameter="12" color="#f8d200"/>
-        <ring score="8" diameter="18" color="#d91919"/>
-        <ring score="7" diameter="24" color="#d91919"/>
-        <ring score="6" diameter="30" color="#009ece"/>
-        <ring score="5" diameter="36" color="#009ece"/>
-        <ring score="4" diameter="42" color="#131314"/>
-        <ring score="3" diameter="48" color="#131314"/>
-        <ring score="2" diameter="54" color="#ffffff"/>
-        <ring score="1" diameter="60" color="#ffffff"/>
+        <ring score="10" diameter="3" color="#f8d200" />
+        <ring score="10" diameter="6" color="#f8d200" />
+        <ring score="9" diameter="12" color="#f8d200" />
+        <ring score="8" diameter="18" color="#d91919" />
+        <ring score="7" diameter="24" color="#d91919" />
+        <ring score="6" diameter="30" color="#009ece" />
+        <ring score="5" diameter="36" color="#009ece" />
+        <ring score="4" diameter="42" color="#131314" />
+        <ring score="3" diameter="48" color="#131314" />
+        <ring score="2" diameter="54" color="#ffffff" />
+        <ring score="1" diameter="60" color="#ffffff" />
       </target>
       <target name="FITA Indoor 60cm 5 rings" sheetsize="32">
-        <ring score="10x" diameter="3" color="#f8d200"/>
-        <ring score="10" diameter="6" color="#f8d200"/>
-        <ring score="9" diameter="12" color="#f8d200"/>
-        <ring score="8" diameter="18" color="#d91919"/>
-        <ring score="7" diameter="24" color="#d91919"/>
-        <ring score="6" diameter="30" color="#009ece"/>
+        <ring score="10x" diameter="3" color="#f8d200" />
+        <ring score="10" diameter="6" color="#f8d200" />
+        <ring score="9" diameter="12" color="#f8d200" />
+        <ring score="8" diameter="18" color="#d91919" />
+        <ring score="7" diameter="24" color="#d91919" />
+        <ring score="6" diameter="30" color="#009ece" />
       </target>
     </targets>
   </equipment>
   <archers>
     <archer name="Gucio">
       <defaults>
-        <session  bow="Snake" technique="mediterranean" distance="7" arrow="Easton Inspire small"/>
+        <session bow="Snake" technique="mediterranean" distance="7" arrow="Easton Inspire small" />
+        <path id = "default"/>
       </defaults>
     </archer>
     <archer name="Kalinka">
       <defaults>
-        <session  bow="Snake" technique="mediterranean" distance="2" arrow="Easton Inspire small"/>
+        <session bow="Snake" technique="mediterranean" distance="2" arrow="Easton Inspire small" />
+        <path id = "default"/>
       </defaults>
     </archer>
     <archer name="Piotr">
       <defaults>
-        <session  bow="Windfighter" technique="thumb draw" distance="16" arrow="Easton Inspire"/>
+        <session bow="Windfighter" technique="thumb draw" distance="16" arrow="Easton Inspire" />
+        <path id = "default"/>
       </defaults>
     </archer>
   </archers>
-  <sessions imagesDir="images"/>
+  <paths>
+    <path id = "default" filter="*.jpg; *.png" dir="images"/>
+  </paths>
   <sessions dummy="true" target="FITA Indoor 60cm 5 rings">
     <session archer="Piotr" date="" time="">
       <images>
         <image name="pic1.jpg" width="9400" height="3200">
-          <corner xpx="720" ypx="230"/>
-          <corner xpx="6234" ypx="402"/>
-          <corner xpx="5876" ypx="1658"/>
-          <corner xpx="639" ypx="1987"/>
+          <corner xpx="720" ypx="230" />
+          <corner xpx="6234" ypx="402" />
+          <corner xpx="5876" ypx="1658" />
+          <corner xpx="639" ypx="1987" />
         </image>
-        <image name="pic2.jpg"/>
+        <image name="pic2.jpg" />
       </images>
       <series>
-        <hit x="4.7" y="22.4"><!-- deviation from the target center in cm -->
-         <input>
-          <manual>
-            <image name="pic1.jpg" xpx="2354" ypx="698"/>
-            <correction2D></correction2D>
-          </manual>
-         </input>
+        <hit x="4.7" y="22.4">
+          <input>
+            <manual>
+              <image name="pic1.jpg" xpx="2354" ypx="698" />
+              <correction2D />
+            </manual>
+          </input>
         </hit>
       </series>
     </session>
   </sessions>
+  <excluded_images/>
 </ArcherAssistant>
