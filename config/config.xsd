@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
   <xsd:simpleType name="colorType">
     <xsd:restriction base="xsd:string">
       <xsd:whiteSpace value="collapse"/>
       <xsd:pattern value="#[a-fA-F0-9]{6}([a-fA-F0-9]{2})?"/>
     </xsd:restriction>
   </xsd:simpleType>
+
   <xsd:element name="ArcherAssistant">
     <xsd:complexType>
       <xsd:annotation>
@@ -156,13 +158,259 @@
     <xsd:attribute name="name" type = "xsd:string"/>
     <xsd:attribute name="sheetSize" type = "xsd:double"/>
   </xsd:complexType>
-<xsd:complexType name="archer_def">
+  <xsd:complexType name="archer_def">
     <xsd:sequence>
       <xsd:element name="defaults" minOccurs="0" maxOccurs="1">
-      <xsd:complexType>
-      
-      </xsd:complexType>
+        <xsd:complexType>
+
+        </xsd:complexType>
       </xsd:element>
     </xsd:sequence>
-</xsd:complexType>
+  </xsd:complexType>
+
+  <xsd:complexType name="series_def">
+    <xsd:annotation>
+      <xsd:documentation>
+        A series of shots, that is documented on a single photo (or more, made at short intervals, e.q. for better angles)
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="image" type="image_def" minOccurs="1" maxOccurs="unbounded"/>
+      <xsd:element name="hit" type="hit_def" minOccurs="0" maxOccurs="unbounded"/>
+
+    </xsd:sequence>
+    <xsd:attribute name="isIncluded" type="xsd:boolean" default="true">
+      <xsd:annotation>
+        <xsd:documentation>
+          If set to false, the results will not be used in statistics. THis is useful, when the images directory
+          contains a photo(s) that do not document the series results.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="Date" type="xsd:date">
+      <xsd:annotation>
+        <xsd:documentation>
+          Date of the session. By default it is the date of the first photo defining the series
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="Time" type="xsd:time">
+      <xsd:annotation>
+        <xsd:documentation>
+          Time of the session start. By default it is the time of the first photo defining the series
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="archer" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of the archer. The following attributes are taken from the archer's defaults:
+          - bow
+          - arrow
+          - number of arrows
+          - distance
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="bow" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of the bow used. If not present, this is inherited from the session.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="arrow" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of arrow used. If not present, this is inherited from the session.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="target" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of target used. If not present, this is inherited from the session.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="numberOfArrows" type="xsd:integer">
+      <xsd:annotation>
+        <xsd:documentation>
+          Number of arrows used per series. If not present, this is inherited from the session. Also is used to compute number of arrows missing the target
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="distance" type="xsd:double">
+      <xsd:annotation>
+        <xsd:documentation>
+          Shooting distance. If not present, this is inherited from the session.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="session_def">
+    <xsd:annotation>
+      <xsd:documentation>
+        Single session collecting a set of shooting series. It also defines common date/time, number and type of arrows, archer etc.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice minOccurs = "0" maxOccurs="unbounded">
+      <xsd:element name="series" type="series_def" minOccurs="0" maxOccurs="1"/>
+    </xsd:choice>
+    <xsd:attribute name="Date" type="xsd:date">
+      <xsd:annotation>
+        <xsd:documentation>
+          Date of the session. By default it is the date of the first photo defining the session
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="Time" type="xsd:time">
+      <xsd:annotation>
+        <xsd:documentation>
+          Time of the session start. By default it is the time of the first photo defining the session
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="archer" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of the archer. The following attributes are taken from the archer's defaults:
+          - bow
+          - arrow
+          - number of arrows
+          - distance
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="bow" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of the bow used. If not present, default one used by the archer is used
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="arrow" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of arrow used. If not present, default one used by the archer is used
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="target" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of target used.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="numberOfArrows" type="xsd:integer">
+      <xsd:annotation>
+        <xsd:documentation>
+          Number of arrows used per series. Can be overriden in each series. Also is used to compute number of arrows missing the target
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="distance" type="xsd:double">
+      <xsd:annotation>
+        <xsd:documentation>
+          Shooting distance
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="imagePath" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Location of session images
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="image_def">
+    <xsd:annotation>
+      <xsd:documentation>
+        Node describing the image and its processing
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="targetSheet">
+        <xsd:sequence>
+          <xsd:element name="corner" minOccurs="4" maxOccurs="4">
+            <xsd:annotation>
+              <xsd:documentation>
+                A point defining one of the corners of the target sheet. These are then used to calculate the hit coordinates basing on the
+                coordinates from the image, distorted by perspective. The points 
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexType>
+              <xsd:attribute name="x" type="xsd:integer"/>
+              <xsd:attribute name="y" type="xsd:integer"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="file" type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="hit_def">
+    <xsd:annotation>
+      <xsd:documentation>
+        Single arrow hit. Arrows missing targets are not listed in the series node
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence minOccurs="0" maxOccurs="1">
+      <xsd:element name="input">
+        <xsd:annotation>
+          <xsd:documentation>
+            Raw input data used to compute the final coordinates and score
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="px" type="xsd:integer">
+          <xsd:annotation>
+            <xsd:documentation>
+              Coordinate of pixel marking the hit in the photo
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="py" type="xsd:integer">
+          <xsd:annotation>
+            <xsd:documentation>
+              Coordinate of pixel marking the hit in the photo
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="image" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Name of the image on which the hit was identified
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="x" type="xsd:double">
+      <xsd:annotation>
+        <xsd:documentation>
+          Real coordinate of the hit, after all processing has been done. Directly used by the post processor
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="y" type="xsd:double">
+      <xsd:annotation>
+        <xsd:documentation>
+          Real coordinate of the hit, after all processing has been done. Directly used by the post processor
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="score" type="xsd:integer">
+      <xsd:annotation>
+        <xsd:documentation>
+          Score computed basing on the hit coordinates (usually from 0 to 10)
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
 </xsd:schema>
