@@ -1,5 +1,5 @@
 #include "gui/mainwindow.h"
-#include "datamanager.h"
+#include "worker.h"
 
 #include <QApplication>
 
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     }
     bool gui = !args.contains(QString("--nogui"));
     qDebug() << "Creating window? "<<gui;
-    DataManager mgr(nullptr, args, gui);
+    Worker mgr(nullptr, args, gui);
 
     // Allow the DataManager to work alone, without GUI (batch mode)
     if (gui){

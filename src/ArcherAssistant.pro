@@ -19,6 +19,8 @@ UI_DIR = ui
 
 SOURCES += \
     data_manager/datamanager.cpp \
+    data_manager/shootingseries.cpp \
+    data_manager/worker.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/trainingsessionwindow.cpp \
     gui/mainwindow.cpp \
@@ -26,6 +28,8 @@ SOURCES += \
 
 HEADERS += \
     data_manager/datamanager.h \
+    data_manager/shootingseries.h \
+    data_manager/worker.h \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
     gui/mainwindow.h

@@ -24,7 +24,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::connectDataManager(DataManager *mgr)
+void MainWindow::connectDataManager(Worker *mgr)
 {
     mgr->sayHello();
 }
