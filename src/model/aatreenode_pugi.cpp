@@ -28,6 +28,23 @@ bool AATreeNode_pugi::hasAttribute(const QString name) {
   return m_xml_node.attribute(cstr(name));
 }
 
+bool AATreeNode_pugi::setAttribute(const QString name, const int& value) {
+  return m_xml_node.attribute(cstr(name)).set_value(value);
+}
+bool AATreeNode_pugi::setAttribute(const QString name, const QString& value) {
+  return m_xml_node.attribute(cstr(name)).set_value(cstr(value));
+}
+bool AATreeNode_pugi::setAttribute(const QString name, const double& value) {
+  return m_xml_node.attribute(cstr(name)).set_value(value);
+}
+bool AATreeNode_pugi::setAttribute(const QString name, const bool& value) {
+  return m_xml_node.attribute(cstr(name)).set_value(value);
+}
+
+bool AATreeNode_pugi::removeAttribute(const QString name) {
+  return m_xml_node.remove_attribute(cstr(name));
+}
+
 QStringList AATreeNode_pugi::attributes() {
   QStringList attributes;
   for (auto attrib : m_xml_node.attributes()) {

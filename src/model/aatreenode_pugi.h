@@ -10,29 +10,32 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   ~AATreeNode_pugi();
 
   //! Get type (name) of the element
-  QString name();
+  QString name() override;
 
   //! Get attribute of given type
-  QVariant attribute(const QString name);
+  QVariant attribute(const QString name) override;
 
   //! check if the node has a given attribute
-  bool hasAttribute(const QString name);
+  bool hasAttribute(const QString name) override;
 
   //! set attribute of given name
-  bool setAttribute(const QString name, const QVariant& value);
+  virtual bool setAttribute(const QString name, const int& value) override;
+  virtual bool setAttribute(const QString name, const QString& value) override;
+  virtual bool setAttribute(const QString name, const double& value) override;
+  virtual bool setAttribute(const QString name, const bool& value) override;
 
   //! clear attribute of given name
-  bool removeAttribute(const QString name);
+  bool removeAttribute(const QString name) override;
   //! Get list of all attributes
-  QStringList attributes();
+  QStringList attributes() override;
 
   //! Get list of direct children
-  QList<AATreeNode_abstract*> children() const;
+  QList<AATreeNode_abstract*> children() const override;
 
   //! Get the root node
-  AATreeNode_abstract* root();
+  AATreeNode_abstract* root() override;
 
-  void setDateTime(const QDateTime& dateTime);
+  void setDateTime(const QDateTime& dateTime) override;
 
  signals:
 
