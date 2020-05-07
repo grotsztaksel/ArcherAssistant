@@ -30,7 +30,10 @@ class AATreeNode_abstract : public QObject {
   virtual bool hasAttribute(const QString name) = 0;
 
   //! set attribute of given name
-  virtual bool setAttribute(const QString name, const QVariant& value) = 0;
+  virtual bool setAttribute(const QString name, const int& value) = 0;
+  virtual bool setAttribute(const QString name, const QString& value) = 0;
+  virtual bool setAttribute(const QString name, const double& value) = 0;
+  virtual bool setAttribute(const QString name, const bool& value) = 0;
 
   //! clear attribute of given name
   virtual bool removeAttribute(const QString name) = 0;
