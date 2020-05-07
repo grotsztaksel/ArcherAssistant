@@ -54,9 +54,11 @@
       </defaults>
     </archer>
   </archers>
-  <paths>
+  <imagePaths>
     <path id = "default" filter="*.jpg; *.png" dir="images"/>
-  </paths>
+    <path id = "side" filter="*.jpg; *.png" dir="someOther"/>
+    <path id = "side" filter="*.jpg; *.png" dir="er"/>
+  </imagePaths>
   <sessions dummy="true" target="FITA Indoor 60cm 5 rings">
     <session archer="Piotr" date="" time="">
       <images>
@@ -69,14 +71,12 @@
         <image name="pic2.jpg" />
       </images>
       <series>
-        <hit x="4.7" y="22.4">
-          <input>
-            <manual>
-              <image name="pic1.jpg" xpx="2354" ypx="698" />
-              <correction2D />
-            </manual>
-          </input>
-        </hit>
+        <hit x="4.7" y="22.4"/>
+        <hit x="5.7" y="22.4"/>
+        <hit x="7.7" y="22.4"/>
+        <hit x="2.7" y="22.4"/>
+        <hit x="4.3" y="22.4"/>
+        <hit x="1.7" y="22.4"/>
       </series>
     </session>
   </sessions>
