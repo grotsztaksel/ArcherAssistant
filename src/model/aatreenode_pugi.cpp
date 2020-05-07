@@ -61,10 +61,6 @@ AATreeNode_abstract* AATreeNode_pugi::root() {
   return rootnode;
 }
 
-void AATreeNode_pugi::setDateTime(const QDateTime& dateTime) {
-  m_dateTime = dateTime;
-}
-
 QList<AATreeNode_abstract*> AATreeNode_pugi::children() const {
   QList<AATreeNode_abstract*> children;
 

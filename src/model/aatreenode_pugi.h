@@ -3,6 +3,7 @@
 
 #include <pugixml.hpp>
 #include "aatreenode_abstract.h"
+//! Implementation of AATreeNode using pugixml as the data handling logic
 class AATreeNode_pugi : public AATreeNode_abstract {
   Q_OBJECT
  public:
@@ -19,10 +20,10 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   bool hasAttribute(const QString name) override;
 
   //! set attribute of given name
-  virtual bool setAttribute(const QString name, const int& value) override;
-  virtual bool setAttribute(const QString name, const QString& value) override;
-  virtual bool setAttribute(const QString name, const double& value) override;
-  virtual bool setAttribute(const QString name, const bool& value) override;
+  bool setAttribute(const QString name, const int& value) override;
+  bool setAttribute(const QString name, const QString& value) override;
+  bool setAttribute(const QString name, const double& value) override;
+  bool setAttribute(const QString name, const bool& value) override;
 
   //! clear attribute of given name
   bool removeAttribute(const QString name) override;
@@ -34,8 +35,6 @@ class AATreeNode_pugi : public AATreeNode_abstract {
 
   //! Get the root node
   AATreeNode_abstract* root() override;
-
-  void setDateTime(const QDateTime& dateTime) override;
 
  signals:
 
@@ -53,7 +52,6 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   pugi::xml_node m_xml_node;
   AATreeNode_pugi* m_parent = nullptr;
   QList<AATreeNode_pugi*> m_children;
-  QDateTime m_dateTime;
 };
 
 #endif  // AATREENODE_PUGI_H

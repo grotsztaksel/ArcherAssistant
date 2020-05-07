@@ -45,8 +45,6 @@ class AATreeNode_abstract : public QObject {
 
   //! Get the root node
   virtual AATreeNode_abstract* root() = 0;
-
-  virtual void setDateTime(const QDateTime& dateTime) = 0;
 };
 
 #endif  // AATREENODE_ABSTRACT_H
