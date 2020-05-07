@@ -1,20 +1,13 @@
-#ifndef SHOOTINGDATA_H
-#define SHOOTINGDATA_H
-
-#include <QDateTime>
-#include <QList>
-#include <QObject>
+#ifndef AATREENODE_PUGI_H
+#define AATREENODE_PUGI_H
 
 #include <pugixml.hpp>
-class AATreeNode : public QObject {
+#include "aatreenode_abstract.h"
+class AATreeNode_pugi : public AATreeNode_abstract {
   Q_OBJECT
  public:
-  explicit AATreeNode(QString name = QString(), QObject* parent = nullptr);
-  ~AATreeNode();
-
-  QDate date();
-  QTime time();
-  QDateTime dateTime() const;
+  explicit AATreeNode_pugi(QObject* parent = nullptr);
+  ~AATreeNode_pugi();
 
   //! Get type (name) of the element
   QString name();
@@ -34,10 +27,10 @@ class AATreeNode : public QObject {
   QStringList attributes();
 
   //! Get list of direct children
-  QList<AATreeNode*> children() const;
+  QList<AATreeNode_abstract*> children() const;
 
   //! Get the root node
-  AATreeNode* root();
+  AATreeNode_abstract* root();
 
   void setDateTime(const QDateTime& dateTime);
 
@@ -55,10 +48,9 @@ class AATreeNode : public QObject {
  protected:
   QString m_name;
   pugi::xml_node m_xml_node;
+  AATreeNode_pugi* m_parent = nullptr;
+  QList<AATreeNode_pugi*> m_children;
   QDateTime m_dateTime;
-  AATreeNode* m_parent = nullptr;
-  QList<AATreeNode*> m_children;
-  QHash<QString, QVariant> m_attributes;
 };
 
-#endif  // SHOOTINGDATA_H
+#endif  // AATREENODE_PUGI_H

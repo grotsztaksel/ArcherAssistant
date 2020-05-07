@@ -2,7 +2,7 @@
 #define AATREEMODEL_H
 
 #include <QAbstractItemModel>
-#include "aatreenode.h"
+#include "aatreenode_pugi.h"
 
 class AATreeModel : public QAbstractItemModel {
   Q_OBJECT

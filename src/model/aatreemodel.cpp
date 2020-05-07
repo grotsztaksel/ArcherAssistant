@@ -14,7 +14,7 @@ QModelIndex AATreeModel::index(int row,
   if (!hasIndex(row, column, parent)) {
     return QModelIndex();
   }
-  AATreeNode* node;
+  AATreeNode_pugi* node;
   return createIndex(row, column, node);
 }
 

@@ -24,8 +24,9 @@ SOURCES += \
     gui/trainingsessionwindow.cpp \
     gui/mainwindow.cpp \
     model/aatreemodel.cpp \
-    model/aatreenode.cpp \
-    main.cpp
+    main.cpp \
+    model/aatreenode_abstract.cpp \
+    model/aatreenode_pugi.cpp
 
 HEADERS += \
     data_manager/datamanager.h \
@@ -34,7 +35,8 @@ HEADERS += \
     gui/trainingsessionwindow.h \
     gui/mainwindow.h \
     model/aatreemodel.h \
-    model/aatreenode.h
+    model/aatreenode_abstract.h \
+    model/aatreenode_pugi.h
 
 FORMS += \
     gui/sessioncontrolwidget.ui \
@@ -43,6 +45,7 @@ FORMS += \
 
 INCLUDEPATH += $${PWD}/gui/
 INCLUDEPATH += $${PWD}/data_manager/
+INCLUDEPATH += $${PWD}/model/
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
