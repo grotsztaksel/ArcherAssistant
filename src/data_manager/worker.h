@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QFile>
+#include <QList>
 #include <QObject>
 #include <QSettings>
 #include <QString>
@@ -21,14 +22,11 @@ class Worker : public QObject {
   explicit Worker(QObject* parent = nullptr,
                   const QStringList args = QStringList(),
                   const bool gui = true);
-  ~Worker();
 
   //! just a dummy function to see if the MainWindow object can communicate with
   //! this
   void sayHello();
  public slots:
-  //! open the config xml file
-  bool openConfigFile();
 
  private:  // methods
   //! create default settings, if they are absent
@@ -41,10 +39,6 @@ class Worker : public QObject {
 
   //! set up default time intervals
   void setupIntervals();
-
-  //! read the config xml data and find the information about the default
-  //! location of the images on the drive system
-  QDir getImagesPath();
 
   //! search the paths provided and find all the image files. Check the date of
   //! creation, and create a <series> node in <session> with date and times
