@@ -43,6 +43,23 @@ class AATreeNode_abstract : public QObject {
   //! Get list of direct children
   virtual QList<AATreeNode_abstract*> children() const = 0;
 
+  //! Add child of given name. If index provided, will insert before the
+  //! index-th node. Otherwise will append to the end
+  virtual AATreeNode_abstract* addChild(QString name, int index = -1) = 0;
+
+  //! insert already created child object at at index. If no index provided,
+  //! insert at the end
+  virtual AATreeNode_abstract* insertChild(AATreeNode_abstract* child,
+                                           int index = -1) = 0;
+
+  //! Remove index-th child of given name. If no index is provided, remove first
+  //! child of this name
+  virtual AATreeNode_abstract* removeChild(QString name, int index = -1) = 0;
+
+  //! Remove index-th child, regardless of its name. If index not provided,
+  //! remove first child
+  virtual AATreeNode_abstract* removeChild(int index = -1) = 0;
+
   //! Get the root node
   virtual AATreeNode_abstract* root() = 0;
 };
