@@ -1,7 +1,7 @@
 #include "aatreenode.h"
 
-AATreeNode::AATreeNode(QString name, AATreeNode* xmlParent, QObject* parent)
-    : QObject(parent), m_name{name}, m_parent{xmlParent} {}
+AATreeNode::AATreeNode(QString name, QObject* parent)
+    : QObject(parent), m_name{name} {}
 
 AATreeNode::~AATreeNode() {
   // Clear the pugi structure
@@ -49,27 +49,33 @@ QStringList AATreeNode::attributes() {
   return attributes;
 }
 
-AATreeNode* AATreeNode::root() {}
+AATreeNode* AATreeNode::root() {
+  auto root = m_xml_node.root();
+  QString name = QString(root.name());
+  AATreeNode* rootnode = new AATreeNode(name);
+  rootnode->setXMLnode(root);
+  return rootnode;
+}
 
 void AATreeNode::setDateTime(const QDateTime& dateTime) {
   m_dateTime = dateTime;
 }
 
-void AATreeNode::setXMLnode(pugi::xml_node node) {
-  m_xml_node = node;
-  m_children.clear();
+QList<AATreeNode*> AATreeNode::children() const {
+  QList<AATreeNode*> children;
+
   for (pugi::xml_node node : m_xml_node.children()) {
     AATreeNode* child = new AATreeNode(QString(node.name()));
-
-    m_children.append(child);
     child->setXMLnode(node);
+    children.append(child);
   }
+  return children;
+}
+
+void AATreeNode::setXMLnode(pugi::xml_node node) {
+  m_xml_node = node;
 }
 
 const char* AATreeNode::cstr(QString string) {
   return string.toStdString().c_str();
-}
-
-QList<AATreeNode*> AATreeNode::children() const {
-  return m_children;
 }

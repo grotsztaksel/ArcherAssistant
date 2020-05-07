@@ -18,23 +18,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 UI_DIR = ui
 
 SOURCES += \
-    aatreemodel.cpp \
-    aatreenode.cpp \
     data_manager/datamanager.cpp \
     data_manager/worker.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/trainingsessionwindow.cpp \
     gui/mainwindow.cpp \
+    model/aatreemodel.cpp \
+    model/aatreenode.cpp \
     main.cpp
 
 HEADERS += \
-    aatreemodel.h \
-    aatreenode.h \
     data_manager/datamanager.h \
     data_manager/worker.h \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
-    gui/mainwindow.h
+    gui/mainwindow.h \
+    model/aatreemodel.h \
+    model/aatreenode.h
 
 FORMS += \
     gui/sessioncontrolwidget.ui \

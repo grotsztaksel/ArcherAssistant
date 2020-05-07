@@ -9,9 +9,7 @@
 class AATreeNode : public QObject {
   Q_OBJECT
  public:
-  explicit AATreeNode(QString name = QString(),
-                      AATreeNode* xmlParent = nullptr,
-                      QObject* parent = nullptr);
+  explicit AATreeNode(QString name = QString(), QObject* parent = nullptr);
   ~AATreeNode();
 
   QDate date();
