@@ -1,5 +1,5 @@
 #include "aatreenode_pugi.h"
-
+using namespace pugi;
 AATreeNode_pugi::AATreeNode_pugi(QObject* parent)
     : AATreeNode_abstract(parent) {}
 
@@ -56,26 +56,166 @@ QStringList AATreeNode_pugi::attributes() {
 
 AATreeNode_abstract* AATreeNode_pugi::root() {
   auto root = m_xml_node.root();
-  AATreeNode_pugi* rootnode = new AATreeNode_pugi();
+  AATreeNode_pugi* rootnode = new AATreeNode_pugi(this);
   rootnode->setXMLnode(root);
   return rootnode;
+}
+
+AATreeNode_abstract* AATreeNode_pugi::parent() {
+  return m_parent;
 }
 
 QList<AATreeNode_abstract*> AATreeNode_pugi::children() const {
   QList<AATreeNode_abstract*> children;
 
-  for (pugi::xml_node node : m_xml_node.children()) {
-    AATreeNode_pugi* child = new AATreeNode_pugi();
-    child->setXMLnode(node);
-    children.append(child);
+  for (AATreeNode_abstract* child : m_children) {
+    AATreeNode_abstract* child_ptr_copy = child;
+    children.append(child_ptr_copy);
   }
   return children;
 }
+
+QList<AATreeNode_abstract*> AATreeNode_pugi::children(
+    const QString& name) const {
+  QList<AATreeNode_abstract*> children;
+  for (AATreeNode_abstract* child : m_children) {
+    if (child->name() == name) {
+      AATreeNode_abstract* child_ptr_copy = child;
+      children.append(child_ptr_copy);
+    }
+  }
+  return children;
+}
+
+AATreeNode_abstract* AATreeNode_pugi::getChild(int index) const {
+  if (index < m_children.size() && index > -1)
+    return m_children.at(index);
+  return nullptr;
+}
+
+AATreeNode_abstract* AATreeNode_pugi::addChild(const QString& name, int index) {
+  AATreeNode_pugi* newNode = new AATreeNode_pugi(this);
+  return insertChild(newNode, index, name);
+}
+
+AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
+                                                  int index) {
+  QString name;
+  return insertChild(child, index, name);
+}
+
+AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
+                                                  int index,
+                                                  const QString& name) {
+  xml_node newXMLNode;
+  if (index == -1) {
+    m_xml_node.append_child(cstr(name));
+  } else {
+    xml_node myOlderBrother = xml_nodeAtIndex(index);
+    m_xml_node.insert_child_before(cstr(name), myOlderBrother);
+  }
+  AATreeNode_pugi* pugiChild = qobject_cast<AATreeNode_pugi*>(child);
+  if (child)
+    pugiChild->setXMLnode(newXMLNode);
+  return pugiChild;
+}
+
 // ------------- protected methods -----------------
 void AATreeNode_pugi::setXMLnode(pugi::xml_node node) {
   m_xml_node = node;
+  m_children.clear();
+  for (xml_node child : node.children()) {
+    AATreeNode_pugi* c = new AATreeNode_pugi(this);
+    c->setXMLnode(child);
+    m_children.append(c);
+  }
 }
 
 const char* AATreeNode_pugi::cstr(QString string) {
   return string.toStdString().c_str();
+}
+
+xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
+  // try addressing the most probable cases:
+  // - accessing the next node,
+  // - accessing the first node,
+  // - accessing the same node again,
+  // - accessing the previous node
+  if (i == m_last_searched_xml_node_index + 1) {
+    // quite an expected case - iterating nodes one after another
+    m_last_searched_xml_node = m_last_searched_xml_node.next_sibling();
+    m_last_searched_xml_node_index++;
+    return m_last_searched_xml_node;
+  } else if (i == 0) {
+    m_last_searched_xml_node = m_xml_node.first_child();
+    m_last_searched_xml_node_index = 0;
+    return m_last_searched_xml_node;
+  } else if (i == m_last_searched_xml_node_index) {
+    return m_last_searched_xml_node;
+  } else if (i == m_last_searched_xml_node_index - 1) {
+    // quite an expected case - iterating nodes one after another, backwards
+    m_last_searched_xml_node = m_last_searched_xml_node.previous_sibling();
+    m_last_searched_xml_node_index--;
+    return m_last_searched_xml_node;
+  }
+
+  //
+  //
+  //
+  // if we didn't get result by now, it pays to do more math
+  //
+  int N = numberOfChildren() - 1;
+
+  if (i == N) {
+    m_last_searched_xml_node = m_xml_node.last_child();
+    m_last_searched_xml_node_index = N;
+    return m_last_searched_xml_node;
+  } else if (m_last_searched_xml_node_index - i < i) {
+    // i closer to 0 => iterate forward from 0
+    xml_node node = m_xml_node.first_child();
+    int j = 0;
+    while (j != i) {
+      node = node.next_sibling();
+      j++;
+    }
+    m_last_searched_xml_node = node;
+    m_last_searched_xml_node_index = j;
+  } else if (m_last_searched_xml_node_index - i > i) {
+    // i closer to last used, and smaller => iterate backwards from last used
+    xml_node node = m_last_searched_xml_node;
+    int j = m_last_searched_xml_node_index;
+    while (j != i) {
+      node = node.previous_sibling();
+      j--;
+    }
+    m_last_searched_xml_node = node;
+    m_last_searched_xml_node_index = j;
+
+  } else if (N - i < i - m_last_searched_xml_node_index) {
+    // i closer to N => iterate backwards from N
+    xml_node node = m_xml_node.last_child();
+    int j = N;
+    while (j != i) {
+      node = node.previous_sibling();
+      j--;
+    }
+    m_last_searched_xml_node = node;
+    m_last_searched_xml_node_index = j;
+
+  } else if (N - i < i - m_last_searched_xml_node_index) {
+    // i closer to last used, and larger => iterate forward from last used
+    xml_node node = m_last_searched_xml_node;
+    int j = m_last_searched_xml_node_index;
+    while (j != i) {
+      node = node.next_sibling();
+      j++;
+    }
+    m_last_searched_xml_node = node;
+    m_last_searched_xml_node_index = j;
+  }
+  return m_last_searched_xml_node;
+}
+
+int AATreeNode_pugi::numberOfChildren() {
+  m_children.size();
 }
