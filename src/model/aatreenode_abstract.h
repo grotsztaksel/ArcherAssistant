@@ -69,14 +69,15 @@ class AATreeNode_abstract : public QObject {
   virtual QList<AATreeNode_abstract*> children() const = 0;
 
   //! Get list of children of given name
-  virtual QList<AATreeNode_abstract*> children(QString name) const = 0;
+  virtual QList<AATreeNode_abstract*> children(const QString& name) const = 0;
   //! Get the child node at given index (starting from zero)
-  virtual QList<AATreeNode_abstract*> getChild(int index) const = 0;
+  virtual AATreeNode_abstract* getChild(const int index) const = 0;
 
   //! Create child of given name then insert it before index-th node. If no
   //! index provided, or if the index exceeds the number of children, insert at
   //! the end
-  virtual AATreeNode_abstract* addChild(QString name, int index = -1) = 0;
+  virtual AATreeNode_abstract* addChild(const QString& name,
+                                        int index = -1) = 0;
 
   //! insert already created child object before index-th node. If no index
   //! provided, or if the index exceeds the number of children, insert at the
@@ -86,11 +87,12 @@ class AATreeNode_abstract : public QObject {
 
   //! Remove index-th child of given name. If no index is provided, remove last
   //! child of this name
-  virtual AATreeNode_abstract* removeChild(QString name, int index = -1) = 0;
+  virtual AATreeNode_abstract* removeChild(const QString& name,
+                                           const int index = -1) = 0;
 
   //! Remove index-th child, regardless of its name. If index not provided,
   //! remove last child
-  virtual AATreeNode_abstract* removeChild(int index = -1) = 0;
+  virtual AATreeNode_abstract* removeChild(const int index = -1) = 0;
 };
 
 #endif  // AATREENODE_ABSTRACT_H
