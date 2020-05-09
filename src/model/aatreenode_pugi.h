@@ -10,8 +10,29 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   explicit AATreeNode_pugi(QObject* parent = nullptr);
   ~AATreeNode_pugi();
 
+  /*------------------------------*
+   *                              *
+   *      BASIC METHODS           *
+   *                              *
+   *------------------------------*/
+
   //! Get type (name) of the element
   QString name() override;
+
+  //! Get the root node
+  AATreeNode_pugi* root() override;
+
+  //! Get the node's parent node
+  AATreeNode_pugi* parent() override;
+
+  /*------------------------------*
+   *                              *
+   *      ATTRIBUTE METHODS       *
+   *                              *
+   *------------------------------*/
+
+  //! Get list of all attributes
+  QStringList attributes() override;
 
   //! Get attribute of given type
   QVariant attribute(const QString name) override;
@@ -27,14 +48,38 @@ class AATreeNode_pugi : public AATreeNode_abstract {
 
   //! clear attribute of given name
   bool removeAttribute(const QString name) override;
-  //! Get list of all attributes
-  QStringList attributes() override;
+
+  /*------------------------------*
+   *                              *
+   *      CHILD NODE METHODS      *
+   *                              *
+   *------------------------------*/
 
   //! Get list of direct children
-  QList<AATreeNode_abstract*> children() const override;
+  QList<AATreeNode_pugi*> children() const override;
 
-  //! Get the root node
-  AATreeNode_abstract* root() override;
+  //! Get list of children of given name
+  QList<AATreeNode_pugi*> children(QString name) const override;
+  //! Get the child node at given index (starting from zero)
+  QList<AATreeNode_pugi*> getChild(int index) const override;
+
+  //! Create child of given name then insert it before index-th node. If no
+  //! index provided, or if the index exceeds the number of children, insert at
+  //! the end
+  AATreeNode_pugi* addChild(QString name, int index = -1) override;
+
+  //! insert already created child object before index-th node. If no index
+  //! provided, or if the index exceeds the number of children, insert at the
+  //! end
+  AATreeNode_pugi* insertChild(AATreeNode_pugi* child, int index = -1) override;
+
+  //! Remove index-th child of given name. If no index is provided, remove last
+  //! child of this name
+  AATreeNode_pugi* removeChild(QString name, int index = -1) override;
+
+  //! Remove index-th child, regardless of its name. If index not provided,
+  //! remove last child
+  AATreeNode_pugi* removeChild(int index = -1) override;
 
  signals:
 
@@ -53,5 +98,7 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   AATreeNode_pugi* m_parent = nullptr;
   QList<AATreeNode_pugi*> m_children;
 };
+}
+;
 
 #endif  // AATREENODE_PUGI_H
