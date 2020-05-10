@@ -9,7 +9,12 @@ class AATreeModel : public QAbstractItemModel {
 
  public:
   explicit AATreeModel(QObject* parent = nullptr);
-
+  ~AATreeModel();
+  /*--------------------------------------*
+   *                                      *
+   *     QAbstractItemModel overrides     *
+   *                                      *
+   *--------------------------------------*/
   // Header:
   QVariant headerData(int section,
                       Qt::Orientation orientation,
@@ -27,7 +32,15 @@ class AATreeModel : public QAbstractItemModel {
   QVariant data(const QModelIndex& index,
                 int role = Qt::DisplayRole) const override;
 
- private:
+  /*--------------------------------------*
+   *                                      *
+   *     Other functionality              *
+   *                                      *
+   *--------------------------------------*/
+
+ protected:
+  AATreeNode_abstract* nodeFromIndex(const QModelIndex& index);
+  AATreeNode_abstract* m_rootNode = nullptr;
 };
 
 #endif  // AATREEMODEL_H
