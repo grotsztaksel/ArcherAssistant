@@ -22,8 +22,10 @@ class MainWindow : public QMainWindow {
   ~MainWindow();
 
   void connectDataManager(Worker* mgr);
+
  protected slots:
   void onRunClicked();
+  void onSaveClicked();
 
  private:
   Ui::MainWindow* ui;

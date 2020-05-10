@@ -1,10 +1,17 @@
 #include "aatreenode_pugi.h"
+
+#include <QDebug>
 using namespace pugi;
 AATreeNode_pugi::AATreeNode_pugi(QObject* parent, bool isRoot)
-    : AATreeNode_abstract(parent) {
-  if (isRoot) {
+    : AATreeNode_abstract(parent, isRoot) {
+  if (m_isRoot) {
     m_doc = new xml_document();
+    qDebug() << "New Node" << isRoot << m_isRoot
+             << m_doc->document_element().name();
     setXMLnode(m_doc->document_element());
+  } else {
+    qDebug() << "New subnode, "
+             << qobject_cast<AATreeNode_pugi*>(parent)->name();
   }
 }
 
@@ -41,14 +48,26 @@ int AATreeNode_pugi::getIndex() {
 }
 
 bool AATreeNode_pugi::readFromFile(const QFile& file) {
-  if (!(!m_isRoot && file.exists() && file.isReadable()))
+  qDebug() << "ReadFromFile" << m_isRoot << file.exists() << file.fileName();
+  if (!(m_isRoot && file.exists()))
     return false;
 
   m_doc->reset();
   auto name = cstr(file.fileName());
   m_doc->load_file(name);
+  qDebug() << "doc after read" << m_isRoot << m_doc->document_element().name();
   setXMLnode(m_doc->document_element());
   return m_xml_node;
+}
+
+bool AATreeNode_pugi::writeToFile(const QFile& file) {
+  qDebug() << "They want me to save. Am I a root?" << m_isRoot;
+  if (!(m_isRoot))
+    return false;
+  auto name = cstr(file.fileName());
+  m_doc->save_file(name, "  ");
+  qDebug() << "saved file and still alive";
+  return true;
 }
 
 QVariant AATreeNode_pugi::attribute(const QString name) {
@@ -157,6 +176,7 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
 // ------------- protected methods -----------------
 void AATreeNode_pugi::setXMLnode(pugi::xml_node node) {
   m_xml_node = node;
+  qDebug() << "setXMLnode" << node.name();
   m_children.clear();
   for (xml_node child : node.children()) {
     AATreeNode_pugi* c = new AATreeNode_pugi(this);

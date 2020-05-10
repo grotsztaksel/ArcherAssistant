@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget* parent)
     qDebug() << "Config file in Window:" << settings->value("configFile");
   }
   connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(onRunClicked()));
+  connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
 }
 
 void MainWindow::onRunClicked() {
@@ -24,7 +25,13 @@ void MainWindow::onRunClicked() {
   ui->treeView->setModel(m_model);
   qDebug() << m_model->rowCount();
 }
-
+void MainWindow::onSaveClicked() {
+  QFile file;
+  file.setFileName(
+      "c:/Users/piotr/Documents/ArcherAssistant/raw_results/config_copy.xml");
+  qDebug() << "Saving stuff";
+  m_model->writeFile(file);
+}
 MainWindow::~MainWindow() {
   delete ui;
 }

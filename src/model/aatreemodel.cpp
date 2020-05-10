@@ -63,9 +63,20 @@ QVariant AATreeModel::data(const QModelIndex& index, int role) const {
   if (!index.isValid())
     return QVariant();
   if (role == Qt::DisplayRole) {
+    return QVariant(QString("HHH"));
+    //    auto node = nodeFromIndex(index);
+    auto node2 = static_cast<AATreeNode_abstract*>(index.internalPointer());
+    return node2->name();
   }
   // FIXME: Implement me!
   return QVariant();
+}
+
+bool AATreeModel::readFile(const QFile& file) {
+  m_rootNode->readFromFile(file);
+}
+bool AATreeModel::writeFile(const QFile& file) {
+  m_rootNode->writeToFile(file);
 }
 
 AATreeNode_abstract* AATreeModel::nodeFromIndex(const QModelIndex& index) {

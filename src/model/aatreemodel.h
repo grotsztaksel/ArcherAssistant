@@ -2,6 +2,7 @@
 #define AATREEMODEL_H
 
 #include <QAbstractItemModel>
+
 #include "aatreenode_pugi.h"
 
 class AATreeModel : public QAbstractItemModel {
@@ -37,6 +38,10 @@ class AATreeModel : public QAbstractItemModel {
    *     Other functionality              *
    *                                      *
    *--------------------------------------*/
+
+  bool readFile(const QFile& file);
+
+  bool writeFile(const QFile& file);
 
  protected:
   AATreeNode_abstract* nodeFromIndex(const QModelIndex& index);
