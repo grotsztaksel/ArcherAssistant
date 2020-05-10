@@ -29,6 +29,11 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   //!
   bool readFromFile(const QFile& file) override;
 
+  //! Write the content of the current structure to file.  Works only on root
+  //! node
+  //!
+  bool writeToFile(const QFile& file) override;
+
   //  //! Get the root node
   //  //!
   //  AATreeNode_abstract* root() override;

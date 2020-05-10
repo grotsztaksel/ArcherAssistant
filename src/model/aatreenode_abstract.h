@@ -39,6 +39,11 @@ class AATreeNode_abstract : public QObject {
   //!
   virtual bool readFromFile(const QFile& file) = 0;
 
+  //! Write the content of the current structure to file.  Works only on root
+  //! node
+  //!
+  virtual bool writeToFile(const QFile& file) = 0;
+
   //! Get the root node
   virtual AATreeNode_abstract* root();
 
