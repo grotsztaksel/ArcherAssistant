@@ -1,11 +1,24 @@
 #include "aatreenode_pugi.h"
 using namespace pugi;
-AATreeNode_pugi::AATreeNode_pugi(QObject* parent)
-    : AATreeNode_abstract(parent) {}
+AATreeNode_pugi::AATreeNode_pugi(QObject* parent, bool isRoot)
+    : AATreeNode_abstract(parent) {
+  if (isRoot) {
+    m_doc = new xml_document();
+    setXMLnode(m_doc->document_element());
+  }
+}
 
 AATreeNode_pugi::~AATreeNode_pugi() {
   // Clear the pugi structure
-  m_xml_node.parent().remove_child(m_xml_node);
+  if (m_isRoot && m_doc) {
+    // if it is a root, it should have a document. Deleting it should clear all
+    // its xml_node children.
+    delete m_doc;
+  } else {
+    // it is not root. Need to access myself from parent level, because there is
+    // no way to delete the xml_node from self level
+    m_xml_node.parent().remove_child(m_xml_node);
+  }
 
   // delete the QObjects
   for (AATreeNode_pugi* child : m_children) {
@@ -15,6 +28,27 @@ AATreeNode_pugi::~AATreeNode_pugi() {
 
 QString AATreeNode_pugi::name() {
   return QString(m_xml_node.name());
+}
+
+int AATreeNode_pugi::getIndex() {
+  int i = 0;
+  auto previous = m_xml_node.previous_sibling();
+  while (previous) {
+    i++;
+    previous = m_xml_node.previous_sibling();
+  }
+  return i;
+}
+
+bool AATreeNode_pugi::readFromFile(const QFile& file) {
+  if (!(!m_isRoot && file.exists() && file.isReadable()))
+    return false;
+
+  m_doc->reset();
+  auto name = cstr(file.fileName());
+  m_doc->load_file(name);
+  setXMLnode(m_doc->document_element());
+  return m_xml_node;
 }
 
 QVariant AATreeNode_pugi::attribute(const QString name) {
@@ -54,12 +88,12 @@ QStringList AATreeNode_pugi::attributes() {
   return attributes;
 }
 
-AATreeNode_abstract* AATreeNode_pugi::root() {
-  auto root = m_xml_node.root();
-  AATreeNode_pugi* rootnode = new AATreeNode_pugi(this);
-  rootnode->setXMLnode(root);
-  return rootnode;
-}
+// AATreeNode_abstract* AATreeNode_pugi::root() {
+//  auto root = m_xml_node.root();
+//  AATreeNode_pugi* rootnode = new AATreeNode_pugi(this);
+//  rootnode->setXMLnode(root);
+//  return rootnode;
+//}
 
 AATreeNode_abstract* AATreeNode_pugi::parent() {
   return m_parent;

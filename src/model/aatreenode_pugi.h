@@ -7,7 +7,7 @@
 class AATreeNode_pugi : public AATreeNode_abstract {
   Q_OBJECT
  public:
-  explicit AATreeNode_pugi(QObject* parent = nullptr);
+  explicit AATreeNode_pugi(QObject* parent = nullptr, bool isRoot = false);
   ~AATreeNode_pugi();
 
   /*------------------------------*
@@ -20,9 +20,18 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   //!
   QString name() override;
 
-  //! Get the root node
+  //! Identify the index at which this row resides in its parent node
   //!
-  AATreeNode_abstract* root() override;
+  int getIndex() override;
+
+  //! Reset the currently held data and read from a file. Works only on root
+  //! node
+  //!
+  bool readFromFile(const QFile& file) override;
+
+  //  //! Get the root node
+  //  //!
+  //  AATreeNode_abstract* root() override;
 
   //! Get the node's parent node
   //!
@@ -89,16 +98,17 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   AATreeNode_abstract* insertChild(AATreeNode_abstract* child,
                                    const int index = -1) override;
 
-  //! Remove index-th child of given name. If no index is provided, remove last
-  //! child of this name
-  //!
-  AATreeNode_abstract* removeChild(const QString& name,
-                                   const int index = -1) override;
+  //  //! Remove index-th child of given name. If no index is provided, remove
+  //  last
+  //  //! child of this name
+  //  //!
+  //  AATreeNode_abstract* removeChild(const QString& name,
+  //                                   const int index = -1) override;
 
-  //! Remove index-th child, regardless of its name. If index not provided,
-  //! remove last child
-  //!
-  AATreeNode_abstract* removeChild(const int index = -1) override;
+  //  //! Remove index-th child, regardless of its name. If index not provided,
+  //  //! remove last child
+  //  //!
+  //  AATreeNode_abstract* removeChild(const int index = -1) override;
 
  signals:
 
@@ -141,6 +151,9 @@ class AATreeNode_pugi : public AATreeNode_abstract {
 
   int m_last_searched_xml_node_index = 0;
   pugi::xml_node m_last_searched_xml_node;
+
+  //! If the node is a root node, the xml document should be created.
+  pugi::xml_document* m_doc = nullptr;
 };
 
 #endif  // AATREENODE_PUGI_H

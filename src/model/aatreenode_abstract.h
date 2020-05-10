@@ -18,7 +18,8 @@
 class AATreeNode_abstract : public QObject {
   Q_OBJECT
  public:
-  explicit AATreeNode_abstract(QObject* parent = nullptr);
+  //! The constructor
+  explicit AATreeNode_abstract(QObject* parent = nullptr, bool isRoot = false);
 
   /*------------------------------*
    *                              *
@@ -29,8 +30,17 @@ class AATreeNode_abstract : public QObject {
   //! Get type (name) of the element
   virtual QString name() = 0;
 
+  //! Identify the index at which this row resides in its parent node
+  //!
+  virtual int getIndex() = 0;
+
+  //! Reset the currently held data and read from a file. Works only on root
+  //! node
+  //!
+  virtual bool readFromFile(const QFile& file) = 0;
+
   //! Get the root node
-  virtual AATreeNode_abstract* root() = 0;
+  virtual AATreeNode_abstract* root();
 
   //! Get the node's parent node
   virtual AATreeNode_abstract* parent() = 0;
@@ -85,14 +95,20 @@ class AATreeNode_abstract : public QObject {
   virtual AATreeNode_abstract* insertChild(AATreeNode_abstract* child,
                                            int index = -1) = 0;
 
-  //! Remove index-th child of given name. If no index is provided, remove last
-  //! child of this name
-  virtual AATreeNode_abstract* removeChild(const QString& name,
-                                           const int index = -1) = 0;
+  //  //! Remove index-th child of given name. If no index is provided, remove
+  //  last
+  //  //! child of this name
+  //  virtual AATreeNode_abstract* removeChild(const QString& name,
+  //                                           const int index = -1) = 0;
 
-  //! Remove index-th child, regardless of its name. If index not provided,
-  //! remove last child
-  virtual AATreeNode_abstract* removeChild(const int index = -1) = 0;
+  //  //! Remove index-th child, regardless of its name. If index not provided,
+  //  //! remove last child
+  //  virtual AATreeNode_abstract* removeChild(const int index = -1) = 0;
+  //
+
+ protected:
+  //! Holds the information whether the given node is a root node or not
+  const bool m_isRoot;
 };
 
 #endif  // AATREENODE_ABSTRACT_H
