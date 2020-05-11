@@ -108,7 +108,7 @@ class AATreeNode_abstract : public QObject {
 
   //  //! Remove index-th child, regardless of its name. If index not provided,
   //  //! remove last child
-  //  virtual AATreeNode_abstract* removeChild(const int index = -1) = 0;
+  virtual AATreeNode_abstract* removeChild(const int index = -1) = 0;
   //
 
  protected:

@@ -113,7 +113,7 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   //  //! Remove index-th child, regardless of its name. If index not provided,
   //  //! remove last child
   //  //!
-  //  AATreeNode_abstract* removeChild(const int index = -1) override;
+  AATreeNode_abstract* removeChild(const int index = -1) override;
 
  signals:
 

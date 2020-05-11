@@ -21,7 +21,7 @@ AATreeNode_pugi::~AATreeNode_pugi() {
   } else {
     // it is not root. Need to access myself from parent level, because there is
     // no way to delete the xml_node from self level
-    m_xml_node.parent().remove_child(m_xml_node);
+    //    m_xml_node.parent().remove_child(m_xml_node);
   }
 
   // delete the QObjects
@@ -148,6 +148,17 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
                                                   int index) {
   QString name;
   return insertChild(child, index, name);
+}
+
+AATreeNode_abstract* AATreeNode_pugi::removeChild(const int index) {
+  xml_node node = xml_nodeAtIndex(index);
+  node.parent().remove_child(node);
+
+  // remove the object
+  m_children.at(index)->deleteLater();
+
+  // remove the pointer from the list
+  m_children.removeAt(index);
 }
 
 AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
