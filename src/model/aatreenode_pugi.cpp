@@ -4,14 +4,11 @@
 using namespace pugi;
 AATreeNode_pugi::AATreeNode_pugi(QObject* parent, bool isRoot)
     : AATreeNode_abstract(parent, isRoot) {
+  m_parent = qobject_cast<AATreeNode_pugi*>(parent);
   if (m_isRoot) {
     m_doc = new xml_document();
-    qDebug() << "New Node" << isRoot << m_isRoot
-             << m_doc->document_element().name();
     setXMLnode(m_doc->document_element());
   } else {
-    qDebug() << "New subnode, "
-             << qobject_cast<AATreeNode_pugi*>(parent)->name();
   }
 }
 
@@ -48,7 +45,6 @@ int AATreeNode_pugi::getIndex() {
 }
 
 bool AATreeNode_pugi::readFromFile(const QFile& file) {
-  qDebug() << "ReadFromFile" << m_isRoot << file.exists() << file.fileName();
   if (!(m_isRoot && file.exists()))
     return false;
 
@@ -61,7 +57,6 @@ bool AATreeNode_pugi::readFromFile(const QFile& file) {
 }
 
 bool AATreeNode_pugi::writeToFile(const QFile& file) {
-  qDebug() << "They want me to save. Am I a root?" << m_isRoot;
   if (!(m_isRoot))
     return false;
   auto name = cstr(file.fileName());
@@ -120,10 +115,8 @@ AATreeNode_abstract* AATreeNode_pugi::parent() {
 
 QList<AATreeNode_abstract*> AATreeNode_pugi::children() const {
   QList<AATreeNode_abstract*> children;
-
   for (AATreeNode_abstract* child : m_children) {
-    AATreeNode_abstract* child_ptr_copy = child;
-    children.append(child_ptr_copy);
+    children.append(qobject_cast<AATreeNode_abstract*>(child));
   }
   return children;
 }
@@ -162,13 +155,13 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
                                                   const QString& name) {
   xml_node newXMLNode;
   if (index == -1) {
-    m_xml_node.append_child(cstr(name));
+    newXMLNode = m_xml_node.append_child(cstr(name));
   } else {
     xml_node myOlderBrother = xml_nodeAtIndex(index);
-    m_xml_node.insert_child_before(cstr(name), myOlderBrother);
+    newXMLNode = m_xml_node.insert_child_before(cstr(name), myOlderBrother);
   }
   AATreeNode_pugi* pugiChild = qobject_cast<AATreeNode_pugi*>(child);
-  if (child)
+  if (pugiChild)
     pugiChild->setXMLnode(newXMLNode);
   return pugiChild;
 }
@@ -271,5 +264,5 @@ xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
 }
 
 int AATreeNode_pugi::numberOfChildren() {
-  m_children.size();
+  return m_children.size();
 }
