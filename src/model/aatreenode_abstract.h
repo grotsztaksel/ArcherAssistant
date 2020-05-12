@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QFile>
 #include <QObject>
+#include <QVariant>
 #include <QVector>
 //! An abstract, pure virtual tree node class. The AATreeModel should use
 //! derived classes with the actual implementation of the data handling. The
