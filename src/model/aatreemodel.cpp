@@ -39,7 +39,6 @@ QModelIndex AATreeModel::index(int row,
 }
 
 QModelIndex AATreeModel::parent(const QModelIndex& index) const {
-  qDebug() << "mama!";
   if (!index.isValid())
     return QModelIndex();
 
@@ -57,12 +56,8 @@ int AATreeModel::rowCount(const QModelIndex& parent) const {
   AATreeNode_abstract* parentNode;
   if (!parent.isValid()) {
     parentNode = m_rootNode;
-    qDebug() << "parentNode->children().size()";
-    qDebug() << parentNode->children().size();
   } else {
     parentNode = static_cast<AATreeNode_abstract*>(parent.internalPointer());
-    qDebug() << "index valid";
-    qDebug() << parentNode->children().size();
   }
   return parentNode->children().size();
 }

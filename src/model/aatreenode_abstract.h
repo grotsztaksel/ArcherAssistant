@@ -2,8 +2,9 @@
 #define AATREENODE_ABSTRACT_H
 
 #include <QDateTime>
-#include <QList>
+#include <QFile>
 #include <QObject>
+#include <QVector>
 //! An abstract, pure virtual tree node class. The AATreeModel should use
 //! derived classes with the actual implementation of the data handling. The
 //! AATreeModel should be completely agnostic to what technology is used to
@@ -81,10 +82,10 @@ class AATreeNode_abstract : public QObject {
    *------------------------------*/
 
   //! Get list of direct children
-  virtual QList<AATreeNode_abstract*> children() const = 0;
+  virtual QVector<AATreeNode_abstract*> children() const = 0;
 
   //! Get list of children of given name
-  virtual QList<AATreeNode_abstract*> children(const QString& name) const = 0;
+  virtual QVector<AATreeNode_abstract*> children(const QString& name) const = 0;
   //! Get the child node at given index (starting from zero)
   virtual AATreeNode_abstract* getChild(const int index) const = 0;
 

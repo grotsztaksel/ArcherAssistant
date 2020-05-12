@@ -79,11 +79,11 @@ class AATreeNode_pugi : public AATreeNode_abstract {
 
   //! Get list of direct children
   //!
-  QList<AATreeNode_abstract*> children() const override;
+  QVector<AATreeNode_abstract*> children() const override;
 
   //! Get list of children of given name
   //!
-  QList<AATreeNode_abstract*> children(const QString& name) const override;
+  QVector<AATreeNode_abstract*> children(const QString& name) const override;
 
   //! Get the child node at given index (starting from zero)
   //!
@@ -152,7 +152,7 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   QString m_name;
   pugi::xml_node m_xml_node;
   AATreeNode_pugi* m_parent = nullptr;
-  QList<AATreeNode_pugi*> m_children;
+  QVector<AATreeNode_pugi*> m_children;
 
   int m_last_searched_xml_node_index = 0;
   pugi::xml_node m_last_searched_xml_node;

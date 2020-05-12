@@ -113,17 +113,17 @@ AATreeNode_abstract* AATreeNode_pugi::parent() {
   return m_parent;
 }
 
-QList<AATreeNode_abstract*> AATreeNode_pugi::children() const {
-  QList<AATreeNode_abstract*> children;
+QVector<AATreeNode_abstract*> AATreeNode_pugi::children() const {
+  QVector<AATreeNode_abstract*> children;
   for (AATreeNode_abstract* child : m_children) {
     children.append(qobject_cast<AATreeNode_abstract*>(child));
   }
   return children;
 }
 
-QList<AATreeNode_abstract*> AATreeNode_pugi::children(
+QVector<AATreeNode_abstract*> AATreeNode_pugi::children(
     const QString& name) const {
-  QList<AATreeNode_abstract*> children;
+  QVector<AATreeNode_abstract*> children;
   for (AATreeNode_abstract* child : m_children) {
     if (child->name() == name) {
       AATreeNode_abstract* child_ptr_copy = child;
