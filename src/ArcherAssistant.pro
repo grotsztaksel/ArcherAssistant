@@ -53,13 +53,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-# Tixi library from DLR:
-win32: LIBS += -L$$PWD/../lib/TIXI-3.0.0-win64/lib/ -ltixi3
+## Tixi library from DLR:
+#win32: LIBS += -L$$PWD/../lib/TIXI-3.0.0-win64/lib/ -ltixi3
 
-INCLUDEPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
-DEPENDPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
+#INCLUDEPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
+#DEPENDPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
 
-PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/tixi3.lib
+#PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/tixi3.lib
 
 # pugixml
 INCLUDEPATH += $$PWD/../lib/pugixml-1.10/src
