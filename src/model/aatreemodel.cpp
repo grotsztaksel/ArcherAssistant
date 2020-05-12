@@ -12,7 +12,9 @@ AATreeModel::~AATreeModel() {
 QVariant AATreeModel::headerData(int section,
                                  Qt::Orientation orientation,
                                  int role) const {
-  return QVariant(QString("header"));
+  if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+    return QVariant(QString("header"));
+  return QVariant();
 }
 
 QModelIndex AATreeModel::index(int row,
