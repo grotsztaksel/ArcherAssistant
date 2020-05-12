@@ -1,5 +1,4 @@
 #include "aatreenode_pugi.h"
-
 #include <QDebug>
 using namespace pugi;
 AATreeNode_pugi::AATreeNode_pugi(QObject* parent, bool isRoot)
@@ -51,7 +50,7 @@ bool AATreeNode_pugi::readFromFile(const QFile& file) {
   m_doc->reset();
   auto name = cstr(file.fileName());
   m_doc->load_file(name);
-  qDebug() << "doc after read" << m_isRoot << m_doc->document_element().name();
+
   setXMLnode(m_doc->document_element());
   return m_xml_node;
 }
@@ -61,7 +60,7 @@ bool AATreeNode_pugi::writeToFile(const QFile& file) {
     return false;
   auto name = cstr(file.fileName());
   m_doc->save_file(name, "  ");
-  qDebug() << "saved file and still alive";
+
   return true;
 }
 
@@ -180,7 +179,7 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
 // ------------- protected methods -----------------
 void AATreeNode_pugi::setXMLnode(pugi::xml_node node) {
   m_xml_node = node;
-  qDebug() << "setXMLnode" << node.name();
+
   m_children.clear();
   for (xml_node child : node.children()) {
     AATreeNode_pugi* c = new AATreeNode_pugi(this);
