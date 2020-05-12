@@ -33,13 +33,8 @@ QString AATreeNode_pugi::name() {
 }
 
 int AATreeNode_pugi::getIndex() {
-  int i = 0;
-  auto previous = m_xml_node.previous_sibling();
-  while (previous) {
-    i++;
-    previous = m_xml_node.previous_sibling();
-  }
-  return i;
+  if (m_parent)
+    return m_parent->m_children.indexOf(const_cast<AATreeNode_pugi*>(this));
 }
 
 bool AATreeNode_pugi::readFromFile(const QFile& file) {
