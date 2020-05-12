@@ -2,7 +2,7 @@
 
 #include <QDebug>
 AATreeModel::AATreeModel(QObject* parent) : QAbstractItemModel(parent) {
-  m_rootNode = new AATreeNode_pugi(this, true);
+  m_rootNode = new AATreeNode_pugi();
 }
 
 AATreeModel::~AATreeModel() {
@@ -65,18 +65,17 @@ int AATreeModel::rowCount(const QModelIndex& parent) const {
 int AATreeModel::columnCount(const QModelIndex& parent) const {
   if (!parent.isValid())
     return 1;
+  // by default it returns 0, which means "table view" not "tree view"
 }
 
 QVariant AATreeModel::data(const QModelIndex& index, int role) const {
   if (!index.isValid())
     return QVariant();
   if (role == Qt::DisplayRole) {
-    //    return QVariant(QString("HHH"));
-    //    auto node = nodeFromIndex(index);
-    auto node2 = static_cast<AATreeNode_abstract*>(index.internalPointer());
-    return node2->name();
+    auto node = static_cast<AATreeNode_abstract*>(index.internalPointer());
+    return node->name();
   }
-  // FIXME: Implement me!
+
   return QVariant();
 }
 

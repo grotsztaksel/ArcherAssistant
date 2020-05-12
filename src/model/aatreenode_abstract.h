@@ -21,7 +21,7 @@ class AATreeNode_abstract : public QObject {
   Q_OBJECT
  public:
   //! The constructor
-  explicit AATreeNode_abstract(QObject* parent = nullptr, bool isRoot = false);
+  explicit AATreeNode_abstract(QObject* parent = nullptr);
 
   /*------------------------------*
    *                              *
@@ -112,10 +112,6 @@ class AATreeNode_abstract : public QObject {
   //  //! remove last child
   virtual AATreeNode_abstract* removeChild(const int index = -1) = 0;
   //
-
- protected:
-  //! Holds the information whether the given node is a root node or not
-  const bool m_isRoot;
 };
 
 #endif  // AATREENODE_ABSTRACT_H

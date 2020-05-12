@@ -1,10 +1,9 @@
 #include "aatreenode_pugi.h"
-#include <QDebug>
 using namespace pugi;
-AATreeNode_pugi::AATreeNode_pugi(QObject* parent, bool isRoot)
-    : AATreeNode_abstract(parent, isRoot) {
+AATreeNode_pugi::AATreeNode_pugi(QObject* parent)
+    : AATreeNode_abstract(parent) {
   m_parent = qobject_cast<AATreeNode_pugi*>(parent);
-  if (m_isRoot) {
+  if (!m_parent) {
     m_doc = new xml_document();
     setXMLnode(m_doc->document_element());
   } else {
@@ -13,7 +12,7 @@ AATreeNode_pugi::AATreeNode_pugi(QObject* parent, bool isRoot)
 
 AATreeNode_pugi::~AATreeNode_pugi() {
   // Clear the pugi structure
-  if (m_isRoot && m_doc) {
+  if (!m_parent && m_doc) {
     // if it is a root, it should have a document. Deleting it should clear all
     // its xml_node children.
     delete m_doc;
@@ -44,7 +43,7 @@ int AATreeNode_pugi::getIndex() {
 }
 
 bool AATreeNode_pugi::readFromFile(const QFile& file) {
-  if (!(m_isRoot && file.exists()))
+  if (!(!m_parent && file.exists()))
     return false;
 
   m_doc->reset();
@@ -56,7 +55,7 @@ bool AATreeNode_pugi::readFromFile(const QFile& file) {
 }
 
 bool AATreeNode_pugi::writeToFile(const QFile& file) {
-  if (!(m_isRoot))
+  if (m_parent)
     return false;
   auto name = cstr(file.fileName());
   m_doc->save_file(name, "  ");

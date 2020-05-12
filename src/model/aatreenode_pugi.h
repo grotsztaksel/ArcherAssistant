@@ -7,7 +7,7 @@
 class AATreeNode_pugi : public AATreeNode_abstract {
   Q_OBJECT
  public:
-  explicit AATreeNode_pugi(QObject* parent = nullptr, bool isRoot = false);
+  explicit AATreeNode_pugi(QObject* parent = nullptr);
   ~AATreeNode_pugi();
 
   /*------------------------------*
