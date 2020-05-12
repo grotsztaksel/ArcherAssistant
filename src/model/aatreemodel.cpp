@@ -63,9 +63,8 @@ int AATreeModel::rowCount(const QModelIndex& parent) const {
 }
 
 int AATreeModel::columnCount(const QModelIndex& parent) const {
-  if (!parent.isValid())
-    return 1;
-  // by default it returns 0, which means "table view" not "tree view"
+  Q_UNUSED(parent);
+  return 1;
 }
 
 QVariant AATreeModel::data(const QModelIndex& index, int role) const {
