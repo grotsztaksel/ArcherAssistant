@@ -15,8 +15,9 @@ QVariant AATreeModel::headerData(int section,
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     if (m_headers.empty()) {
       return QVariant();
+    } else {
+      return QVariant(m_headers.at(section));
     }
-  return QVariant(m_headers.at(section));
   return QVariant();
 }
 
