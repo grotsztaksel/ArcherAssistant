@@ -10,11 +10,13 @@ MainWindow::MainWindow(QWidget* parent)
   if (settings->contains("configFile")) {
     qDebug() << "Config file in Window:" << settings->value("configFile");
   }
-  connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(onRunClicked()));
-  connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
+  connect(ui->loadButton, SIGNAL(clicked()), this, SLOT(onLoadClicked()));
+  connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
+  connect(ui->addButton, SIGNAL(clicked()), this, SLOT(onAddClicked()));
+  connect(ui->removeButton, SIGNAL(clicked()), this, SLOT(onRemoveClicked()));
 }
 
-void MainWindow::onRunClicked() {
+void MainWindow::onLoadClicked() {
   qDebug() << "Setting model";
   m_model = new AATreeModel(this);
   QSettings* settings =
@@ -32,6 +34,13 @@ void MainWindow::onSaveClicked() {
   qDebug() << "Saving stuff";
   m_model->writeFile(file);
 }
+
+void MainWindow::onAddClicked() {
+  auto parentIndex = ui->treeView->currentIndex().parent();
+  m_model->insertElement("newItem", parentIndex);
+}
+
+void MainWindow::onRemoveClicked() {}
 MainWindow::~MainWindow() {
   delete ui;
 }
