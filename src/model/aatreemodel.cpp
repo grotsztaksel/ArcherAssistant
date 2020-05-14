@@ -84,6 +84,15 @@ Qt::ItemFlags AATreeModel::flags(const QModelIndex& index) const {
   return QAbstractItemModel::flags(index);
 }
 
+QModelIndex AATreeModel::insertElement(QString name,
+                                       QModelIndex parentIndex,
+                                       int row) {
+  auto parentNode = nodeFromIndex(parentIndex);
+  beginInsertRows(parentIndex, row, row);
+  parentNode->addChild(name, row);
+  endInsertRows();
+}
+
 bool AATreeModel::readFile(const QFile& file) {
   m_rootNode->readFromFile(file);
 }
