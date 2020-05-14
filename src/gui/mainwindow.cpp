@@ -37,7 +37,8 @@ void MainWindow::onSaveClicked() {
 
 void MainWindow::onAddClicked() {
   auto parentIndex = ui->treeView->currentIndex().parent();
-  m_model->insertElement("newItem", parentIndex);
+  int currentRow = ui->treeView->currentIndex().row();
+  m_model->insertElement("newItem", parentIndex, currentRow + 1);
 }
 
 void MainWindow::onRemoveClicked() {}
