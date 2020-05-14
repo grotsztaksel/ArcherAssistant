@@ -160,16 +160,23 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
                                                   const QString& name) {
   xml_node newXMLNode;
   if (index == -1) {
-    newXMLNode = m_xml_node.append_child(cstr(name));
+    newXMLNode = m_xml_node.append_child(xml_node_type::node_element);
     index = m_children.size();
-  } else {
+  } else if (index < m_children.size()) {
     xml_node myOlderBrother = xml_nodeAtIndex(index);
-    newXMLNode = m_xml_node.insert_child_before(cstr(name), myOlderBrother);
+    newXMLNode = m_xml_node.insert_child_before(xml_node_type::node_element,
+                                                myOlderBrother);
+  } else {
+    newXMLNode = m_xml_node.prepend_child(xml_node_type::node_element);
   }
   AATreeNode_pugi* pugiChild = qobject_cast<AATreeNode_pugi*>(child);
   m_children.insert(index, pugiChild);
+  // Now set name. It has to be a one-liner. For some reaseon, the cstr() does
+  // not work. Nor does the QString::toStdString().c_str() in a separate line
+  newXMLNode.set_name(name.toStdString().c_str());
   if (pugiChild)
     pugiChild->setXMLnode(newXMLNode);
+
   return pugiChild;
 }
 
@@ -203,6 +210,7 @@ xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
   } else if (i == 0) {
     m_last_searched_xml_node = m_xml_node.first_child();
     m_last_searched_xml_node_index = 0;
+
     return m_last_searched_xml_node;
   } else if (i == m_last_searched_xml_node_index) {
     return m_last_searched_xml_node;
@@ -223,6 +231,7 @@ xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
   if (i == N) {
     m_last_searched_xml_node = m_xml_node.last_child();
     m_last_searched_xml_node_index = N;
+
     return m_last_searched_xml_node;
   } else if (m_last_searched_xml_node_index - i < i) {
     // i closer to 0 => iterate forward from 0
@@ -234,6 +243,7 @@ xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
     }
     m_last_searched_xml_node = node;
     m_last_searched_xml_node_index = j;
+
   } else if (m_last_searched_xml_node_index - i > i) {
     // i closer to last used, and smaller => iterate backwards from last used
     xml_node node = m_last_searched_xml_node;
@@ -247,6 +257,7 @@ xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
 
   } else if (N - i < i - m_last_searched_xml_node_index) {
     // i closer to N => iterate backwards from N
+
     xml_node node = m_xml_node.last_child();
     int j = N;
     while (j != i) {
@@ -258,6 +269,7 @@ xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
 
   } else if (N - i < i - m_last_searched_xml_node_index) {
     // i closer to last used, and larger => iterate forward from last used
+
     xml_node node = m_last_searched_xml_node;
     int j = m_last_searched_xml_node_index;
     while (j != i) {
@@ -267,6 +279,7 @@ xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
     m_last_searched_xml_node = node;
     m_last_searched_xml_node_index = j;
   }
+
   return m_last_searched_xml_node;
 }
 
