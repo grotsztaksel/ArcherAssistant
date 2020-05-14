@@ -42,8 +42,7 @@ QModelIndex AATreeModel::parent(const QModelIndex& index) const {
   if (!index.isValid())
     return QModelIndex();
 
-  AATreeNode_abstract* childItem =
-      static_cast<AATreeNode_abstract*>(index.internalPointer());
+  AATreeNode_abstract* childItem = nodeFromIndex(index);
   AATreeNode_abstract* parentItem = childItem->parent();
 
   if (parentItem == m_rootNode)
@@ -57,7 +56,7 @@ int AATreeModel::rowCount(const QModelIndex& parent) const {
   if (!parent.isValid()) {
     parentNode = m_rootNode;
   } else {
-    parentNode = static_cast<AATreeNode_abstract*>(parent.internalPointer());
+    parentNode = nodeFromIndex(parent);
   }
   return parentNode->children().size();
 }
@@ -71,7 +70,7 @@ QVariant AATreeModel::data(const QModelIndex& index, int role) const {
   if (!index.isValid())
     return QVariant();
   if (role == Qt::DisplayRole) {
-    auto node = static_cast<AATreeNode_abstract*>(index.internalPointer());
+    auto node = nodeFromIndex(index);
     return node->name();
   }
 
