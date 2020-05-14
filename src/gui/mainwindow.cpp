@@ -17,15 +17,17 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 void MainWindow::onLoadClicked() {
-  qDebug() << "Setting model";
   m_model = new AATreeModel(this);
   QSettings* settings =
       new QSettings(QSettings::UserScope, "Home", "ArcherAssistant", this);
   QFile file;
   file.setFileName(settings->value("configFile").toString());
   m_model->readFile(file);
+  m_model->setHeaders(QStringList() << "name"
+                                    << "score"
+                                    << "diameter"
+                                    << "width");
   ui->treeView->setModel(m_model);
-  qDebug() << m_model->rowCount();
 }
 void MainWindow::onSaveClicked() {
   QFile file;
