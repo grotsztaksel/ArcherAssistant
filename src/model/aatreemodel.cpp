@@ -20,7 +20,6 @@ QVariant AATreeModel::headerData(int section,
 QModelIndex AATreeModel::index(int row,
                                int column,
                                const QModelIndex& parent) const {
-  qDebug() << "index" << row << column;
   if (!hasIndex(row, column, parent)) {
     return QModelIndex();
   }
@@ -87,8 +86,13 @@ Qt::ItemFlags AATreeModel::flags(const QModelIndex& index) const {
 QModelIndex AATreeModel::insertElement(QString name,
                                        QModelIndex parentIndex,
                                        int row) {
+  int qtRow = row;
+  if (row < 0) {
+    qtRow = rowCount(parentIndex);
+  }
   auto parentNode = nodeFromIndex(parentIndex);
-  beginInsertRows(parentIndex, row, row);
+
+  beginInsertRows(parentIndex, qtRow, qtRow);
   parentNode->addChild(name, row);
   endInsertRows();
 }

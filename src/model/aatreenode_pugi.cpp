@@ -1,4 +1,5 @@
 #include "aatreenode_pugi.h"
+#include <QDebug>
 using namespace pugi;
 AATreeNode_pugi::AATreeNode_pugi(QObject* parent)
     : AATreeNode_abstract(parent) {
@@ -160,11 +161,13 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
   xml_node newXMLNode;
   if (index == -1) {
     newXMLNode = m_xml_node.append_child(cstr(name));
+    index = m_children.size();
   } else {
     xml_node myOlderBrother = xml_nodeAtIndex(index);
     newXMLNode = m_xml_node.insert_child_before(cstr(name), myOlderBrother);
   }
   AATreeNode_pugi* pugiChild = qobject_cast<AATreeNode_pugi*>(child);
+  m_children.insert(index, pugiChild);
   if (pugiChild)
     pugiChild->setXMLnode(newXMLNode);
   return pugiChild;

@@ -39,7 +39,9 @@ class AATreeModel : public QAbstractItemModel {
    *                                      *
    *--------------------------------------*/
 
-  QModelIndex insertElement(QString name, QModelIndex parentIndex, int row);
+  QModelIndex insertElement(QString name,
+                            QModelIndex parentIndex,
+                            int row = -1);
 
   bool readFile(const QFile& file);
 
