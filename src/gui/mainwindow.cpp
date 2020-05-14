@@ -23,10 +23,11 @@ void MainWindow::onLoadClicked() {
   QFile file;
   file.setFileName(settings->value("configFile").toString());
   m_model->readFile(file);
-  m_model->setHeaders(QStringList() << "name"
-                                    << "score"
-                                    << "diameter"
-                                    << "width");
+  auto headers = QStringList() << "name"
+                               << "score"
+                               << "diameter"
+                               << "width";
+  //  m_model->setHeaders(headers);
   ui->treeView->setModel(m_model);
 }
 void MainWindow::onSaveClicked() {
