@@ -41,7 +41,8 @@ QModelIndex AATreeModel::parent(const QModelIndex& index) const {
   if (!index.isValid())
     return QModelIndex();
 
-  AATreeNode_abstract* childItem = nodeFromIndex(index);
+  AATreeNode_abstract* childItem =
+      static_cast<AATreeNode_abstract*>(index.internalPointer());
   AATreeNode_abstract* parentItem = childItem->parent();
 
   if (parentItem == m_rootNode)
@@ -55,7 +56,7 @@ int AATreeModel::rowCount(const QModelIndex& parent) const {
   if (!parent.isValid()) {
     parentNode = m_rootNode;
   } else {
-    parentNode = nodeFromIndex(parent);
+    parentNode = static_cast<AATreeNode_abstract*>(parent.internalPointer());
   }
   return parentNode->children().size();
 }
@@ -69,7 +70,7 @@ QVariant AATreeModel::data(const QModelIndex& index, int role) const {
   if (!index.isValid())
     return QVariant();
   if (role == Qt::DisplayRole) {
-    auto node = nodeFromIndex(index);
+    auto node = static_cast<AATreeNode_abstract*>(index.internalPointer());
     return node->name();
   }
 
@@ -86,13 +87,17 @@ Qt::ItemFlags AATreeModel::flags(const QModelIndex& index) const {
 QModelIndex AATreeModel::insertElement(QString name,
                                        QModelIndex parentIndex,
                                        int row) {
-  int qtRow = row;
   if (row < 0) {
-    qtRow = rowCount(parentIndex);
+    row = rowCount(parentIndex);
   }
-  auto parentNode = nodeFromIndex(parentIndex);
-
-  beginInsertRows(parentIndex, qtRow, qtRow);
+  AATreeNode_abstract* parentNode;
+  if (parentIndex.isValid()) {
+    parentNode =
+        static_cast<AATreeNode_abstract*>(parentIndex.internalPointer());
+  } else {
+    parentNode = m_rootNode;
+  }
+  beginInsertRows(parentIndex, row, row);
   parentNode->addChild(name, row);
   endInsertRows();
 }
@@ -102,11 +107,4 @@ bool AATreeModel::readFile(const QFile& file) {
 }
 bool AATreeModel::writeFile(const QFile& file) {
   m_rootNode->writeToFile(file);
-}
-
-AATreeNode_abstract* AATreeModel::nodeFromIndex(const QModelIndex& index) {
-  if (!index.isValid()) {
-    return nullptr;
-  }
-  return static_cast<AATreeNode_abstract*>(index.internalPointer());
 }

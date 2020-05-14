@@ -48,7 +48,6 @@ class AATreeModel : public QAbstractItemModel {
   bool writeFile(const QFile& file);
 
  protected:
-  static AATreeNode_abstract* nodeFromIndex(const QModelIndex& index);
   AATreeNode_abstract* m_rootNode = nullptr;
 };
 
