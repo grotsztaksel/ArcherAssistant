@@ -33,6 +33,7 @@ class AATreeModel : public QAbstractItemModel {
   QVariant data(const QModelIndex& index,
                 int role = Qt::DisplayRole) const override;
   Qt::ItemFlags flags(const QModelIndex& index) const override;
+
   /*--------------------------------------*
    *                                      *
    *     Other functionality              *
@@ -47,8 +48,11 @@ class AATreeModel : public QAbstractItemModel {
 
   bool writeFile(const QFile& file);
 
+  void setHeaders(const QStringList& headers);
+
  protected:
   AATreeNode_abstract* m_rootNode = nullptr;
+  QStringList m_headers = QStringList();
 };
 
 #endif  // AATREEMODEL_H

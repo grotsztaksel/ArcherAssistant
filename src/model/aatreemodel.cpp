@@ -13,7 +13,10 @@ QVariant AATreeModel::headerData(int section,
                                  Qt::Orientation orientation,
                                  int role) const {
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-    return QVariant(QString("header"));
+    if (m_headers.empty()) {
+      return QVariant();
+    }
+  return QVariant(m_headers.at(section));
   return QVariant();
 }
 
@@ -71,7 +74,12 @@ QVariant AATreeModel::data(const QModelIndex& index, int role) const {
     return QVariant();
   if (role == Qt::DisplayRole) {
     auto node = static_cast<AATreeNode_abstract*>(index.internalPointer());
-    return node->name();
+    if (m_headers.empty()) {
+      return node->name();
+    } else {
+      QString attrName = m_headers.at(index.column());
+      return node->attribute(attrName);
+    }
   }
 
   return QVariant();
@@ -107,4 +115,8 @@ bool AATreeModel::readFile(const QFile& file) {
 }
 bool AATreeModel::writeFile(const QFile& file) {
   m_rootNode->writeToFile(file);
+}
+
+void AATreeModel::setHeaders(const QStringList& headers) {
+  m_headers = headers;
 }
