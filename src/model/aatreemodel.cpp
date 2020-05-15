@@ -12,12 +12,14 @@ AATreeModel::~AATreeModel() {
 QVariant AATreeModel::headerData(int section,
                                  Qt::Orientation orientation,
                                  int role) const {
-  if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+  if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+    qDebug() << "HEaders. empty?" << m_headers.empty() << m_headers.size();
     if (m_headers.empty()) {
       return QVariant();
     } else {
       return QVariant(m_headers.at(section));
     }
+  }
   return QVariant();
 }
 
@@ -67,7 +69,12 @@ int AATreeModel::rowCount(const QModelIndex& parent) const {
 
 int AATreeModel::columnCount(const QModelIndex& parent) const {
   Q_UNUSED(parent);
-  return 1;
+  int count = m_headers.size();
+  if (count == 0) {
+    return 1;
+  } else {
+    return count;
+  }
 }
 
 QVariant AATreeModel::data(const QModelIndex& index, int role) const {
