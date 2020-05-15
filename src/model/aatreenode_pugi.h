@@ -89,6 +89,10 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   //!
   AATreeNode_abstract* getChild(int index) const override;
 
+  //! Get the index-th named child node (starting from zero)
+  //!
+  AATreeNode_abstract* getChild(QString name, int index = 0) const override;
+
   //! Create child of given name then insert it before index-th node. If no
   //! index provided, or if the index exceeds the number of children, insert at
   //! the end
@@ -107,13 +111,12 @@ class AATreeNode_pugi : public AATreeNode_abstract {
   //  last
   //  //! child of this name
   //  //!
-  //  AATreeNode_abstract* removeChild(const QString& name,
-  //                                   const int index = -1) override;
+  bool removeChild(const QString& name, const int index = -1) override;
 
   //  //! Remove index-th child, regardless of its name. If index not provided,
   //  //! remove last child
   //  //!
-  AATreeNode_abstract* removeChild(const int index = -1) override;
+  bool removeChild(const int index = -1) override;
 
  signals:
 
@@ -159,6 +162,8 @@ class AATreeNode_pugi : public AATreeNode_abstract {
 
   //! If the node is a root node, the xml document should be created.
   pugi::xml_document* m_doc = nullptr;
+
+  void lognode(pugi::xml_node node);
 };
 
 #endif  // AATREENODE_PUGI_H

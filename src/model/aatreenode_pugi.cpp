@@ -133,6 +133,8 @@ AATreeNode_abstract* AATreeNode_pugi::getChild(int index) const {
   return nullptr;
 }
 
+AATreeNode_abstract* AATreeNode_pugi::getChild(QString name, int index) const {}
+
 AATreeNode_abstract* AATreeNode_pugi::addChild(const QString& name, int index) {
   AATreeNode_pugi* newNode = new AATreeNode_pugi(this);
   return insertChild(newNode, index, name);
@@ -144,7 +146,9 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
   return insertChild(child, index, name);
 }
 
-AATreeNode_abstract* AATreeNode_pugi::removeChild(const int index) {
+bool AATreeNode_pugi::removeChild(const QString& name, const int index) {}
+
+bool AATreeNode_pugi::removeChild(const int index) {
   xml_node node = xml_nodeAtIndex(index);
   node.parent().remove_child(node);
 
@@ -158,22 +162,31 @@ AATreeNode_abstract* AATreeNode_pugi::removeChild(const int index) {
 AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
                                                   int index,
                                                   const QString& name) {
+  bool ok;
+  qDebug() << "Index in:" << index;
+
+  lognode(m_xml_node);
   xml_node newXMLNode;
-  if (index == -1) {
-    newXMLNode = m_xml_node.append_child(xml_node_type::node_element);
-    index = m_children.size();
-  } else if (index < m_children.size()) {
-    xml_node myOlderBrother = xml_nodeAtIndex(index);
-    newXMLNode = m_xml_node.insert_child_before(xml_node_type::node_element,
-                                                myOlderBrother);
-  } else {
-    newXMLNode = m_xml_node.prepend_child(xml_node_type::node_element);
-  }
   AATreeNode_pugi* pugiChild = qobject_cast<AATreeNode_pugi*>(child);
+  if (index >= m_children.size()) {
+    newXMLNode = m_xml_node.append_child(name.toStdString().c_str());
+    index = m_children.size();
+  } else {
+    if (index < 0)
+      index = 0;
+    xml_node sibling =
+        m_children.at(index)
+            ->m_xml_node;  // strange. Shouldn't the other AATreeNode_pugi
+                           // object have this as private?
+    newXMLNode =
+        m_xml_node.insert_child_before(name.toStdString().c_str(), sibling);
+    qDebug() << index << "Sibling name" << sibling.name();
+  }
+  lognode(m_xml_node);
+
+  //  newXMLNode.set_name("prepended");
+
   m_children.insert(index, pugiChild);
-  // Now set name. It has to be a one-liner. For some reaseon, the cstr() does
-  // not work. Nor does the QString::toStdString().c_str() in a separate line
-  newXMLNode.set_name(name.toStdString().c_str());
   if (pugiChild)
     pugiChild->setXMLnode(newXMLNode);
 
@@ -285,4 +298,12 @@ xml_node AATreeNode_pugi::xml_nodeAtIndex(int i) {
 
 int AATreeNode_pugi::numberOfChildren() {
   return m_children.size();
+}
+
+void AATreeNode_pugi::lognode(xml_node node) {
+  qDebug() << "Children of node " << node.name();
+  for (auto child : node.children()) {
+    qDebug() << child.name();
+  }
+  qDebug() << "--------------------";
 }
