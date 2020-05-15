@@ -28,6 +28,7 @@ void MainWindow::onLoadClicked() {
                                << "diameter"
                                << "width";
   m_model->setHeaders(headers);
+  m_model->setElementHeader("Item");
   ui->treeView->setModel(m_model);
 }
 void MainWindow::onSaveClicked() {
