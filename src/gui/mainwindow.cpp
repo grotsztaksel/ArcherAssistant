@@ -27,7 +27,7 @@ void MainWindow::onLoadClicked() {
                                << "score"
                                << "diameter"
                                << "width";
-  //  m_model->setHeaders(headers);
+  m_model->setHeaders(headers);
   ui->treeView->setModel(m_model);
 }
 void MainWindow::onSaveClicked() {
