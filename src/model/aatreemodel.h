@@ -34,6 +34,10 @@ class AATreeModel : public QAbstractItemModel {
                 int role = Qt::DisplayRole) const override;
   Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+  bool removeRows(int row,
+                  int count,
+                  const QModelIndex& parent = QModelIndex()) override;
+
   /*--------------------------------------*
    *                                      *
    *     Other functionality              *

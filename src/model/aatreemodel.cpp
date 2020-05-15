@@ -107,6 +107,21 @@ Qt::ItemFlags AATreeModel::flags(const QModelIndex& index) const {
   return QAbstractItemModel::flags(index);
 }
 
+bool AATreeModel::removeRows(int row, int count, const QModelIndex& parent) {
+  AATreeNode_abstract* parentNode;
+  if (parent.isValid()) {
+    parentNode = static_cast<AATreeNode_abstract*>(parent.internalPointer());
+  } else {
+    parentNode = m_rootNode;
+  }
+  bool ok = true;
+  beginRemoveRows(parent, row, row + count - 1);
+  for (int i = row; i < row + count; i++) {
+    ok &= parentNode->removeChild(row);
+  }
+  endRemoveRows();
+  return ok;
+}
 QModelIndex AATreeModel::insertElement(QString name,
                                        QModelIndex parentIndex,
                                        int row) {
