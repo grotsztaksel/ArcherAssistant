@@ -50,9 +50,22 @@ class AATreeModel : public QAbstractItemModel {
 
   void setHeaders(const QStringList& headers);
 
+  QString elementHeader() const;
+  void setElementHeader(const QString& elementHeader);
+
  protected:
   AATreeNode_abstract* m_rootNode = nullptr;
+
+  //! List of headers that should be displayed. If not empty, the model will
+  //! present attribute values ad data(). Otherwise it will present item names
+  //! in first and only column
   QStringList m_headers = QStringList();
+
+  //! If not empty, the first column will display the element name, and its
+  //! header will be this string. Otherwise, (in column mode) the header will
+  //! not be displayed.
+  QString m_elementHeader = QString();
+  bool showItemsInFirstColumn = true;
 };
 
 #endif  // AATREEMODEL_H
