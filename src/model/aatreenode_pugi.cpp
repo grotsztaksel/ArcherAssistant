@@ -162,10 +162,6 @@ bool AATreeNode_pugi::removeChild(const int index) {
 AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
                                                   int index,
                                                   const QString& name) {
-  bool ok;
-  qDebug() << "Index in:" << index;
-
-  lognode(m_xml_node);
   xml_node newXMLNode;
   AATreeNode_pugi* pugiChild = qobject_cast<AATreeNode_pugi*>(child);
   if (index >= m_children.size()) {
@@ -180,11 +176,7 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
                            // object have this as private?
     newXMLNode =
         m_xml_node.insert_child_before(name.toStdString().c_str(), sibling);
-    qDebug() << index << "Sibling name" << sibling.name();
   }
-  lognode(m_xml_node);
-
-  //  newXMLNode.set_name("prepended");
 
   m_children.insert(index, pugiChild);
   if (pugiChild)
