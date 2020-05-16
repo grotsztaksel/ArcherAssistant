@@ -13,13 +13,13 @@ QVariant AATreeModel::headerData(int section,
                                  Qt::Orientation orientation,
                                  int role) const {
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-    if (showItemsInFirstColumn && section == 0) {
+    if (showItemsInFirstColumn() && section == 0) {
       return QVariant(m_elementHeader);
     }
     if (m_headers.empty()) {
       return QVariant();
     } else {
-      return QVariant(m_headers.at(section - int(showItemsInFirstColumn)));
+      return QVariant(m_headers.at(section - int(showItemsInFirstColumn())));
     }
   }
   return QVariant();
@@ -78,7 +78,7 @@ QVariant AATreeModel::data(const QModelIndex& index, int role) const {
     return QVariant();
   if (role == Qt::DisplayRole) {
     AATreeNode_abstract* node = nodeFromIndex(index);
-    if (showItemsInFirstColumn && index.column() == 0) {
+    if (showItemsInFirstColumn() && index.column() == 0) {
       return node->name();
     }
 
@@ -86,7 +86,7 @@ QVariant AATreeModel::data(const QModelIndex& index, int role) const {
       return node->name();
     } else {
       QString attrName =
-          m_headers.at(index.column() - int(showItemsInFirstColumn));
+          m_headers.at(index.column() - int(showItemsInFirstColumn()));
       return node->attribute(attrName);
     }
   }
@@ -126,9 +126,9 @@ bool AATreeModel::moveRows(const QModelIndex& sourceParent,
     destinationParentNode->insertChild(moved_node, i + destinationChild);
     parentNode->removeChild(i + sourceRow);
   }
-
   endMoveRows();
 }
+
 QModelIndex AATreeModel::insertElement(QString name,
                                        QModelIndex parentIndex,
                                        int row) {
@@ -158,7 +158,6 @@ QString AATreeModel::elementHeader() const {
 
 void AATreeModel::setElementHeader(const QString& elementHeader) {
   m_elementHeader = elementHeader;
-  showItemsInFirstColumn = !elementHeader.isEmpty();
 }
 
 AATreeNode_abstract* AATreeModel::nodeFromIndex(
@@ -167,4 +166,8 @@ AATreeNode_abstract* AATreeModel::nodeFromIndex(
     return m_rootNode;
   }
   return static_cast<AATreeNode_abstract*>(index.internalPointer());
+}
+
+bool AATreeModel::showItemsInFirstColumn() const {
+  return !m_elementHeader.isEmpty();
 }

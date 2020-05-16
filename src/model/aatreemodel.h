@@ -92,11 +92,17 @@ class AATreeModel : public QAbstractItemModel {
                             QModelIndex parentIndex,
                             int row = -1);
 
+  //! Read the model from a file. Discards all current content.
+  //!
   bool readFile(const QFile& file);
 
+  //! Write the content of the model to the file
+  //!
   bool writeFile(const QFile& file);
+
   //!  Set the list of headers of the model. If the headers list is emty, there
   //!  will be only one column listing the elements by name. Otherwise,
+  //!
   void setHeaders(const QStringList& headers);
 
   //! Getter method for m_elementHeader
@@ -112,19 +118,26 @@ class AATreeModel : public QAbstractItemModel {
   //!
   AATreeNode_abstract* nodeFromIndex(const QModelIndex& index) const;
 
+  //! Returns true if the m_elementHeader is not empty.
+  //!
+  bool showItemsInFirstColumn() const;
+
  protected:
+  //! Root node of this model
+  //!
   AATreeNode_abstract* m_rootNode = nullptr;
 
   //! List of headers that should be displayed. If not empty, the model will
   //! present attribute values ad data(). Otherwise it will present item names
   //! in first and only column
+  //!
   QStringList m_headers = QStringList();
 
   //! If not empty, the first column will display the element name, and its
   //! header will be this string. Otherwise, (in column mode) the header will
   //! not be displayed.
+  //!
   QString m_elementHeader = QString();
-  bool showItemsInFirstColumn = true;
 };
 
 #endif  // AATREEMODEL_H
