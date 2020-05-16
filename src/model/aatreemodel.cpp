@@ -49,8 +49,7 @@ QModelIndex AATreeModel::parent(const QModelIndex& index) const {
   if (!index.isValid())
     return QModelIndex();
 
-  AATreeNode_abstract* childItem =
-      static_cast<AATreeNode_abstract*>(index.internalPointer());
+  AATreeNode_abstract* childItem = nodeFromIndex(index);
   AATreeNode_abstract* parentItem = childItem->parent();
 
   if (parentItem == m_rootNode)
@@ -60,12 +59,7 @@ QModelIndex AATreeModel::parent(const QModelIndex& index) const {
 }
 
 int AATreeModel::rowCount(const QModelIndex& parent) const {
-  AATreeNode_abstract* parentNode;
-  if (!parent.isValid()) {
-    parentNode = m_rootNode;
-  } else {
-    parentNode = static_cast<AATreeNode_abstract*>(parent.internalPointer());
-  }
+  AATreeNode_abstract* parentNode = nodeFromIndex(parent);
   return parentNode->children().size();
 }
 
@@ -83,7 +77,7 @@ QVariant AATreeModel::data(const QModelIndex& index, int role) const {
   if (!index.isValid())
     return QVariant();
   if (role == Qt::DisplayRole) {
-    auto node = static_cast<AATreeNode_abstract*>(index.internalPointer());
+    AATreeNode_abstract* node = nodeFromIndex(index);
     if (showItemsInFirstColumn && index.column() == 0) {
       return node->name();
     }
@@ -108,12 +102,7 @@ Qt::ItemFlags AATreeModel::flags(const QModelIndex& index) const {
 }
 
 bool AATreeModel::removeRows(int row, int count, const QModelIndex& parent) {
-  AATreeNode_abstract* parentNode;
-  if (parent.isValid()) {
-    parentNode = static_cast<AATreeNode_abstract*>(parent.internalPointer());
-  } else {
-    parentNode = m_rootNode;
-  }
+  AATreeNode_abstract* parentNode = nodeFromIndex(parent);
   bool ok = true;
   beginRemoveRows(parent, row, row + count - 1);
   for (int i = row; i < row + count; i++) {
@@ -128,13 +117,7 @@ QModelIndex AATreeModel::insertElement(QString name,
   if (row < 0) {
     row = rowCount(parentIndex);
   }
-  AATreeNode_abstract* parentNode;
-  if (parentIndex.isValid()) {
-    parentNode =
-        static_cast<AATreeNode_abstract*>(parentIndex.internalPointer());
-  } else {
-    parentNode = m_rootNode;
-  }
+  AATreeNode_abstract* parentNode = nodeFromIndex(parentIndex);
   beginInsertRows(parentIndex, row, row);
   parentNode->addChild(name, row);
   endInsertRows();
@@ -158,4 +141,12 @@ QString AATreeModel::elementHeader() const {
 void AATreeModel::setElementHeader(const QString& elementHeader) {
   m_elementHeader = elementHeader;
   showItemsInFirstColumn = !elementHeader.isEmpty();
+}
+
+AATreeNode_abstract* AATreeModel::nodeFromIndex(
+    const QModelIndex& index) const {
+  if (!index.isValid()) {
+    return m_rootNode;
+  }
+  return static_cast<AATreeNode_abstract*>(index.internalPointer());
 }

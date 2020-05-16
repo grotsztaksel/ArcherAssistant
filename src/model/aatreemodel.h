@@ -58,6 +58,10 @@ class AATreeModel : public QAbstractItemModel {
   void setElementHeader(const QString& elementHeader);
 
  protected:
+  //! Return the index node associated with the index
+  AATreeNode_abstract* nodeFromIndex(const QModelIndex& index) const;
+
+ protected:
   AATreeNode_abstract* m_rootNode = nullptr;
 
   //! List of headers that should be displayed. If not empty, the model will
