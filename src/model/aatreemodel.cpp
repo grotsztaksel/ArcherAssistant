@@ -122,12 +122,9 @@ bool AATreeModel::moveRows(const QModelIndex& sourceParent,
 
   int sourceLast = sourceRow + count - 1;
 
-  beginInsertRows(destinationParent, destinationChild,
-                  destinationChild + count - 1);
-  //  if (!beginMoveRows(sourceParent, sourceRow, sourceLast,
-  //  destinationParent,
-  //                     destinationChild))
-  //    return false;
+  if (!beginMoveRows(sourceParent, sourceRow, sourceLast, destinationParent,
+                     destinationChild))
+    return false;
 
   int deleteFrom = sourceRow;
 
@@ -147,23 +144,11 @@ bool AATreeModel::moveRows(const QModelIndex& sourceParent,
     destinationParentNode->insertChild(moved_node, i + destinationChild);
   }
   bool ok = true;
-  qDebug()
-      << "Same nodes inserted?" << deleteFrom << destinationChild
-      << (qobject_cast<AATreeNode_pugi*>(parentNode->getChild(3))->m_xml_node ==
-          qobject_cast<AATreeNode_pugi*>(destinationParentNode->getChild(1))
-              ->m_xml_node);
-  qDebug()
-      << "Indices swapped?" << deleteFrom << destinationChild
-      << (qobject_cast<AATreeNode_pugi*>(parentNode->getChild(1))->m_xml_node ==
-          qobject_cast<AATreeNode_pugi*>(destinationParentNode->getChild(3))
-              ->m_xml_node);
 
-  endInsertRows();
-  beginRemoveRows(sourceParent, deleteFrom, deleteFrom + count - 1);
   for (int i = 0; i < count; i++) {
     ok &= parentNode->removeChild(deleteFrom);
   }
-  endRemoveRows();
+  endMoveRows();
   QFile file;
   file.setFileName("die.xml");
   writeFile(file);
