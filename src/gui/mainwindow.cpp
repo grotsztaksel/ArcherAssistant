@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget* parent)
   connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
   connect(ui->addButton, SIGNAL(clicked()), this, SLOT(onAddClicked()));
   connect(ui->removeButton, SIGNAL(clicked()), this, SLOT(onRemoveClicked()));
+  connect(ui->upButton, SIGNAL(clicked()), this, SLOT(onUpClicked()));
 }
 
 void MainWindow::onLoadClicked() {
@@ -50,6 +51,30 @@ void MainWindow::onRemoveClicked() {
   int currentRow = ui->treeView->currentIndex().row();
   m_model->removeRow(currentRow, parentIndex);
 }
+
+void MainWindow::onUpClicked() {
+  moveUp(ui->treeView->currentIndex());
+}
+
+void MainWindow::onDownClicked() {}
+
+bool MainWindow::moveUp(QModelIndex index) {
+  QModelIndex parent = index.parent();
+  QModelIndex newParent;
+  int newRow = 0;
+  if (index.row() == 0) {
+    if (parent.row() == 0) {
+      return false;
+    }
+    newParent = parent.siblingAtRow(parent.row() - 1);
+    newRow = m_model->rowCount(newParent);
+  } else {
+    newParent = parent;
+    newRow = index.row() - 1;
+  }
+  return m_model->moveRow(parent, index.row(), newParent, newRow);
+}
+
 MainWindow::~MainWindow() {
   delete ui;
 }

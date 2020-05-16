@@ -28,6 +28,13 @@ class MainWindow : public QMainWindow {
   void onSaveClicked();
   void onAddClicked();
   void onRemoveClicked();
+  void onUpClicked();
+  void onDownClicked();
+
+ protected:
+  //! Move item up by one. If it is the first in its parent, move it to the end
+  //! of the previous parent
+  bool moveUp(QModelIndex index);
 
  private:
   Ui::MainWindow* ui;
