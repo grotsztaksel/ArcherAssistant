@@ -73,6 +73,7 @@ bool MainWindow::moveUp(QModelIndex index) {
     newRow = index.row() - 1;
   }
   return m_model->moveRow(parent, index.row(), newParent, newRow);
+  onSaveClicked();
 }
 
 MainWindow::~MainWindow() {
