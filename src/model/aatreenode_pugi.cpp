@@ -146,17 +146,24 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
   return insertChild(child, index, name);
 }
 
-bool AATreeNode_pugi::removeChild(const QString& name, const int index) {}
+bool AATreeNode_pugi::removeChild(const QString& name, const int index) {
+  qDebug() << "What?";
+}
 
 bool AATreeNode_pugi::removeChild(const int index) {
-  xml_node node = xml_nodeAtIndex(index);
+  qDebug() << "removeChild @" << index;
+
+  xml_node node = m_children.at(index)->m_xml_node;
   node.parent().remove_child(node);
 
   // remove the object
-  m_children.at(index)->deleteLater();
+  delete m_children.at(index);
 
   // remove the pointer from the list
   m_children.removeAt(index);
+  for (auto child : m_children) {
+    qDebug() << child->name();
+  }
 }
 
 AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
@@ -169,8 +176,10 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
     index = m_children.size();
 
     if (pugiChild->m_xml_node.empty()) {
+      qDebug() << __FUNCTION__ << __LINE__;
       newXMLNode = m_xml_node.append_child(name.toStdString().c_str());
     } else {
+      qDebug() << __FUNCTION__ << __LINE__;
       newXMLNode = m_xml_node.append_copy(pugiChild->m_xml_node);
     }
   } else {
@@ -181,17 +190,27 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
             ->m_xml_node;  // strange. Shouldn't the other AATreeNode_pugi
                            // object have this as private?
     if (pugiChild->m_xml_node.empty()) {
+      qDebug() << __FUNCTION__ << __LINE__;
       newXMLNode =
           m_xml_node.insert_child_before(name.toStdString().c_str(), sibling);
     } else {
+      qDebug() << __FUNCTION__ << __LINE__;
       newXMLNode =
           m_xml_node.insert_copy_before(pugiChild->m_xml_node, sibling);
     }
   }
-
+  qDebug() << __FUNCTION__ << __LINE__ << "";
+  for (auto node : m_children) {
+    qDebug() << node->name();
+  }
   m_children.insert(index, pugiChild);
   if (pugiChild)
-    pugiChild->setXMLnode(newXMLNode);
+    qDebug() << "setXMLnode";
+  pugiChild->setXMLnode(newXMLNode);
+  qDebug() << __FUNCTION__ << __LINE__ << "";
+  for (auto node : m_children) {
+    qDebug() << node->name();
+  }
 
   return pugiChild;
 }
