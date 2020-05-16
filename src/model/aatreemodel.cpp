@@ -121,23 +121,31 @@ bool AATreeModel::moveRows(const QModelIndex& sourceParent,
   AATreeNode_abstract* destinationParentNode = nodeFromIndex(destinationParent);
 
   int sourceLast = sourceRow + count - 1;
-
-  if (!beginMoveRows(sourceParent, sourceRow, sourceLast, destinationParent,
-                     destinationChild))
-    return false;
+  qDebug() << sourceRow << count << sourceLast << destinationChild
+           << destinationChild + count - 1;
 
   int deleteFrom = sourceRow;
 
   int increment = 0;
   if (sourceParent == destinationParent) {
     if (sourceRow > destinationChild) {
+      // Moving the rows up
       deleteFrom = sourceRow + count;
       increment = 1;
     } else if (sourceRow == destinationChild) {
       // moving to the same location. Nothing to do.
       return true;
+    } else if (sourceRow < destinationChild) {
+      // Moving the nodes down
+      if (sourceLast + 1 <= destinationChild) {
+        destinationChild = sourceLast + 2;
+      }
     }
   }
+
+  if (!beginMoveRows(sourceParent, sourceRow, sourceLast, destinationParent,
+                     destinationChild))
+    return false;
   for (int i = 0; i < count; i++) {
     AATreeNode_abstract* moved_node =
         parentNode->getChild(i + sourceRow + increment * i);
@@ -149,9 +157,6 @@ bool AATreeModel::moveRows(const QModelIndex& sourceParent,
     ok &= parentNode->removeChild(deleteFrom);
   }
   endMoveRows();
-  QFile file;
-  file.setFileName("die.xml");
-  writeFile(file);
   return ok;
 }
 
