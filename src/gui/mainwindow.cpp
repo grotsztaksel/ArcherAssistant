@@ -58,7 +58,6 @@ void MainWindow::onUpClicked() {
 }
 
 void MainWindow::onDownClicked() {
-  qDebug() << "naa";
   moveDown(ui->treeView->currentIndex());
 }
 
@@ -67,8 +66,8 @@ bool MainWindow::moveDown(QModelIndex index) {
   QModelIndex newParent;
   int newRow = 0;
   if (index.row() == m_model->rowCount(parent) - 1) {
-    if (parent.row() == m_model->rowCount(parent.parent()) - 1) {
-      qDebug() << "FFFFF";
+    if (!parent.isValid() ||
+        parent.row() == m_model->rowCount(parent.parent()) - 1) {
       return false;
     }
     newParent = parent.siblingAtRow(parent.row() + 1);
@@ -77,7 +76,9 @@ bool MainWindow::moveDown(QModelIndex index) {
     newParent = parent;
     newRow = index.row() + 1;
   }
-  return m_model->moveRow(parent, index.row(), newParent, newRow);
+  bool ok = m_model->moveRow(parent, index.row(), newParent, newRow);
+  qDebug() << "Survived the move down";
+  return ok;
 }
 
 bool MainWindow::moveUp(QModelIndex index) {
@@ -85,7 +86,7 @@ bool MainWindow::moveUp(QModelIndex index) {
   QModelIndex newParent;
   int newRow = 0;
   if (index.row() == 0) {
-    if (parent.row() == 0) {
+    if (!parent.isValid() || parent.row() == 0) {
       return false;
     }
     newParent = parent.siblingAtRow(parent.row() - 1);
@@ -94,7 +95,9 @@ bool MainWindow::moveUp(QModelIndex index) {
     newParent = parent;
     newRow = index.row() - 1;
   }
-  return m_model->moveRow(parent, index.row(), newParent, newRow);
+  bool ok = m_model->moveRow(parent, index.row(), newParent, newRow);
+  qDebug() << "Survived the move up";
+  return ok;
 }
 
 MainWindow::~MainWindow() {
