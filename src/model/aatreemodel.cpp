@@ -111,6 +111,24 @@ bool AATreeModel::removeRows(int row, int count, const QModelIndex& parent) {
   endRemoveRows();
   return ok;
 }
+
+bool AATreeModel::moveRows(const QModelIndex& sourceParent,
+                           int sourceRow,
+                           int count,
+                           const QModelIndex& destinationParent,
+                           int destinationChild) {
+  AATreeNode_abstract* parentNode = nodeFromIndex(sourceParent);
+  AATreeNode_abstract* destinationParentNode = nodeFromIndex(destinationParent);
+  beginMoveRows(sourceParent, sourceRow, sourceRow + count, destinationParent,
+                destinationChild);
+  for (int i = 0; i < count; i++) {
+    AATreeNode_abstract* moved_node = parentNode->getChild(i + sourceRow);
+    destinationParentNode->insertChild(moved_node, i + destinationChild);
+    parentNode->removeChild(i + sourceRow);
+  }
+
+  endMoveRows();
+}
 QModelIndex AATreeModel::insertElement(QString name,
                                        QModelIndex parentIndex,
                                        int row) {
