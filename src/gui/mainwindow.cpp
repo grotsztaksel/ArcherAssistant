@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget* parent)
   connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
   connect(ui->addButton, SIGNAL(clicked()), this, SLOT(onAddClicked()));
   connect(ui->removeButton, SIGNAL(clicked()), this, SLOT(onRemoveClicked()));
+  connect(ui->downButton, SIGNAL(clicked()), this, SLOT(onDownClicked()));
   connect(ui->upButton, SIGNAL(clicked()), this, SLOT(onUpClicked()));
 }
 
@@ -56,7 +57,28 @@ void MainWindow::onUpClicked() {
   moveUp(ui->treeView->currentIndex());
 }
 
-void MainWindow::onDownClicked() {}
+void MainWindow::onDownClicked() {
+  qDebug() << "naa";
+  moveDown(ui->treeView->currentIndex());
+}
+
+bool MainWindow::moveDown(QModelIndex index) {
+  QModelIndex parent = index.parent();
+  QModelIndex newParent;
+  int newRow = 0;
+  if (index.row() == m_model->rowCount(parent) - 1) {
+    if (parent.row() == m_model->rowCount(parent.parent()) - 1) {
+      qDebug() << "FFFFF";
+      return false;
+    }
+    newParent = parent.siblingAtRow(parent.row() + 1);
+    newRow = 0;
+  } else {
+    newParent = parent;
+    newRow = index.row() + 1;
+  }
+  return m_model->moveRow(parent, index.row(), newParent, newRow);
+}
 
 bool MainWindow::moveUp(QModelIndex index) {
   QModelIndex parent = index.parent();
@@ -73,7 +95,6 @@ bool MainWindow::moveUp(QModelIndex index) {
     newRow = index.row() - 1;
   }
   return m_model->moveRow(parent, index.row(), newParent, newRow);
-  onSaveClicked();
 }
 
 MainWindow::~MainWindow() {

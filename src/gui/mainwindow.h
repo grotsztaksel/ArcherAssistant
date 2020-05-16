@@ -32,8 +32,14 @@ class MainWindow : public QMainWindow {
   void onDownClicked();
 
  protected:
+  //! Move item down by one. If it is the last in its parent, move it to the
+  //! beginnig of the next node on parent level
+  //!
+  bool moveDown(QModelIndex index);
+
   //! Move item up by one. If it is the first in its parent, move it to the end
-  //! of the previous parent
+  //! of the previous node on parent level
+  //!
   bool moveUp(QModelIndex index);
 
  private:
