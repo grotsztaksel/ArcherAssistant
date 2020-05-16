@@ -117,6 +117,11 @@ bool AATreeModel::moveRows(const QModelIndex& sourceParent,
                            int count,
                            const QModelIndex& destinationParent,
                            int destinationChild) {
+  qDebug() << "MOVE, MOVE!";
+  qDebug() << "From" << nodeFromIndex(sourceParent)->name() << sourceRow << "To"
+           << nodeFromIndex(destinationParent)->name() << destinationChild;
+  qDebug() << "Count is" << count;
+
   AATreeNode_abstract* parentNode = nodeFromIndex(sourceParent);
   AATreeNode_abstract* destinationParentNode = nodeFromIndex(destinationParent);
   beginMoveRows(sourceParent, sourceRow, sourceRow + count, destinationParent,
@@ -127,6 +132,7 @@ bool AATreeModel::moveRows(const QModelIndex& sourceParent,
     parentNode->removeChild(i + sourceRow);
   }
   endMoveRows();
+  return true;
 }
 
 QModelIndex AATreeModel::insertElement(QString name,

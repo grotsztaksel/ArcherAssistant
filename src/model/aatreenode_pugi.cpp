@@ -142,7 +142,7 @@ AATreeNode_abstract* AATreeNode_pugi::addChild(const QString& name, int index) {
 
 AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
                                                   int index) {
-  QString name;
+  QString name = child->name();
   return insertChild(child, index, name);
 }
 
@@ -164,9 +164,15 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
                                                   const QString& name) {
   xml_node newXMLNode;
   AATreeNode_pugi* pugiChild = qobject_cast<AATreeNode_pugi*>(child);
+
   if (index >= m_children.size()) {
-    newXMLNode = m_xml_node.append_child(name.toStdString().c_str());
     index = m_children.size();
+
+    if (pugiChild->m_xml_node.empty()) {
+      newXMLNode = m_xml_node.append_child(name.toStdString().c_str());
+    } else {
+      newXMLNode = m_xml_node.append_copy(pugiChild->m_xml_node);
+    }
   } else {
     if (index < 0)
       index = 0;
@@ -174,8 +180,13 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
         m_children.at(index)
             ->m_xml_node;  // strange. Shouldn't the other AATreeNode_pugi
                            // object have this as private?
-    newXMLNode =
-        m_xml_node.insert_child_before(name.toStdString().c_str(), sibling);
+    if (pugiChild->m_xml_node.empty()) {
+      newXMLNode =
+          m_xml_node.insert_child_before(name.toStdString().c_str(), sibling);
+    } else {
+      newXMLNode =
+          m_xml_node.insert_copy_before(pugiChild->m_xml_node, sibling);
+    }
   }
 
   m_children.insert(index, pugiChild);
