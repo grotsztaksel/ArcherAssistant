@@ -104,6 +104,13 @@ MainWindow::~MainWindow() {
   delete ui;
 }
 
-void MainWindow::connectWithCore(AACore* mgr) {
-  mgr->sayHello();
+void MainWindow::connectWithCore(AACore* core) {
+  auto headers = QStringList() << "name"
+                               << "score"
+                               << "diameter"
+                               << "width";
+  m_model = core->model();
+  m_model->setHeaders(headers);
+  m_model->setElementHeader("Item");
+  ui->treeView->setModel(m_model);
 }

@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow {
   MainWindow(QWidget* parent = nullptr);
   ~MainWindow();
 
-  void connectWithCore(AACore* mgr);
+  void connectWithCore(AACore* core);
 
  protected slots:
   void onLoadClicked();
