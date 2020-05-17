@@ -31,6 +31,10 @@ class AACore : public AAObject {
   //!
   QStringList getArgs() const;
 
+  //! Return pointer to the main data model used
+  //!
+  AATreeModel* model() const;
+
  public slots:
 
  private:  // methods

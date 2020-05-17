@@ -18,3 +18,7 @@ AACore::AACore(AAObject* parent, const QStringList args)
 void AACore::sayHello() {
   qDebug() << "Hello!@ The manager is reporting!";
 }
+
+AATreeModel* AACore::model() const {
+  return m_model;
+}
