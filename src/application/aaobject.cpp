@@ -1,15 +1,18 @@
 #include "aaobject.h"
 
 #include <QDebug>
+#include "aasettingsmanager.h"
 AAObject::AAObject(QObject* parent, const QStringList& args)
     : QObject(parent),
       m_args{qobject_cast<AAObject*>(parent)
                  ? qobject_cast<AAObject*>(parent)->m_args
                  : args},
       gui{qobject_cast<AAObject*>(parent) ? qobject_cast<AAObject*>(parent)->gui
-                                          : !args.contains(QString("--nogui"))}
-// Initialize the object with parent's values of gui and m_args IF the parent is
-// an AAObject. Otherwise use the values from arguments
+                                          : !args.contains(QString("--nogui"))},
+      m_settings{qobject_cast<AAObject*>(parent)
+                     ? qobject_cast<AAObject*>(parent)->m_settings
+                     : nullptr}
+
 {}
 
 QString AAObject::arg(const QString& arg) {
@@ -22,4 +25,9 @@ QString AAObject::arg(const QString& arg) {
     }
   }
   return QString();
+}
+
+QVariant AAObject::getSetting(const QString& settingName) {
+  AASettingsManager* s = qobject_cast<AASettingsManager*>(m_settings);
+  return s->get(settingName);
 }
