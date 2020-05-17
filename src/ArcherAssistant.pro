@@ -20,6 +20,7 @@ UI_DIR = ui
 SOURCES += \
     application/aacore.cpp \
     application/aadirscanner.cpp \
+    application/aaobject.cpp \
     application/aasettingsmanager.cpp \
     application/datamanager.cpp \
     gui/sessioncontrolwidget.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
 HEADERS += \
     application/aacore.h \
     application/aadirscanner.h \
+    application/aaobject.h \
     application/aasettingsmanager.h \
     application/datamanager.h \
     gui/sessioncontrolwidget.h \
