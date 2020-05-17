@@ -41,7 +41,7 @@ class AACore : public AAObject {
 
  private:  // variables
   AADirScanner* dirScanner = nullptr;
-  AASettingsManager* settingsMgr = nullptr;
+  AATreeModel* m_model = nullptr;
 
  signals:
 };

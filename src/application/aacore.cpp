@@ -8,8 +8,11 @@ AACore::AACore(AAObject* parent, const QStringList args)
     : AAObject(parent, args)
 
 {
+  m_settings = new AASettingsManager(this);
   dirScanner = new AADirScanner(this);
-  settingsMgr = new AASettingsManager(this);
+
+  m_model = new AATreeModel(this);
+  m_model->readFile(QFile(getSetting(CFG_FILE).toString()));
 }
 
 void AACore::sayHello() {
