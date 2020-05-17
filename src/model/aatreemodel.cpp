@@ -170,13 +170,14 @@ QModelIndex AATreeModel::insertElement(QString name,
   beginInsertRows(parentIndex, row, row);
   parentNode->addChild(name, row);
   endInsertRows();
+  return index(row, 0, parentIndex);
 }
 
 bool AATreeModel::readFile(const QFile& file) {
-  m_rootNode->readFromFile(file);
+  return m_rootNode->readFromFile(file);
 }
 bool AATreeModel::writeFile(const QFile& file) {
-  m_rootNode->writeToFile(file);
+  return m_rootNode->writeToFile(file);
 }
 
 void AATreeModel::setHeaders(const QStringList& headers) {
