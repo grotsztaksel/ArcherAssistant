@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include <gui/trainingsessionwindow.h>
-#include "worker.h"
+#include "aacore.h"
 
 #include <aatreemodel.h>
 
@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow {
   MainWindow(QWidget* parent = nullptr);
   ~MainWindow();
 
-  void connectDataManager(Worker* mgr);
+  void connectWithCore(AACore* mgr);
 
  protected slots:
   void onLoadClicked();

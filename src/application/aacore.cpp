@@ -1,10 +1,10 @@
-#include "worker.h"
+#include "aacore.h"
 #include <QDebug>
 #include <QFileInfo>
 #include "aatreenode_abstract.h"
 #include "pugixml.hpp"
 using namespace pugi;
-Worker::Worker(QObject* parent, const QStringList args, const bool gui)
+AACore::AACore(QObject* parent, const QStringList args, const bool gui)
     : QObject(parent),
       args{args},
       gui{gui}  // used gui{gui} in member initializer lists, even though it is
@@ -21,12 +21,12 @@ Worker::Worker(QObject* parent, const QStringList args, const bool gui)
   updateSessions();
 }
 
-void Worker::setUp() {
+void AACore::setUp() {
   setupConfigFile();
   setupIntervals();
 }
 
-void Worker::setupConfigFile() {
+void AACore::setupConfigFile() {
   for (QString arg : args) {
     if (arg.startsWith("cfg=")) {
       QString configFileName = arg.mid(4);
@@ -42,7 +42,7 @@ void Worker::setupConfigFile() {
   }
 }
 
-void Worker::setupIntervals() {
+void AACore::setupIntervals() {
   if (!settings->contains("sessionInterval")) {
     qint64 sessionInterval = 60 * 20;  // 60 sec times minutes
     settings->setValue("sessionInterval", sessionInterval);
@@ -53,11 +53,11 @@ void Worker::setupIntervals() {
   }
 }
 
-void Worker::sayHello() {
+void AACore::sayHello() {
   qDebug() << "Hello!@ The manager is reporting!";
 }
 
-void Worker::updateSessions() {
+void AACore::updateSessions() {
   auto imageDir = data.getImagesPaths();
   QFileInfoList fileInfos;
   // get the list of inage files, sorted by creation time
@@ -99,10 +99,10 @@ void Worker::updateSessions() {
 //    for (QFileInfo fileInfo : fileInfos){
 //    }
 
-qint64 Worker::getSessionInterval() {
+qint64 AACore::getSessionInterval() {
   return settings->value("sessionInterval").toInt();
 }
 
-qint64 Worker::getSeriesInterval() {
+qint64 AACore::getSeriesInterval() {
   return settings->value("seriesInterval").toInt();
 }

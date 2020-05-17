@@ -104,6 +104,6 @@ MainWindow::~MainWindow() {
   delete ui;
 }
 
-void MainWindow::connectDataManager(Worker* mgr) {
+void MainWindow::connectWithCore(AACore* mgr) {
   mgr->sayHello();
 }

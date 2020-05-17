@@ -16,10 +16,10 @@
 
 struct config {};
 
-class Worker : public QObject {
+class AACore : public QObject {
   Q_OBJECT
  public:
-  explicit Worker(QObject* parent = nullptr,
+  explicit AACore(QObject* parent = nullptr,
                   const QStringList args = QStringList(),
                   const bool gui = true);
 

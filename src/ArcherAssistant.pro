@@ -18,8 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 UI_DIR = ui
 
 SOURCES += \
-    data_manager/datamanager.cpp \
-    data_manager/worker.cpp \
+    application/aacore.cpp \
+    application/datamanager.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/trainingsessionwindow.cpp \
     gui/mainwindow.cpp \
@@ -29,8 +29,8 @@ SOURCES += \
     model/aatreenode_pugi.cpp
 
 HEADERS += \
-    data_manager/datamanager.h \
-    data_manager/worker.h \
+    application/aacore.h \
+    application/datamanager.h \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
     gui/mainwindow.h \
@@ -44,7 +44,7 @@ FORMS += \
     gui/mainwindow.ui
 
 INCLUDEPATH += $${PWD}/gui/
-INCLUDEPATH += $${PWD}/data_manager/
+INCLUDEPATH += $${PWD}/application/
 INCLUDEPATH += $${PWD}/model/
 
 # Default rules for deployment.
