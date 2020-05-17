@@ -10,6 +10,10 @@ AASettingsManager::AASettingsManager(AAObject* parent, const QStringList args)
   setUp();
 }
 
+QVariant AASettingsManager::get(const QString& name) {
+  return settings->value(name);
+}
+
 void AASettingsManager::setUp() {
   setupConfigFile();
   setupIntervals();
@@ -20,32 +24,31 @@ void AASettingsManager::setupConfigFile() {
     if (arg.startsWith("cfg=")) {
       QString configFileName = arg.mid(4);
       if (QFile::exists(configFileName)) {
-        settings->setValue("configFile", configFileName);
+        settings->setValue(CFG_FILE, configFileName);
         break;
       }
     }
   }
-  if (!settings->contains("configFile")) {
-    qDebug() << "setting configFile";
-    settings->setValue("configFile", QString("config.xml"));
+  if (!settings->contains(CFG_FILE)) {
+    settings->setValue(CFG_FILE, QString("config.xml"));
   }
 }
 
 void AASettingsManager::setupIntervals() {
-  if (!settings->contains("sessionInterval")) {
+  if (!settings->contains(SESSION_INTVL)) {
     qint64 sessionInterval = 60 * 20;  // 60 sec times minutes
-    settings->setValue("sessionInterval", sessionInterval);
+    settings->setValue(SESSION_INTVL, sessionInterval);
   }
-  if (!settings->contains("seriesInterval")) {
+  if (!settings->contains(SESSION_INTVL)) {
     qint64 seriesInterval = 60 * 4;  // 60 sec times minutes
-    settings->setValue("seriesInterval", seriesInterval);
+    settings->setValue(SERIES_INTVL, seriesInterval);
   }
 }
 
 qint64 AASettingsManager::getSessionInterval() {
-  return settings->value("sessionInterval").toInt();
+  return settings->value(SERIES_INTVL).toInt();
 }
 
 qint64 AASettingsManager::getSeriesInterval() {
-  return settings->value("seriesInterval").toInt();
+  return settings->value(SERIES_INTVL).toInt();
 }

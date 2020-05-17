@@ -14,6 +14,8 @@ class AASettingsManager : public AAObject {
   explicit AASettingsManager(AAObject* parent = nullptr,
                              const QStringList args = QStringList());
 
+  QVariant get(const QString& name);
+
   //! take the input argument xml="<filename>" and save it into the program
   //! settings. If the argument is not present, use the default one, saved in
   //! settings
