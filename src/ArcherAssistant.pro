@@ -40,6 +40,7 @@ HEADERS += \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
     gui/mainwindow.h \
+    include/settings.h \
     model/aatreemodel.h \
     model/aatreenode_abstract.h \
     model/aatreenode_pugi.h
@@ -52,6 +53,7 @@ FORMS += \
 INCLUDEPATH += $${PWD}/gui/
 INCLUDEPATH += $${PWD}/application/
 INCLUDEPATH += $${PWD}/model/
+INCLUDEPATH += $${PWD}/include/
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
