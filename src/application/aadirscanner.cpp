@@ -1,6 +1,8 @@
 #include "aadirscanner.h"
+#include <QDebug>
 
-AADirScanner::AADirScanner(QObject* parent) : QObject(parent) {}
+AADirScanner::AADirScanner(AAObject* parent, const QStringList args)
+    : AAObject(parent, args) {}
 
 void AADirScanner::setModel(AATreeModel* model) {
   m_model = model;

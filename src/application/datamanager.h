@@ -1,7 +1,7 @@
 #ifndef DATAMANAGER_H
 #define DATAMANAGER_H
 
-#include <QObject>
+#include "aaobject.h"
 
 #include <QDateTime>
 #include <QDir>
@@ -17,10 +17,11 @@
 //! - Keep the access to the config XML file
 //! - Keep the internal XML structure based on an XML library
 //! - Perform operations on this structure on request from other classes
-class DataManager : public QObject {
+class DataManager : public AAObject {
   Q_OBJECT
  public:
-  explicit DataManager(QObject* parent = nullptr);
+  explicit DataManager(AAObject* parent = nullptr,
+                       const QStringList args = QStringList());
 
   //! When save the file if it has been modified
   ~DataManager();

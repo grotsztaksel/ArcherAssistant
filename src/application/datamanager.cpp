@@ -3,7 +3,8 @@
 #include <QDebug>
 #include <QFileInfo>
 using namespace pugi;
-DataManager::DataManager(QObject* parent) : QObject(parent) {}
+DataManager::DataManager(AAObject* parent, const QStringList args)
+    : AAObject(parent, args) {}
 
 void DataManager::setBasicStructure() {
   root = pugi.document_element();

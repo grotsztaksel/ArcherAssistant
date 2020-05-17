@@ -13,7 +13,8 @@ int main(int argc, char* argv[]) {
     args << QString(argv[i]);
   }
   bool gui = !args.contains(QString("--nogui"));
-  AACore core(nullptr, args, gui);
+  qDebug() << "MAIN" << gui << args;
+  AACore core(nullptr, args);
 
   // Allow the DataManager to work alone, without GUI (batch mode)
   if (gui) {

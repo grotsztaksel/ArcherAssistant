@@ -4,18 +4,14 @@
 #include "aatreenode_abstract.h"
 #include "pugixml.hpp"
 using namespace pugi;
-AACore::AACore(QObject* parent, const QStringList args, const bool gui)
-    : QObject(parent),
-      args{args},
-      gui{gui}  // used gui{gui} in member initializer lists, even though it is
-                // still in the args - because gui is const
+AACore::AACore(AAObject* parent, const QStringList args)
+    : AAObject(parent, args)
 
-{}
+{
+  dirScanner = new AADirScanner(this);
+  settingsMgr = new AASettingsManager(this);
+}
 
 void AACore::sayHello() {
   qDebug() << "Hello!@ The manager is reporting!";
-}
-
-QStringList AACore::getArgs() const {
-  return args;
 }

@@ -3,8 +3,8 @@
 #include <QDebug>
 #include <QFile>
 
-AASettingsManager::AASettingsManager(const QStringList& args, QObject* parent)
-    : QObject(parent), args{args} {
+AASettingsManager::AASettingsManager(AAObject* parent, const QStringList args)
+    : AAObject(parent, args) {
   settings =
       new QSettings(QSettings::UserScope, "Home", "ArcherAssistant", this);
   setUp();
@@ -16,7 +16,7 @@ void AASettingsManager::setUp() {
 }
 
 void AASettingsManager::setupConfigFile() {
-  for (QString arg : args) {
+  for (QString arg : m_args) {
     if (arg.startsWith("cfg=")) {
       QString configFileName = arg.mid(4);
       if (QFile::exists(configFileName)) {

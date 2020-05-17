@@ -1,7 +1,6 @@
 #ifndef AADIRSCANNER_H
 #define AADIRSCANNER_H
-
-#include <QObject>
+#include "aaobject.h"
 #include "aatreemodel.h"
 
 //! A class responsible for images management. Among others, it's tasks include:
@@ -10,10 +9,10 @@
 //! - sorting the files by appropriate data (image creation date or file
 //!   creation/modification date)
 //!
-class AADirScanner : public QObject {
-  Q_OBJECT
+class AADirScanner : public AAObject {
  public:
-  explicit AADirScanner(QObject* parent = nullptr);
+  explicit AADirScanner(AAObject* parent = nullptr,
+                        const QStringList args = QStringList());
 
   //! Set the model to work with
   //!

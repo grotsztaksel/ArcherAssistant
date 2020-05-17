@@ -5,22 +5,23 @@
 #include <QDir>
 #include <QFile>
 #include <QList>
-#include <QObject>
 #include <QSettings>
 #include <QString>
 #include <QTime>
 
+#include "aaobject.h"
+
+#include "aadirscanner.h"
+#include "aasettingsmanager.h"
 #include "datamanager.h"
 
 #include <pugixml.hpp>
 
 //! A central class governing interactions between all other classes
-class AACore : public QObject {
-  Q_OBJECT
+class AACore : public AAObject {
  public:
-  explicit AACore(QObject* parent = nullptr,
-                  const QStringList args = QStringList(),
-                  const bool gui = true);
+  explicit AACore(AAObject* parent = nullptr,
+                  const QStringList args = QStringList());
 
   //! just a dummy function to see if the MainWindow object can communicate with
   //! this
@@ -39,17 +40,8 @@ class AACore : public QObject {
   void updateSessions();
 
  private:  // variables
-  //! list of input arguments passed from main as QStringList
-  //!
-  const QStringList args;
-
-  //! flag defining if the program was run with (true) or without (false) GUI.
-  //!
-  const bool gui;
-
-  //! the actual data structure collecting the QFile object and the pugi_xml
-  //! object to work together
-  DataManager data;
+  AADirScanner* dirScanner = nullptr;
+  AASettingsManager* settingsMgr = nullptr;
 
  signals:
 };

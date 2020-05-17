@@ -1,16 +1,18 @@
 #ifndef AASETTINGSMANAGER_H
 #define AASETTINGSMANAGER_H
 
-#include <QObject>
+#include "aaobject.h"
 
 #include <QSettings>
+
 //! Class responsible for managing settings that can be saved between program
-//! sessions
-class AASettingsManager : public QObject {
+//! sessions. Unless custom defined, sets up default settings
+//!
+class AASettingsManager : public AAObject {
   Q_OBJECT
  public:
-  explicit AASettingsManager(const QStringList& args,
-                             QObject* parent = nullptr);
+  explicit AASettingsManager(AAObject* parent = nullptr,
+                             const QStringList args = QStringList());
 
   //! take the input argument xml="<filename>" and save it into the program
   //! settings. If the argument is not present, use the default one, saved in
@@ -48,10 +50,6 @@ class AASettingsManager : public QObject {
   //! program settings
   //!
   QSettings* settings = nullptr;
-
-  //! list of input arguments passed from main as QStringList
-  //!
-  const QStringList args;
 };
 
 #endif  // AASETTINGSMANAGER_H
