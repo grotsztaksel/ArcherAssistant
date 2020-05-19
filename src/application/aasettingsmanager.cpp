@@ -45,6 +45,13 @@ void AASettingsManager::setupIntervals() {
   }
 }
 
+void AASettingsManager::setupImageFIleExtensions() {
+  if (!settings->contains(IMAGE_FILTER)) {
+    settings->setValue(IMAGE_FILTER, QStringList() << "*.jpg"
+                                                   << "*.png");
+  }
+}
+
 qint64 AASettingsManager::getSessionInterval() {
   return settings->value(SERIES_INTVL).toInt();
 }

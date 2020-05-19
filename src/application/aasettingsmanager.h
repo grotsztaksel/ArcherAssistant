@@ -16,6 +16,7 @@ class AASettingsManager : public AAObject {
 
   QVariant get(const QString& name);
 
+ public slots:
   //! take the input argument xml="<filename>" and save it into the program
   //! settings. If the argument is not present, use the default one, saved in
   //! settings
@@ -25,6 +26,11 @@ class AASettingsManager : public AAObject {
   //! set up default time intervals
   //!
   void setupIntervals();
+
+  //! Set up a string defining image file extensions to filter the image files
+  //! while searching for shooting result images.
+  //!
+  void setupImageFIleExtensions();
 
   //! get the interval between sessions (in seconds). If the two images were
   //! created within interval shorter than this one (but longer than \ref
