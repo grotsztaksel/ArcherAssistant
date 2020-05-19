@@ -133,7 +133,19 @@ AATreeNode_abstract* AATreeNode_pugi::getChild(int index) const {
   return nullptr;
 }
 
-AATreeNode_abstract* AATreeNode_pugi::getChild(QString name, int index) const {}
+AATreeNode_abstract* AATreeNode_pugi::getChild(QString name, int index) const {
+  int i = 0;
+  for (auto child : m_children) {
+    if (child->name() == name) {
+      if (i == index) {
+        return child;
+      } else {
+        i++;
+      }
+    }
+  }
+  return nullptr;
+}
 
 AATreeNode_abstract* AATreeNode_pugi::addChild(const QString& name, int index) {
   AATreeNode_pugi* newNode = new AATreeNode_pugi(this);
