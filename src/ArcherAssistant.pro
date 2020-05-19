@@ -23,6 +23,7 @@ SOURCES += \
     application/aaobject.cpp \
     application/aasettingsmanager.cpp \
     application/datamanager.cpp \
+    application/exifreader.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/trainingsessionwindow.cpp \
     gui/mainwindow.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     application/aaobject.h \
     application/aasettingsmanager.h \
     application/datamanager.h \
+    application/exifreader.h \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
     gui/mainwindow.h \
@@ -61,17 +63,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-## Tixi library from DLR:
-#win32: LIBS += -L$$PWD/../lib/TIXI-3.0.0-win64/lib/ -ltixi3
-
-#INCLUDEPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
-#DEPENDPATH += $$PWD/../lib/TIXI-3.0.0-win64/include/tixi3
-
-#PRE_TARGETDEPS += $$PWD/../lib/TIXI-3.0.0-win64/lib/tixi3.lib
-
 # pugixml
 INCLUDEPATH += $$PWD/../lib/pugixml-1.10/src
 
 HEADERS +=  $$PWD/../lib/pugixml-1.10/src/pugixml.hpp \
             $$PWD/../lib/pugixml-1.10/src/pugiconfig.hpp
 SOURCES += $$PWD/../lib/pugixml-1.10/src/pugixml.cpp
+
+
+# easy exif
+INCLUDEPATH += $$PWD/../lib/easyexif
+HEADERS +=  $$PWD/../lib/easyexif/exif.h
+SOURCES += $$PWD/../lib/easyexif/exif.cpp
