@@ -13,6 +13,8 @@ AACore::AACore(AAObject* parent, const QStringList args)
 
   m_model = new AATreeModel(this);
   m_model->readFile(QFile(getSetting(CFG_FILE).toString()));
+
+  dirScanner->setModel(m_model);
 }
 
 void AACore::sayHello() {
