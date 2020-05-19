@@ -3,7 +3,7 @@
 
 #include <QAbstractItemModel>
 
-#include "aatreenode_pugi.h"
+#include "aatreenode_abstract.h"
 
 class AATreeModel : public QAbstractItemModel {
   Q_OBJECT
@@ -112,6 +112,9 @@ class AATreeModel : public QAbstractItemModel {
   //! Setter method for m_elementHeader
   //!
   void setElementHeader(const QString& elementHeader);
+
+  //! Access the root node of the model
+  AATreeNode_abstract* root() const;
 
  protected:
   //! Return the index node associated with the index

@@ -1,5 +1,6 @@
 #include "aatreemodel.h"
 
+#include <aatreenode_pugi.h>
 #include <QDebug>
 AATreeModel::AATreeModel(QObject* parent) : QAbstractItemModel(parent) {
   m_rootNode = new AATreeNode_pugi();
@@ -202,4 +203,8 @@ AATreeNode_abstract* AATreeModel::nodeFromIndex(
 
 bool AATreeModel::showItemsInFirstColumn() const {
   return !m_elementHeader.isEmpty();
+}
+
+AATreeNode_abstract* AATreeModel::root() const {
+  return m_rootNode;
 }
