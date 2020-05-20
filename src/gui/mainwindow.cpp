@@ -105,8 +105,8 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::connectWithCore(AACore* core) {
-  auto headers = QStringList() << "name"
-                               << "score"
+  auto headers = QStringList() << "DateTime"
+                               << "image"
                                << "diameter"
                                << "width";
   m_model = core->model();
