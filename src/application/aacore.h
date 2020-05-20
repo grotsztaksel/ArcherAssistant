@@ -12,6 +12,7 @@
 #include "aaobject.h"
 
 #include "aadirscanner.h"
+#include "aasessionmanager.h"
 #include "aasettingsmanager.h"
 #include "datamanager.h"
 
@@ -46,6 +47,7 @@ class AACore : public AAObject {
  private:  // variables
   AADirScanner* dirScanner = nullptr;
   AATreeModel* m_model = nullptr;
+  AASessionManager* m_sessionManager = nullptr;
 
  signals:
 };

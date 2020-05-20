@@ -10,11 +10,15 @@ AACore::AACore(AAObject* parent, const QStringList args)
 {
   m_settings = new AASettingsManager(this);
   dirScanner = new AADirScanner(this);
+  m_sessionManager = new AASessionManager(this);
 
   m_model = new AATreeModel(this);
   m_model->readFile(QFile(getSetting(CFG_FILE).toString()));
 
   dirScanner->setModel(m_model);
+  m_sessionManager->setModel(m_model);
+  m_sessionManager->setDirScanner(dirScanner);
+  m_sessionManager->updateSessions();
 }
 
 void AACore::sayHello() {
