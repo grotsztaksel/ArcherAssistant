@@ -31,21 +31,15 @@ void AASessionManager::updateSessions() {
   AATreeNode_abstract* session = nullptr;
 
   for (QDateTime key : images.keys()) {
-    qDebug() << "Checking" << key.toString("YYYY MM dd HH:mm")
-             << images.value(key) << session_interval << previous.secsTo(key)
-             << series_interval;
     if (previous.secsTo(key) >= session_interval) {
-      qDebug() << "new session";
       session = createNewSession(key);
-      previous = QDateTime(key);
-    } else if (previous.secsTo(key) >= series_interval) {
-      qDebug() << "new series";
       series = createNewSeries(session, key);
       previous = QDateTime(key);
-    } else {
-      qDebug() << "append image";
-      appendImage(series, key, images.value(key));
+    } else if (previous.secsTo(key) >= series_interval) {
+      series = createNewSeries(session, key);
+      previous = QDateTime(key);
     }
+    appendImage(series, key, images.value(key));
   }
 }
 
@@ -53,7 +47,8 @@ AATreeNode_abstract* AASessionManager::createNewSession(const QDateTime& dt) {
   QModelIndex index = m_model->indexFromNode(m_sessionsNode);
   QModelIndex sessionIndex = m_model->insertElement("session", index);
   AATreeNode_abstract* newSession = m_model->nodeFromIndex(sessionIndex);
-  newSession->setAttribute("DateTime", dt.toString());
+
+  newSession->setAttribute("DateTime", dt.toString("yyyy.MM.dd HH:mm"));
   return newSession;
 }
 
@@ -63,7 +58,8 @@ AATreeNode_abstract* AASessionManager::createNewSeries(
   QModelIndex index = m_model->indexFromNode(session);
   QModelIndex seriesIndex = m_model->insertElement("series", index);
   AATreeNode_abstract* newSeries = m_model->nodeFromIndex(seriesIndex);
-  newSeries->setAttribute("DateTime", dt.toString());
+
+  newSeries->setAttribute("DateTime", dt.toString("yyyy.MM.dd HH:mm"));
   return newSeries;
 }
 
@@ -73,7 +69,7 @@ AATreeNode_abstract* AASessionManager::appendImage(AATreeNode_abstract* series,
   QModelIndex index = m_model->indexFromNode(series);
   QModelIndex imageIndex = m_model->insertElement("image", index);
   AATreeNode_abstract* image = m_model->nodeFromIndex(imageIndex);
-  image->setAttribute("DateTime", dt.toString());
+  image->setAttribute("DateTime", dt.toString("yyyy.MM.dd HH:mm"));
   image->setAttribute("file", imageName);
   return image;
 }
