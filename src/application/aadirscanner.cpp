@@ -35,7 +35,7 @@ void AADirScanner::updateConfigFile() {
   m_cfgPath = QFileInfo(cfgFile).path();
 }
 
-void AADirScanner::getImagesFiles() {
+QMap<QDateTime, QString> AADirScanner::getImagesFiles() {
   QFileInfoList fileInfos;
   QMap<QDateTime, QString> output;
   ExifReader er;
@@ -48,10 +48,11 @@ void AADirScanner::getImagesFiles() {
     QFile file;
     file.setFileName(finfo.absoluteFilePath());
     bool ok = er.openFile(file);
-    qDebug() << finfo.fileName() << ok << er.imageDateTime()
-             << er.originalDateTime() << er.digitizedDateTime()
-             << finfo.fileTime(QFileDevice::FileMetadataChangeTime);
+    if (ok) {
+      output.insert(er.originalDateTime(), file.fileName());
+    }
   }
+  return output;
 }
 
 void AADirScanner::getPaths() {
@@ -61,7 +62,6 @@ void AADirScanner::getPaths() {
       setPath(imgDir.absolutePath(), child);
     }
   }
-  getImagesFiles();
 }
 
 // void AADirScanner::updateSessions() {

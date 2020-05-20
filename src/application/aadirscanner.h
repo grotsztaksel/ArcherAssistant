@@ -33,7 +33,7 @@ class AADirScanner : public AAObject {
   //! creation date/time taken either form EXIF metadata (if available), or by
   //! creation date/time taken from system
   //!
-  void getImagesFiles();
+  QMap<QDateTime, QString> getImagesFiles();
 
  private:
   //! From the config file, read the <imagePath> nodes and, assuming that they
