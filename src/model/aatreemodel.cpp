@@ -201,6 +201,10 @@ AATreeNode_abstract* AATreeModel::nodeFromIndex(
   return static_cast<AATreeNode_abstract*>(index.internalPointer());
 }
 
+QModelIndex AATreeModel::indexFromNode(AATreeNode_abstract* node) const {
+  return createIndex(node->getIndex(), 0, node);
+}
+
 bool AATreeModel::showItemsInFirstColumn() const {
   return !m_elementHeader.isEmpty();
 }

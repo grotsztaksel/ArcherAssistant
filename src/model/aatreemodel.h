@@ -116,11 +116,15 @@ class AATreeModel : public QAbstractItemModel {
   //! Access the root node of the model
   AATreeNode_abstract* root() const;
 
- protected:
-  //! Return the index node associated with the index
+  //! Return the node associated with the index
   //!
   AATreeNode_abstract* nodeFromIndex(const QModelIndex& index) const;
 
+  //! Return the index associated with the node
+  //!
+  QModelIndex indexFromNode(AATreeNode_abstract* node) const;
+
+ protected:
   //! Returns true if the m_elementHeader is not empty.
   //!
   bool showItemsInFirstColumn() const;
