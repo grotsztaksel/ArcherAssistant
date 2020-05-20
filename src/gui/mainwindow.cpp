@@ -105,8 +105,9 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::connectWithCore(AACore* core) {
-  auto headers = QStringList() << "DateTime"
-                               << "image"
+  auto headers = QStringList() << "name"
+                               << "file"
+                               << "DateTime"
                                << "diameter"
                                << "width";
   m_model = core->model();
