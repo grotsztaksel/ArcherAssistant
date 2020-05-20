@@ -71,15 +71,30 @@ bool AATreeNode_pugi::hasAttribute(const QString name) {
 }
 
 bool AATreeNode_pugi::setAttribute(const QString name, const int& value) {
+  if (m_xml_node.attribute(cstr(name)).empty()) {
+    m_xml_node.append_attribute(cstr(name));
+  }
   return m_xml_node.attribute(cstr(name)).set_value(value);
 }
 bool AATreeNode_pugi::setAttribute(const QString name, const QString& value) {
+  if (m_xml_node.attribute(cstr(name)).empty()) {
+    m_xml_node.append_attribute(cstr(name));
+  }
+
   return m_xml_node.attribute(cstr(name)).set_value(cstr(value));
 }
 bool AATreeNode_pugi::setAttribute(const QString name, const double& value) {
+  if (m_xml_node.attribute(cstr(name)).empty()) {
+    m_xml_node.append_attribute(cstr(name));
+  }
+
   return m_xml_node.attribute(cstr(name)).set_value(value);
 }
 bool AATreeNode_pugi::setAttribute(const QString name, const bool& value) {
+  if (m_xml_node.attribute(cstr(name)).empty()) {
+    m_xml_node.append_attribute(cstr(name));
+  }
+
   return m_xml_node.attribute(cstr(name)).set_value(value);
 }
 
@@ -183,17 +198,16 @@ AATreeNode_abstract* AATreeNode_pugi::insertChild(AATreeNode_abstract* child,
   xml_node newXMLNode;
   AATreeNode_pugi* pugiChild = qobject_cast<AATreeNode_pugi*>(child);
   AATreeNode_pugi* insertedPugiChild = new AATreeNode_pugi(this);
-  if (index >= m_children.size()) {
-    index = m_children.size();
 
+  if (index >= m_children.size() || index < 0) {
+    index = m_children.size();
     if (pugiChild->m_xml_node.empty()) {
       newXMLNode = m_xml_node.append_child(name.toStdString().c_str());
+
     } else {
       newXMLNode = m_xml_node.append_copy(pugiChild->m_xml_node);
     }
   } else {
-    if (index < 0)
-      index = 0;
     xml_node sibling =
         m_children.at(index)
             ->m_xml_node;  // strange. Shouldn't the other AATreeNode_pugi
