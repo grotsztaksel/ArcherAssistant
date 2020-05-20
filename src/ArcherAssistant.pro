@@ -21,6 +21,7 @@ SOURCES += \
     application/aacore.cpp \
     application/aadirscanner.cpp \
     application/aaobject.cpp \
+    application/aasessionmanager.cpp \
     application/aasettingsmanager.cpp \
     application/datamanager.cpp \
     application/exifreader.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     application/aacore.h \
     application/aadirscanner.h \
     application/aaobject.h \
+    application/aasessionmanager.h \
     application/aasettingsmanager.h \
     application/datamanager.h \
     application/exifreader.h \
