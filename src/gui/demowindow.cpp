@@ -1,8 +1,8 @@
-#include "mainwindow.h"
+#include "demowindow.h"
 #include <QDebug>
 #include "stdio.h"
 #include "ui_mainwindow.h"
-MainWindow::MainWindow(QWidget* parent)
+DemoWindow::DemoWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
   QSettings* settings =
@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget* parent)
   connect(ui->upButton, SIGNAL(clicked()), this, SLOT(onUpClicked()));
 }
 
-void MainWindow::onLoadClicked() {
+void DemoWindow::onLoadClicked() {
   m_model = new AATreeModel(this);
   QSettings* settings =
       new QSettings(QSettings::UserScope, "Home", "ArcherAssistant", this);
@@ -33,7 +33,7 @@ void MainWindow::onLoadClicked() {
   m_model->setElementHeader("Item");
   ui->treeView->setModel(m_model);
 }
-void MainWindow::onSaveClicked() {
+void DemoWindow::onSaveClicked() {
   QFile file;
   file.setFileName(
       "c:/Users/piotr/Documents/ArcherAssistant/raw_results/config_copy.xml");
@@ -41,27 +41,27 @@ void MainWindow::onSaveClicked() {
   m_model->writeFile(file);
 }
 
-void MainWindow::onAddClicked() {
+void DemoWindow::onAddClicked() {
   auto parentIndex = ui->treeView->currentIndex().parent();
   int currentRow = ui->treeView->currentIndex().row();
   m_model->insertElement("newItem", parentIndex, currentRow + 1);
 }
 
-void MainWindow::onRemoveClicked() {
+void DemoWindow::onRemoveClicked() {
   auto parentIndex = ui->treeView->currentIndex().parent();
   int currentRow = ui->treeView->currentIndex().row();
   m_model->removeRow(currentRow, parentIndex);
 }
 
-void MainWindow::onUpClicked() {
+void DemoWindow::onUpClicked() {
   moveUp(ui->treeView->currentIndex());
 }
 
-void MainWindow::onDownClicked() {
+void DemoWindow::onDownClicked() {
   moveDown(ui->treeView->currentIndex());
 }
 
-bool MainWindow::moveDown(QModelIndex index) {
+bool DemoWindow::moveDown(QModelIndex index) {
   QModelIndex parent = index.parent();
   QModelIndex newParent;
   int newRow = 0;
@@ -81,7 +81,7 @@ bool MainWindow::moveDown(QModelIndex index) {
   return ok;
 }
 
-bool MainWindow::moveUp(QModelIndex index) {
+bool DemoWindow::moveUp(QModelIndex index) {
   QModelIndex parent = index.parent();
   QModelIndex newParent;
   int newRow = 0;
@@ -100,11 +100,11 @@ bool MainWindow::moveUp(QModelIndex index) {
   return ok;
 }
 
-MainWindow::~MainWindow() {
+DemoWindow::~DemoWindow() {
   delete ui;
 }
 
-void MainWindow::connectWithCore(AACore* core) {
+void DemoWindow::connectWithCore(AACore* core) {
   auto headers = QStringList() << "name"
                                << "file"
                                << "DateTime"

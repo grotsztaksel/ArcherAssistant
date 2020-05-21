@@ -50,9 +50,9 @@ HEADERS += \
     model/aatreenode_pugi.h
 
 FORMS += \
+    gui/demowindow.ui \
     gui/sessioncontrolwidget.ui \
-    gui/trainingsessionwindow.ui \
-    gui/mainwindow.ui
+    gui/trainingsessionwindow.ui
 
 INCLUDEPATH += $${PWD}/gui/
 INCLUDEPATH += $${PWD}/application/
