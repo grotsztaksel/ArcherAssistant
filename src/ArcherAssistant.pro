@@ -19,13 +19,16 @@ UI_DIR = ui
 
 SOURCES += \
     application/aacore.cpp \
-    application/aadirscanner.cpp \
+    application/aafilemanager.cpp \
     application/aaobject.cpp \
     application/aasessionmanager.cpp \
     application/aasettingsmanager.cpp \
     application/datamanager.cpp \
     application/exifreader.cpp \
     gui/demowindow.cpp \
+    gui/filemanagerwidget.cpp \
+    gui/filemanagerwindow.cpp \
+    gui/mainwindow.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/trainingsessionwindow.cpp \
     model/aatreemodel.cpp \
@@ -35,13 +38,16 @@ SOURCES += \
 
 HEADERS += \
     application/aacore.h \
-    application/aadirscanner.h \
+    application/aafilemanager.h \
     application/aaobject.h \
     application/aasessionmanager.h \
     application/aasettingsmanager.h \
     application/datamanager.h \
     application/exifreader.h \
     gui/demowindow.h \
+    gui/filemanagerwidget.h \
+    gui/filemanagerwindow.h \
+    gui/mainwindow.h \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
     include/settings.h \
@@ -51,6 +57,9 @@ HEADERS += \
 
 FORMS += \
     gui/demowindow.ui \
+    gui/filemanagerwidget.ui \
+    gui/filemanagerwindow.ui \
+    gui/mainwindow.ui \
     gui/sessioncontrolwidget.ui \
     gui/trainingsessionwindow.ui
 

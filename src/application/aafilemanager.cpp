@@ -1,4 +1,4 @@
-#include "aadirscanner.h"
+#include "aafilemanager.h"
 #include <QDebug>
 #include <QDir>
 #include "exifreader.h"
@@ -7,19 +7,19 @@
 #define NODE_PATH "path"
 #define PARENTNODE_PATH "imagePaths"
 
-AADirScanner::AADirScanner(AAObject* parent, const QStringList args)
+AAFileManager::AAFileManager(AAObject* parent, const QStringList args)
     : AAObject(parent, args) {
   updateConfigFile();
 }
 
-void AADirScanner::setModel(AATreeModel* model) {
+void AAFileManager::setModel(AATreeModel* model) {
   m_model = model;
   m_imgNode = m_model->root()->getChild(PARENTNODE_PATH);
   getPaths();
 }
 
-void AADirScanner::setPath(const QString& path,
-                           AATreeNode_abstract* modelNode) {
+void AAFileManager::setPath(const QString& path,
+                            AATreeNode_abstract* modelNode) {
   AATreeNode_abstract* imgNode = m_model->root()->getChild(PARENTNODE_PATH);
   if (!m_paths.contains(path)) {
     m_paths.append(path);
@@ -30,12 +30,12 @@ void AADirScanner::setPath(const QString& path,
   }
 }
 
-void AADirScanner::updateConfigFile() {
+void AAFileManager::updateConfigFile() {
   QString cfgFile = getSetting(CFG_FILE).toString();
   m_cfgPath = QFileInfo(cfgFile).path();
 }
 
-QMap<QDateTime, QString> AADirScanner::getImagesFiles() {
+QMap<QDateTime, QString> AAFileManager::getImagesFiles() {
   QFileInfoList fileInfos;
   QMap<QDateTime, QString> output;
   ExifReader er;
@@ -55,13 +55,21 @@ QMap<QDateTime, QString> AADirScanner::getImagesFiles() {
   return output;
 }
 
-void AADirScanner::getPaths() {
+QStringList AAFileManager::getPaths() const {
+  return m_paths;
+}
+
+void AAFileManager::updatePaths() {
   for (auto child : m_imgNode->children(NODE_PATH)) {
     QDir imgDir(m_cfgPath + "/" + child->attribute(ATTRIBUTE_DIR).toString());
     if (imgDir.exists()) {
       setPath(imgDir.absolutePath(), child);
     }
   }
+}
+
+AATreeNode_abstract* AAFileManager::getNode() const {
+  return m_imgNode;
 }
 
 // void AADirScanner::updateSessions() {

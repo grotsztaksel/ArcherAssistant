@@ -10,7 +10,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+class DemoWindow;
 }
 QT_END_NAMESPACE
 
@@ -43,7 +43,7 @@ class DemoWindow : public QMainWindow {
   bool moveUp(QModelIndex index);
 
  private:
-  Ui::MainWindow* ui;
+  Ui::DemoWindow* ui;
 
   TrainingSessionWindow* tsWindow;
 

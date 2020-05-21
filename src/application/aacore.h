@@ -11,7 +11,7 @@
 
 #include "aaobject.h"
 
-#include "aadirscanner.h"
+#include "aafilemanager.h"
 #include "aasessionmanager.h"
 #include "aasettingsmanager.h"
 #include "datamanager.h"
@@ -36,6 +36,8 @@ class AACore : public AAObject {
   //!
   AATreeModel* model() const;
 
+  AAFileManager* fileManager() const;
+
  public slots:
 
  private:  // methods
@@ -45,7 +47,7 @@ class AACore : public AAObject {
   void updateSessions();
 
  private:  // variables
-  AADirScanner* dirScanner = nullptr;
+  AAFileManager* m_fileManager = nullptr;
   AATreeModel* m_model = nullptr;
   AASessionManager* m_sessionManager = nullptr;
 

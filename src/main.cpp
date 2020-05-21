@@ -1,5 +1,5 @@
 #include "aacore.h"
-#include "gui/demowindow.h"
+#include "gui/mainwindow.h"
 
 #include <QApplication>
 
@@ -17,9 +17,9 @@ int main(int argc, char* argv[]) {
 
   // Allow the DataManager to work alone, without GUI (batch mode)
   if (gui) {
-    DemoWindow w;
+    MainWindow w;
     w.connectWithCore(&core);
-    w.show();
+    w.showMaximized();
     return a.exec();
   } else {
     return 0;

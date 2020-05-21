@@ -1,5 +1,5 @@
-#ifndef AADIRSCANNER_H
-#define AADIRSCANNER_H
+#ifndef AAFILEMANAGER_H
+#define AAFILEMANAGER_H
 #include "aaobject.h"
 #include "aatreemodel.h"
 
@@ -9,14 +9,22 @@
 //! - sorting the files by appropriate data (image creation date or file
 //!   creation/modification date)
 //!
-class AADirScanner : public AAObject {
+class AAFileManager : public AAObject {
  public:
-  explicit AADirScanner(AAObject* parent = nullptr,
-                        const QStringList args = QStringList());
+  explicit AAFileManager(AAObject* parent = nullptr,
+                         const QStringList args = QStringList());
 
   //! Set the model to work with
   //!
   void setModel(AATreeModel* model);
+
+  //! Return the list of saved paths
+  //!
+  QStringList getPaths() const;
+
+  //! Access the node handled by this manager
+  //!
+  AATreeNode_abstract* getNode() const;
 
  public slots:
 
@@ -39,7 +47,7 @@ class AADirScanner : public AAObject {
   //! From the config file, read the <imagePath> nodes and, assuming that they
   //! define paths relative to the config file, find the paths
   //!
-  void getPaths();
+  void updatePaths();
 
  private:
   //! Config model
@@ -59,4 +67,4 @@ class AADirScanner : public AAObject {
   AATreeNode_abstract* m_imgNode = nullptr;
 };
 
-#endif  // AADIRSCANNER_H
+#endif  // AAFILEMANAGER_H

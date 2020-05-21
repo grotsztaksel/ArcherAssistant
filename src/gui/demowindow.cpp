@@ -1,9 +1,9 @@
 #include "demowindow.h"
 #include <QDebug>
 #include "stdio.h"
-#include "ui_mainwindow.h"
+#include "ui_demowindow.h"
 DemoWindow::DemoWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : QMainWindow(parent), ui(new Ui::DemoWindow) {
   ui->setupUi(this);
   QSettings* settings =
       new QSettings(QSettings::UserScope, "Home", "ArcherAssistant", this);

@@ -10,7 +10,7 @@ void AASessionManager::setModel(AATreeModel* model) {
   m_sessionsNode = m_model->root()->getChild(PARENTNODE_SESSIONS);
 }
 
-void AASessionManager::setDirScanner(AADirScanner* scanner) {
+void AASessionManager::setDirScanner(AAFileManager* scanner) {
   dirScanner = scanner;
 }
 

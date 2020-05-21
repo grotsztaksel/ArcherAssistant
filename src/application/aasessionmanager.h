@@ -1,7 +1,7 @@
 #ifndef AASESSIONMANAGER_H
 #define AASESSIONMANAGER_H
 
-#include "aadirscanner.h"
+#include "aafilemanager.h"
 #include "aaobject.h"
 
 #include "aatreemodel.h"
@@ -11,7 +11,7 @@ class AASessionManager : public AAObject {
   explicit AASessionManager(AAObject* parent = nullptr,
                             const QStringList args = QStringList());
 
-  void setDirScanner(AADirScanner* scanner);
+  void setDirScanner(AAFileManager* scanner);
 
  public slots:
   void setModel(AATreeModel* model);
@@ -27,7 +27,7 @@ class AASessionManager : public AAObject {
 
  private:
   AATreeModel* m_model;
-  AADirScanner* dirScanner;
+  AAFileManager* dirScanner;
   AATreeNode_abstract* m_sessionsNode;
 };
 
