@@ -40,7 +40,7 @@ void AASettingsManager::setupIntervals() {
     settings->setValue(SESSION_INTVL, sessionInterval);
   }
   if (!settings->contains(SESSION_INTVL)) {
-    qint64 seriesInterval = 60 * 4;  // 60 sec times minutes
+    qint64 seriesInterval = 60 * 2;  // 60 sec times minutes
     settings->setValue(SERIES_INTVL, seriesInterval);
   }
 }
