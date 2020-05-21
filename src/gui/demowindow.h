@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef DEMOWINDOW_H
+#define DEMOWINDOW_H
 
 #include <QMainWindow>
 
@@ -14,12 +14,12 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+class DemoWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(QWidget* parent = nullptr);
-  ~MainWindow();
+  DemoWindow(QWidget* parent = nullptr);
+  ~DemoWindow();
 
   void connectWithCore(AACore* core);
 
@@ -49,4 +49,4 @@ class MainWindow : public QMainWindow {
 
   AATreeModel* m_model;
 };
-#endif  // MAINWINDOW_H
+#endif  // DEMOWINDOW_H

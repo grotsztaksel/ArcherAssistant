@@ -25,9 +25,9 @@ SOURCES += \
     application/aasettingsmanager.cpp \
     application/datamanager.cpp \
     application/exifreader.cpp \
+    gui/demowindow.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/trainingsessionwindow.cpp \
-    gui/mainwindow.cpp \
     model/aatreemodel.cpp \
     main.cpp \
     model/aatreenode_abstract.cpp \
@@ -41,9 +41,9 @@ HEADERS += \
     application/aasettingsmanager.h \
     application/datamanager.h \
     application/exifreader.h \
+    gui/demowindow.h \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
-    gui/mainwindow.h \
     include/settings.h \
     model/aatreemodel.h \
     model/aatreenode_abstract.h \
