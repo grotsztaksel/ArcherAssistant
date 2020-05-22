@@ -18,6 +18,14 @@ class MainWindow : public QMainWindow {
  private slots:
   void on_actionGeneral_triggered();
 
+  void on_actionAbout_Qt_triggered();
+
+  void on_actionAbout_triggered();
+
+  void on_actionSave_triggered();
+
+  void on_actionSave_as_triggered();
+
  private:
   Ui::MainWindow* ui;
 
