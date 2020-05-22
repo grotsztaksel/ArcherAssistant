@@ -17,7 +17,11 @@ void AASessionManager::setDirScanner(AAFileManager* scanner) {
 void AASessionManager::updateSessions() {
   // Clear the node first
   QModelIndex index = m_model->index(m_sessionsNode->getIndex(), 0);
-  m_model->removeRows(0, m_model->rowCount(index), index);
+  int rowCount = m_model->rowCount(index);
+  if (rowCount > 0) {
+    m_model->removeRows(0, rowCount, index);
+  }
+
   // Get the file list
   QMap<QDateTime, QString> images = dirScanner->getImagesFiles();
 
