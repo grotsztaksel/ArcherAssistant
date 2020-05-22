@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="4,0,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1,0">
    <item>
     <widget class="QListWidget" name="thumbnailsView">
      <property name="dragDropMode">
@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="pathsListView"/>
+    <widget class="QListView" name="pathsListView"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

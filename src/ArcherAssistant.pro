@@ -29,6 +29,7 @@ SOURCES += \
     gui/filemanagerwidget.cpp \
     gui/filemanagerwindow.cpp \
     gui/mainwindow.cpp \
+    gui/pathviewproxymodel.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/trainingsessionwindow.cpp \
     model/aatreemodel.cpp \
@@ -48,6 +49,7 @@ HEADERS += \
     gui/filemanagerwidget.h \
     gui/filemanagerwindow.h \
     gui/mainwindow.h \
+    gui/pathviewproxymodel.h \
     gui/sessioncontrolwidget.h \
     gui/trainingsessionwindow.h \
     include/settings.h \
