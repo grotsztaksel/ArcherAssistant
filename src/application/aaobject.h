@@ -15,6 +15,13 @@ class AAObject : public QObject {
   explicit AAObject(QObject* parent = nullptr,
                     const QStringList& m_args = QStringList());
 
+  //! A getter function allowing accessing the settings object from, for
+  //! instance, widgets connected to this object
+  //!
+  AAObject* getSettings() const;
+
+  QVariant getSetting(const QString& settingName) const;
+
  protected:
   //! Access the argument from args list, that starts with string arg. If the
   //! argument is exactly the arg (arg has been given), it returns this
@@ -22,8 +29,6 @@ class AAObject : public QObject {
   //! value of the argument. Otherwise, returns an empty QString
   //!
   QString arg(const QString& arg);
-
-  QVariant getSetting(const QString& settingName);
 
  protected:
   //! list of input arguments passed from main as QStringList

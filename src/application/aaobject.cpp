@@ -27,7 +27,11 @@ QString AAObject::arg(const QString& arg) {
   return QString();
 }
 
-QVariant AAObject::getSetting(const QString& settingName) {
+QVariant AAObject::getSetting(const QString& settingName) const {
   AASettingsManager* s = qobject_cast<AASettingsManager*>(m_settings);
   return s->get(settingName);
+}
+
+AAObject* AAObject::getSettings() const {
+  return m_settings;
 }
