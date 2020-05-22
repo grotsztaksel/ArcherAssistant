@@ -38,6 +38,8 @@ class AACore : public AAObject {
 
   AAFileManager* fileManager() const;
 
+  AASettingsManager* settingsManager();
+
  public slots:
 
  private:  // methods

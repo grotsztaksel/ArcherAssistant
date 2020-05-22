@@ -32,3 +32,7 @@ AATreeModel* AACore::model() const {
 AAFileManager* AACore::fileManager() const {
   return m_fileManager;
 }
+
+AASettingsManager* AACore::settingsManager() {
+  return qobject_cast<AASettingsManager*>(m_settings);
+}
