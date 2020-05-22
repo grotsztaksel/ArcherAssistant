@@ -31,7 +31,13 @@ class FileManagerWidget : public QWidget {
   //! filter string for the selected path. If more than one path is selected,
   //! combine their filters and display them, separated by semi-colons.
   //!
-  void updateLineEdit(const QItemSelection& selected);
+  void updateLineEdit();
+
+  void updateThumbnails();
+
+  //! Pass data (filtering string) to the currently selected paths
+  //!
+  void onEditingFinished();
 
   //! Reaction to the addButton click
   //!
