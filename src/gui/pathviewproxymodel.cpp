@@ -2,7 +2,9 @@
 
 #include "aafilemanager.h"
 
+#include <QColor>
 #include <QDebug>
+#include <QDir>
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  *
  *  Private implementation of a Proxy model
@@ -41,6 +43,14 @@ QVariant pathViewModel::data(const QModelIndex& index, int role) const {
     auto node = getSourceNode(index);
     if (node) {
       return node->attribute("dir");
+    }
+  } else if (role == Qt::ForegroundRole) {
+    auto node = getSourceNode(index);
+    if (node) {
+      QDir dir(node->attribute("dir").toString());
+      if (!dir.exists()) {
+        return QColor(Qt::gray);
+      }
     }
   }
   return QVariant();
