@@ -4,6 +4,8 @@
 #include "ui_filemanagerwidget.h"
 
 #include <QDebug>
+#include <QFileDialog>
+#include <QFileInfo>
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *\
 |                                                       |
@@ -25,7 +27,12 @@ FileManagerWidget::~FileManagerWidget() {
 
 void FileManagerWidget::connectFileManager(AAFileManager* fManager) {
   m_manager = fManager;
-  //  ui->pathsListView->setModel(m_manager->model());
+
+  connect(ui->addPathButton, SIGNAL(clicked()), this,
+          SLOT(onAddButtonClicked()));
+
+  QFileInfo cfgFileInfo(fManager->getSetting(CFG_FILE).toString());
+  lastDir = cfgFileInfo.filePath();
 
   updatePaths();
 }
@@ -34,19 +41,25 @@ void FileManagerWidget::updatePaths() const {
   pathViewModel* proxyModel =
       qobject_cast<pathViewModel*>(ui->pathsListView->model());
   AATreeModel* model = m_manager->model();
-  QModelIndex rootIndex = model->indexFromNode(m_manager->getNode());
-  QModelIndex lastIndex;
-  int rc = model->rowCount(rootIndex);
-  if (rc > 0) {
-    lastIndex = model->index(rc - 1, 0, rootIndex);
-  } else {
-    lastIndex = rootIndex;
-  }
+  QModelIndex rootIndex = m_manager->getNodeIndex();
+
   proxyModel->setSourceModel(model);
-  //  qDebug() << m_manager->model()->rowCount() << proxyModel->rowCount();
+
   ui->pathsListView->setRootIndex(proxyModel->mapFromSource(rootIndex));
-  //  emit m_manager->model()->dataChanged(rootIndex, lastIndex);
-  //  for (auto child : m_manager->getNode()->children("path")) {
-  //    ui->pathsListView->addItem(child->attribute("dir").toString());
-  //  }
+}
+
+void FileManagerWidget::updateLineEdit() {}
+
+void FileManagerWidget::onAddButtonClicked() {
+  QString newDir = QFileDialog::getExistingDirectory(
+      this, tr("Add a data directory"), lastDir);
+
+  if (m_manager->getPaths().contains(newDir)) {
+    return;
+  }
+
+  QModelIndex newIndex =
+      m_manager->model()->insertElement("path", m_manager->getNodeIndex());
+  AATreeNode_abstract* newNode = m_manager->model()->nodeFromIndex(newIndex);
+  newNode->setAttribute("dir", newDir);
 }
