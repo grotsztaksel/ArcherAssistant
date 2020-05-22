@@ -11,7 +11,10 @@ AASettingsManager::AASettingsManager(AAObject* parent, const QStringList args)
 }
 
 QVariant AASettingsManager::get(const QString& name) {
-  return settings->value(name);
+  if (settings->contains(name)) {
+    return settings->value(name);
+  }
+  return QVariant();
 }
 
 void AASettingsManager::setUp() {
@@ -19,15 +22,19 @@ void AASettingsManager::setUp() {
   setupIntervals();
 }
 
-void AASettingsManager::setupConfigFile() {
-  for (QString arg : m_args) {
-    if (arg.startsWith("cfg=")) {
-      QString configFileName = arg.mid(4);
-      if (QFile::exists(configFileName)) {
-        settings->setValue(CFG_FILE, configFileName);
-        break;
+void AASettingsManager::setupConfigFile(QString filename) {
+  if (filename.isEmpty()) {
+    for (QString arg : m_args) {
+      if (arg.startsWith("cfg=")) {
+        QString configFileName = arg.mid(4);
+        if (QFile::exists(configFileName)) {
+          settings->setValue(CFG_FILE, configFileName);
+          break;
+        }
       }
     }
+  } else {
+    settings->setValue(CFG_FILE, filename);
   }
   if (!settings->contains(CFG_FILE)) {
     settings->setValue(CFG_FILE, QString("config.xml"));

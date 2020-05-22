@@ -21,7 +21,7 @@ class AASettingsManager : public AAObject {
   //! settings. If the argument is not present, use the default one, saved in
   //! settings
   //!
-  void setupConfigFile();
+  void setupConfigFile(QString filename = QString());
 
   //! set up default time intervals
   //!
