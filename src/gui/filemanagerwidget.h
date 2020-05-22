@@ -2,6 +2,7 @@
 #define FILEMANAGERWIDGET_H
 
 #include <aacore.h>
+#include <QItemSelection>
 #include <QWidget>
 
 namespace Ui {
@@ -30,9 +31,22 @@ class FileManagerWidget : public QWidget {
   //! filter string for the selected path. If more than one path is selected,
   //! combine their filters and display them, separated by semi-colons.
   //!
-  void updateLineEdit();
+  void updateLineEdit(const QItemSelection& selected);
 
+  //! Reaction to the addButton click
+  //!
   void onAddButtonClicked();
+
+  //! Actions on change of selection
+  //! - update the LineEdit
+  //! - update the thumbnails
+  void onSelectionChanged(const QItemSelection& selected,
+                          const QItemSelection& deselected);
+
+  bool eventFilter(QObject* obj, QEvent* event) override;
+
+  void deletePath();
+  void deleteImages();
 
  private:
   Ui::FileManagerWidget* ui;
