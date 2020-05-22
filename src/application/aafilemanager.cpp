@@ -20,14 +20,15 @@ void AAFileManager::setModel(AATreeModel* model) {
 
 void AAFileManager::setPath(const QString& path,
                             AATreeNode_abstract* modelNode) {
-  AATreeNode_abstract* imgNode = m_model->root()->getChild(PARENTNODE_PATH);
-  if (!m_paths.contains(path)) {
-    m_paths.append(path);
-    if (modelNode && !imgNode->children().contains(modelNode)) {
-      auto newPath = imgNode->addChild(NODE_PATH);
-      newPath->setAttribute(ATTRIBUTE_DIR, path);
-    }
+  if (m_paths.contains(path)) {
+    return;
   }
+
+  QModelIndex newIndex = m_model->insertElement(NODE_PATH, getNodeIndex());
+  AATreeNode_abstract* newNode = m_model->nodeFromIndex(newIndex);
+  newNode->setAttribute(ATTRIBUTE_DIR, path);
+
+  m_paths.append(path);
 }
 
 void AAFileManager::updateConfigFile() {

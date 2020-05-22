@@ -54,12 +54,5 @@ void FileManagerWidget::onAddButtonClicked() {
   QString newDir = QFileDialog::getExistingDirectory(
       this, tr("Add a data directory"), lastDir);
 
-  if (m_manager->getPaths().contains(newDir)) {
-    return;
-  }
-
-  QModelIndex newIndex =
-      m_manager->model()->insertElement("path", m_manager->getNodeIndex());
-  AATreeNode_abstract* newNode = m_manager->model()->nodeFromIndex(newIndex);
-  newNode->setAttribute("dir", newDir);
+  m_manager->setPath(newDir);
 }
