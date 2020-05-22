@@ -38,15 +38,28 @@ int pathViewModel::columnCount(const QModelIndex& parent) const {
 
 QVariant pathViewModel::data(const QModelIndex& index, int role) const {
   if (role == Qt::DisplayRole) {
-    auto model = qobject_cast<AATreeModel*>(sourceModel());
-    if (!model) {
-      return QVariant();
-    }
-    AATreeNode_abstract* node = model->nodeFromIndex(mapToSource(index));
-
+    auto node = getSourceNode(index);
     if (node) {
       return node->attribute("dir");
     }
   }
   return QVariant();
+}
+
+AATreeNode_abstract* pathViewModel::getSourceNode(
+    const QModelIndex& index) const {
+  QModelIndex idx;
+  if (index.model() == this) {
+    idx = mapToSource(index);
+  } else if (index.model() == sourceModel()) {
+    idx = index;
+  } else {
+    return nullptr;
+  }
+  AATreeModel* model = qobject_cast<AATreeModel*>(sourceModel());
+  if (!model) {
+    return nullptr;
+  }
+  AATreeNode_abstract* node = model->nodeFromIndex(mapToSource(index));
+  return node;
 }

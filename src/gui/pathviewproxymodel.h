@@ -2,6 +2,7 @@
 #define PATHVIEWPROXYMODEL_H
 
 #include "QSortFIlterProxyModel.h"
+#include "aatreemodel.h"
 
 class pathViewModel : public QSortFilterProxyModel {
   Q_OBJECT
@@ -14,6 +15,9 @@ class pathViewModel : public QSortFilterProxyModel {
 
   QVariant data(const QModelIndex& index,
                 int role = Qt::DisplayRole) const override;
+
+ private:
+  AATreeNode_abstract* getSourceNode(const QModelIndex& index) const;
 
  private:
   const QString m_parentName;
