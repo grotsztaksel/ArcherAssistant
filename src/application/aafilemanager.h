@@ -34,6 +34,10 @@ class AAFileManager : public AAObject {
   //!
   static QString getNodeName();
 
+  //! Get the name of the node handled by this manager
+  //!
+  QModelIndex getNodeIndex();
+
  public slots:
 
   //! Set a path to look for images. if the path already available, ignore. If

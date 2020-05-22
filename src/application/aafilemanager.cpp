@@ -23,7 +23,7 @@ void AAFileManager::setPath(const QString& path,
   AATreeNode_abstract* imgNode = m_model->root()->getChild(PARENTNODE_PATH);
   if (!m_paths.contains(path)) {
     m_paths.append(path);
-    if (!imgNode->children().contains(modelNode)) {
+    if (modelNode && !imgNode->children().contains(modelNode)) {
       auto newPath = imgNode->addChild(NODE_PATH);
       newPath->setAttribute(ATTRIBUTE_DIR, path);
     }
@@ -78,6 +78,10 @@ AATreeNode_abstract* AAFileManager::getNode() const {
 
 QString AAFileManager::getNodeName() {
   return QString(PARENTNODE_PATH);
+}
+
+QModelIndex AAFileManager::getNodeIndex() {
+  return m_model->indexFromNode(m_imgNode);
 }
 
 // void AADirScanner::updateSessions() {
