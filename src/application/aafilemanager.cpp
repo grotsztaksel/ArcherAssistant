@@ -68,8 +68,16 @@ void AAFileManager::updatePaths() {
   }
 }
 
+AATreeModel* AAFileManager::model() const {
+  return m_model;
+}
+
 AATreeNode_abstract* AAFileManager::getNode() const {
   return m_imgNode;
+}
+
+QString AAFileManager::getNodeName() {
+  return QString(PARENTNODE_PATH);
 }
 
 // void AADirScanner::updateSessions() {

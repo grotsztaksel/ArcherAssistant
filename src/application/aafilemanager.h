@@ -18,6 +18,10 @@ class AAFileManager : public AAObject {
   //!
   void setModel(AATreeModel* model);
 
+  //! Access the model
+  //!
+  AATreeModel* model() const;
+
   //! Return the list of saved paths
   //!
   QStringList getPaths() const;
@@ -25,6 +29,10 @@ class AAFileManager : public AAObject {
   //! Access the node handled by this manager
   //!
   AATreeNode_abstract* getNode() const;
+
+  //! Get the name of the node handled by this manager
+  //!
+  static QString getNodeName();
 
  public slots:
 
