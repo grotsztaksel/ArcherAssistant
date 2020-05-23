@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QImageReader>
 #include <QMessageBox>
 #include <QSet>
 
@@ -21,6 +22,7 @@ FileManagerWidget::FileManagerWidget(QWidget* parent)
 
   auto pathProxyModel = new pathViewModel(this);
   ui->pathsListView->setModel(pathProxyModel);
+  ui->progressBar->hide();
 }
 
 FileManagerWidget::~FileManagerWidget() {
@@ -104,12 +106,20 @@ void FileManagerWidget::updateThumbnails() {
     QStringList filters = filter.split(QRegExp("; +"));
     fileInfos << dir.entryInfoList(filters, QDir::Files, QDir::Time);
   }
+  ui->progressBar->setMaximum(fileInfos.size());
+  ui->progressBar->show();
+  int i = 1;
   for (QFileInfo info : fileInfos) {
     QString path = info.filePath();
     QString name = info.fileName();
-    QListWidgetItem* thumb = new QListWidgetItem(name, ui->thumbnailsView);
+    ui->progressBar->setValue(i++);
+    QImageReader reader(path);
+    QListWidgetItem* thumb = new QListWidgetItem(
+        QIcon(QPixmap::fromImage(reader.read())), name, ui->thumbnailsView);
+    thumb->setToolTip(info.filePath());
     ui->thumbnailsView->addItem(thumb);
   }
+  ui->progressBar->hide();
 }
 
 void FileManagerWidget::onEditingFinished() {
@@ -198,8 +208,8 @@ void FileManagerWidget::deleteImages() {
   }
 
   for (auto item : ui->thumbnailsView->selectedItems()) {
-    QString fullPath = item->statusTip();
-    ui->thumbnailsView->removeItemWidget(item);
+    QString fullPath = item->toolTip();
     QFile::remove(fullPath);
+    ui->thumbnailsView->removeItemWidget(item);
   }
 }
