@@ -24,7 +24,7 @@ class AAFileManager : public AAObject {
 
   //! Return the list of saved paths
   //!
-  QStringList getPaths() const;
+  QStringList getPaths();
 
   //! Access the node handled by this manager
   //!
