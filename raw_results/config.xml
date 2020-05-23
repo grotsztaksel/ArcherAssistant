@@ -57,28 +57,8 @@
   <imagePaths>
     <path id="default" filter="*.jpg; *.png" dir="images" />
     <path id="side" filter="*.jpg; *.png" dir="someOther" />
-    <path id="side" filter="*.jpg; *.png" dir="er" />
+    <path dir="C:/Users/piotr/Documents/ArcherAssistant/raw_results/images" filter="*.jpg; *.png" />
   </imagePaths>
-  <sessions dummy="true" target="FITA Indoor 60cm 5 rings">
-    <session archer="Piotr" date="" time="">
-      <images>
-        <image name="pic1.jpg" width="9400" height="3200">
-          <corner xpx="720" ypx="230" />
-          <corner xpx="6234" ypx="402" />
-          <corner xpx="5876" ypx="1658" />
-          <corner xpx="639" ypx="1987" />
-        </image>
-        <image name="pic2.jpg" />
-      </images>
-      <series>
-        <hit x="4.7" y="22.4" />
-        <hit x="5.7" y="22.4" />
-        <hit x="7.7" y="22.4" />
-        <hit x="2.7" y="22.4" />
-        <hit x="4.3" y="22.4" />
-        <hit x="1.7" y="22.4" />
-      </series>
-    </session>
-  </sessions>
+  <sessions dummy="true" target="FITA Indoor 60cm 5 rings" />
   <excluded_images />
 </ArcherAssistant>
