@@ -28,6 +28,7 @@ SOURCES += \
     gui/demowindow.cpp \
     gui/filemanagerwidget.cpp \
     gui/filemanagerwindow.cpp \
+    gui/maingraphicscene.cpp \
     gui/mainmodeltreeview.cpp \
     gui/mainwindow.cpp \
     gui/pathviewproxymodel.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     gui/demowindow.h \
     gui/filemanagerwidget.h \
     gui/filemanagerwindow.h \
+    gui/maingraphicscene.h \
     gui/mainmodeltreeview.h \
     gui/mainwindow.h \
     gui/pathviewproxymodel.h \
