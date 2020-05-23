@@ -19,6 +19,7 @@ MainWindow::~MainWindow() {
 void MainWindow::connectWithCore(AACore* core) {
   m_core = core;
   m_model = core->model();
+  ui->treeView->setModel(m_model);
 }
 
 void MainWindow::on_actionGeneral_triggered() {
