@@ -11,6 +11,10 @@ class AATreeModel : public QAbstractItemModel {
  public:
   explicit AATreeModel(QObject* parent = nullptr);
   ~AATreeModel();
+ signals:
+  void fileOpened();
+
+ public:
   /*--------------------------------------*
    *                                      *
    *     QAbstractItemModel overrides     *

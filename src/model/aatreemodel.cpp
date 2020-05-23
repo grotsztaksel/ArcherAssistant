@@ -175,7 +175,11 @@ QModelIndex AATreeModel::insertElement(QString name,
 }
 
 bool AATreeModel::readFile(const QFile& file) {
-  return m_rootNode->readFromFile(file);
+  bool ok = m_rootNode->readFromFile(file);
+  if (ok) {
+    emit fileOpened();
+  }
+  return ok;
 }
 bool AATreeModel::writeFile(const QFile& file) {
   return m_rootNode->writeToFile(file);
