@@ -10,6 +10,9 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+
+  m_scene = new MainGraphicScene(this);
+  ui->graphicsView->setScene(m_scene);
 }
 
 MainWindow::~MainWindow() {
@@ -20,6 +23,10 @@ void MainWindow::connectWithCore(AACore* core) {
   m_core = core;
   m_model = core->model();
   ui->treeView->setModel(m_model);
+  m_scene->setModel(m_model);
+  connect(ui->treeView->selectionModel(),
+          SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
+          SLOT(onSelectionChanged(QItemSelection, QItemSelection)));
 }
 
 void MainWindow::on_actionGeneral_triggered() {
@@ -51,4 +58,21 @@ void MainWindow::on_actionSave_as_triggered() {
 
   m_core->settingsManager()->setupConfigFile(filename);
   on_actionSave_triggered();
+}
+
+void MainWindow::onSelectionChanged(const QItemSelection& selected,
+                                    const QItemSelection& deselected) {
+  // Pass information to the scene, if one item is selected, and it is a series
+  // or image
+
+  if (selected.size() != 1) {
+    return;
+  }
+
+  for (QModelIndex index : selected.indexes()) {
+    auto node = m_model->nodeFromIndex(index);
+    if (node->name() == "image") {
+      m_scene->showImage(node->attribute("file").toString());
+    }
+  }
 }
