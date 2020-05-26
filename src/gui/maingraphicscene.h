@@ -3,6 +3,7 @@
 
 #include <aatreemodel.h>
 #include <QGraphicsScene>
+#include <QGraphicsSceneWheelEvent>
 
 class MainGraphicScene : public QGraphicsScene {
   Q_OBJECT
@@ -12,10 +13,11 @@ class MainGraphicScene : public QGraphicsScene {
   void setModel(AATreeModel* model);
 
   AATreeModel* model() const;
+ signals:
 
  public slots:
-  void showImage(const QString& path);
- signals:
+  void switchImage(const QString& path);
+
  private:
   AATreeModel* m_model;
 };

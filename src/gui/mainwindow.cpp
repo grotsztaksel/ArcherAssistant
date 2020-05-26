@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget* parent)
 
   m_scene = new MainGraphicScene(this);
   ui->graphicsView->setScene(m_scene);
+  m_scene->installEventFilter(ui->graphicsView);
+  connect(ui->fitButton, SIGNAL(clicked()), ui->graphicsView, SLOT(fitView()));
 }
 
 MainWindow::~MainWindow() {
@@ -72,7 +74,7 @@ void MainWindow::onSelectionChanged(const QItemSelection& selected,
   for (QModelIndex index : selected.indexes()) {
     auto node = m_model->nodeFromIndex(index);
     if (node->name() == "image") {
-      m_scene->showImage(node->attribute("file").toString());
+      m_scene->switchImage(node->attribute("file").toString());
     }
   }
 }
