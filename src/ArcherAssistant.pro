@@ -34,11 +34,13 @@ SOURCES += \
     gui/mainwindow.cpp \
     gui/pathviewproxymodel.cpp \
     gui/sessioncontrolwidget.cpp \
+    gui/settingswindow.cpp \
     gui/trainingsessionwindow.cpp \
     model/aatreemodel.cpp \
     main.cpp \
     model/aatreenode_abstract.cpp \
-    model/aatreenode_pugi.cpp
+    model/aatreenode_pugi.cpp \
+    widgets/hourminsecwidget.cpp
 
 HEADERS += \
     application/aacore.h \
@@ -57,11 +59,13 @@ HEADERS += \
     gui/mainwindow.h \
     gui/pathviewproxymodel.h \
     gui/sessioncontrolwidget.h \
+    gui/settingswindow.h \
     gui/trainingsessionwindow.h \
     include/settings.h \
     model/aatreemodel.h \
     model/aatreenode_abstract.h \
-    model/aatreenode_pugi.h
+    model/aatreenode_pugi.h \
+    widgets/hourminsecwidget.h
 
 FORMS += \
     gui/demowindow.ui \
@@ -69,9 +73,12 @@ FORMS += \
     gui/filemanagerwindow.ui \
     gui/mainwindow.ui \
     gui/sessioncontrolwidget.ui \
-    gui/trainingsessionwindow.ui
+    gui/settingswindow.ui \
+    gui/trainingsessionwindow.ui \
+    widgets/hourminsecwidget.ui
 
 INCLUDEPATH += $${PWD}/gui/
+INCLUDEPATH += $${PWD}/widgets/
 INCLUDEPATH += $${PWD}/application/
 INCLUDEPATH += $${PWD}/model/
 INCLUDEPATH += $${PWD}/include/

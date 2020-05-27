@@ -30,6 +30,8 @@ class MainWindow : public QMainWindow {
   void onSelectionChanged(const QItemSelection& selected,
                           const QItemSelection& deselected);
 
+  void on_actionProgram_settings_triggered();
+
  private:
   Ui::MainWindow* ui;
 

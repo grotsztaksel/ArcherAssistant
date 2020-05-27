@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "filemanagerwindow.h"
+#include "settingswindow.h"
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
@@ -77,4 +78,9 @@ void MainWindow::onSelectionChanged(const QItemSelection& selected,
       m_scene->switchImage(node->attribute("file").toString());
     }
   }
+}
+
+void MainWindow::on_actionProgram_settings_triggered() {
+  SettingsWindow window(m_core->settingsManager(), this);
+  window.exec();
 }
