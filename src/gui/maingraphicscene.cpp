@@ -3,11 +3,11 @@
 #include <QDebug>
 #include <QGraphicsItem>
 #include <QPixmap>
+
+MainGraphicScene::MainGraphicScene(QObject* parent) : QGraphicsScene(parent) {}
 void MainGraphicScene::setModel(AATreeModel* model) {
   m_model = model;
 }
-
-MainGraphicScene::MainGraphicScene(QObject* parent) : QGraphicsScene(parent) {}
 
 AATreeModel* MainGraphicScene::model() const {
   return m_model;
