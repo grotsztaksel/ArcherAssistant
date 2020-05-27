@@ -15,6 +15,7 @@ class MainGraphicsView : public QGraphicsView {
 
  protected:
   bool eventFilter(QObject* watched, QEvent* event) override;
+
   void zoom(int delta);
 };
 

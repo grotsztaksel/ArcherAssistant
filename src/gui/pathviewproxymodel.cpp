@@ -28,11 +28,6 @@ bool pathViewModel::filterAcceptsRow(int source_row,
   return (model->nodeFromIndex(source_parent)->name() == m_parentName);
 }
 
-// QModelIndex pathViewModel::parent(const QModelIndex& index) {
-//  Q_UNUSED(index);
-//  return QModelIndex();
-//}
-
 int pathViewModel::columnCount(const QModelIndex& parent) const {
   Q_UNUSED(parent);
   return 1;
