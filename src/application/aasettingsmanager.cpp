@@ -10,11 +10,19 @@ AASettingsManager::AASettingsManager(AAObject* parent, const QStringList args)
   setUp();
 }
 
-QVariant AASettingsManager::get(const QString& name) {
+QVariant AASettingsManager::get(const QString& name) const {
   if (settings->contains(name)) {
     return settings->value(name);
   }
   return QVariant();
+}
+
+bool AASettingsManager::set(const QString& name, const QVariant& value) const {
+  if (!settings->contains(name)) {
+    return false;
+  }
+  settings->setValue(name, value);
+  return true;
 }
 
 void AASettingsManager::setUp() {
@@ -59,10 +67,10 @@ void AASettingsManager::setupImageFIleExtensions() {
   }
 }
 
-qint64 AASettingsManager::getSessionInterval() {
+qint64 AASettingsManager::getSessionInterval() const {
   return settings->value(SERIES_INTVL).toInt();
 }
 
-qint64 AASettingsManager::getSeriesInterval() {
+qint64 AASettingsManager::getSeriesInterval() const {
   return settings->value(SERIES_INTVL).toInt();
 }

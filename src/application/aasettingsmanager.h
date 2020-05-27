@@ -14,9 +14,11 @@ class AASettingsManager : public AAObject {
   explicit AASettingsManager(AAObject* parent = nullptr,
                              const QStringList args = QStringList());
 
-  QVariant get(const QString& name);
+  QVariant get(const QString& name) const;
+  bool set(const QString& name, const QVariant& value) const;
 
  public slots:
+
   //! take the input argument xml="<filename>" and save it into the program
   //! settings. If the argument is not present, use the default one, saved in
   //! settings
@@ -38,7 +40,7 @@ class AASettingsManager : public AAObject {
   //! same session. Otherwise, finding an image created later triggers creation
   //! of a new session node
   //!
-  qint64 getSessionInterval();
+  qint64 getSessionInterval() const;
 
   //! \anchor seriesInterval get the difference between shooting series (in
   //! seconds). If the two images were created within interval shorter than this
@@ -47,7 +49,7 @@ class AASettingsManager : public AAObject {
   //! arrows better). Otherwise, finding an image created later triggers
   //! creation of a new series node
   //!
-  qint64 getSeriesInterval();
+  qint64 getSeriesInterval() const;
 
  protected:
   //! create default settings, if they are absent
