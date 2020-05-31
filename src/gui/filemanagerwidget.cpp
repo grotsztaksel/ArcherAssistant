@@ -109,8 +109,10 @@ void FileManagerWidget::updateThumbnails() {
   ui->progressBar->setMaximum(fileInfos.size());
   ui->progressBar->show();
   int i = 1;
+  int j = 0;
   for (QFileInfo info : fileInfos) {
     QString path = info.filePath();
+    j++;
     QString name = info.fileName();
     ui->progressBar->setValue(i++);
     QImageReader reader(path);
@@ -118,6 +120,9 @@ void FileManagerWidget::updateThumbnails() {
         QIcon(QPixmap::fromImage(reader.read())), name, ui->thumbnailsView);
     thumb->setToolTip(info.filePath());
     ui->thumbnailsView->addItem(thumb);
+    if (j > 10) {
+      break;
+    }
   }
   ui->progressBar->hide();
 }

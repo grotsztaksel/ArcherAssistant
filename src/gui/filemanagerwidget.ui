@@ -25,6 +25,9 @@
        <height>150</height>
       </size>
      </property>
+     <property name="isWrapping" stdset="0">
+      <bool>false</bool>
+     </property>
      <property name="resizeMode">
       <enum>QListView::Adjust</enum>
      </property>
