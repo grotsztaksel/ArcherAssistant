@@ -13,17 +13,24 @@ class AASessionManager : public AAObject {
 
   void setDirScanner(AAFileManager* scanner);
 
+  QDateTime getDateTime(AATreeNode_abstract* node) const;
+
  public slots:
   void setModel(AATreeModel* model);
-  void updateSessions();
+  void updateSessions(const QDateTime& from = QDateTime(),
+                      const QDateTime& to = QDateTime());
 
-  AATreeNode_abstract* createNewSession(const QDateTime& dt);
+  QDateTime getLastResult() const;
+  AATreeNode_abstract* createNewSession(const int& after, const QDateTime& dt);
   AATreeNode_abstract* createNewSeries(AATreeNode_abstract* session,
                                        const QDateTime& dt);
 
   AATreeNode_abstract* appendImage(AATreeNode_abstract* series,
                                    const QDateTime& dt,
                                    QString imageName);
+
+ private:
+  QDateTime earliestDateTime() const;
 
  private:
   AATreeModel* m_model;
