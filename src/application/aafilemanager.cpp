@@ -58,7 +58,7 @@ QMap<QDateTime, QString> AAFileManager::getImagesFiles() {
 
 QStringList AAFileManager::getPaths() {
   for (auto child : m_imgNode->children(NODE_PATH)) {
-    QDir imgDir(m_cfgPath + "/" + child->attribute(ATTRIBUTE_DIR).toString());
+    QDir imgDir(child->attribute(ATTRIBUTE_DIR).toString());
     if (imgDir.exists()) {
       setPath(imgDir.absolutePath(), child);
     }
