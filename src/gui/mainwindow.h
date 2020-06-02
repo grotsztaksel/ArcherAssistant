@@ -4,7 +4,7 @@
 #include <QItemSelection>
 #include <QMainWindow>
 #include "aacore.h"
-#include "maingraphicscene.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -36,9 +36,7 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow* ui;
 
   AATreeModel* m_model;
-
   AACore* m_core;
-  MainGraphicScene* m_scene;
 };
 
 #endif  // MAINWINDOW_H

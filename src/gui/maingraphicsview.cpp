@@ -22,6 +22,7 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
   if (watched != scene()) {
     return false;
   }
+  hit.expectingRelease = false;
   switch (event->type()) {
     case QEvent::GraphicsSceneWheel: {
       // Zoom
@@ -60,21 +61,33 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
     case QEvent::GraphicsSceneMousePress: {
       QGraphicsSceneMouseEvent* mouseEvent =
           static_cast<QGraphicsSceneMouseEvent*>(event);
-      if (mouseEvent->buttons() == Qt::MidButton) {
-        // Pan the view
-        setDragMode(QGraphicsView::ScrollHandDrag);
-        // emit a left mouse click (the default button for the drag mode)
-        // Thank you Gordon Boer(Legor)
-        // (https://gist.github.com/Legor/a00760b6d7af32c01357fb7ff76ad86a)
-        QMouseEvent* pressEvent = new QMouseEvent(
-            QEvent::GraphicsSceneMousePress,
-            mapFromScene(mouseEvent->scenePos()), Qt::MouseButton::LeftButton,
-            Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
-        mousePressEvent(pressEvent);
+      switch (mouseEvent->buttons()) {
+        case Qt::LeftButton: {
+          qDebug() << "Pressed";
+          hit.expectingRelease = true;
+          hit.leftClickPos = mouseEvent->screenPos();
+          break;
+        }
+        case Qt::MidButton: {
+          // Pan the view
+          setDragMode(QGraphicsView::ScrollHandDrag);
+          // emit a left mouse click (the default button for the drag mode)
+          // Thank you Gordon Boer(Legor)
+          // (https://gist.github.com/Legor/a00760b6d7af32c01357fb7ff76ad86a)
+          QMouseEvent* pressEvent = new QMouseEvent(
+              QEvent::GraphicsSceneMousePress,
+              mapFromScene(mouseEvent->scenePos()), Qt::MouseButton::LeftButton,
+              Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
+          mousePressEvent(pressEvent);
+          break;
+        } break;
       }
       break;
     }
     case QEvent::GraphicsSceneMouseRelease: {
+      QGraphicsSceneMouseEvent* mouseEvent =
+          static_cast<QGraphicsSceneMouseEvent*>(event);
+      qDebug() << "Released!" << mouseEvent->screenPos();
       setDragMode(QGraphicsView::RubberBandDrag);
       break;
     }

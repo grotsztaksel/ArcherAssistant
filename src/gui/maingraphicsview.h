@@ -3,6 +3,11 @@
 
 #include <QGraphicsView>
 
+struct hitMonitor {
+  bool expectingRelease;
+  QPoint leftClickPos;
+};
+
 class MainGraphicsView : public QGraphicsView {
   Q_OBJECT
  public:
@@ -17,6 +22,9 @@ class MainGraphicsView : public QGraphicsView {
   bool eventFilter(QObject* watched, QEvent* event) override;
 
   void zoom(int delta);
+
+ protected:
+  hitMonitor hit;
 };
 
 #endif  // MAINGRAPHICSVIEW_H

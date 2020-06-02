@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "filemanagerwindow.h"
+#include "seriesinputwidget.h"
 #include "settingswindow.h"
 #include "ui_mainwindow.h"
 
@@ -11,11 +12,6 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-
-  m_scene = new MainGraphicScene(this);
-  ui->graphicsView->setScene(m_scene);
-  m_scene->installEventFilter(ui->graphicsView);
-  connect(ui->fitButton, SIGNAL(clicked()), ui->graphicsView, SLOT(fitView()));
 }
 
 MainWindow::~MainWindow() {
@@ -26,7 +22,7 @@ void MainWindow::connectWithCore(AACore* core) {
   m_core = core;
   m_model = core->model();
   ui->treeView->setModel(m_model);
-  m_scene->setModel(m_model);
+
   connect(ui->treeView->selectionModel(),
           SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
           SLOT(onSelectionChanged(QItemSelection, QItemSelection)));
@@ -74,8 +70,9 @@ void MainWindow::onSelectionChanged(const QItemSelection& selected,
 
   for (QModelIndex index : selected.indexes()) {
     auto node = m_model->nodeFromIndex(index);
-    if (node->name() == "image") {
-      m_scene->switchImage(node->attribute("file").toString());
+    if (node->name() == "series") {
+      setCentralWidget(new SeriesInputWidget(m_model, node,
+                                             m_core->settingsManager(), this));
     }
   }
 }

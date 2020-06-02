@@ -33,6 +33,7 @@ SOURCES += \
     gui/mainmodeltreeview.cpp \
     gui/mainwindow.cpp \
     gui/pathviewproxymodel.cpp \
+    gui/seriesinputwidget.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/settingswindow.cpp \
     gui/trainingsessionwindow.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     gui/mainmodeltreeview.h \
     gui/mainwindow.h \
     gui/pathviewproxymodel.h \
+    gui/seriesinputwidget.h \
     gui/sessioncontrolwidget.h \
     gui/settingswindow.h \
     gui/trainingsessionwindow.h \
@@ -72,6 +74,7 @@ FORMS += \
     gui/filemanagerwidget.ui \
     gui/filemanagerwindow.ui \
     gui/mainwindow.ui \
+    gui/seriesinputwidget.ui \
     gui/sessioncontrolwidget.ui \
     gui/settingswindow.ui \
     gui/trainingsessionwindow.ui \

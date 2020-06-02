@@ -16,134 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="fitButton">
-        <property name="text">
-         <string>Fit</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBox">
-        <property name="toolTip">
-         <string>try finding arrow nocks (maybe some are burrowed deeply in the target and are hard to spot at first glance).
-Use the button to select color
-(or, in future, use the information from arrow data)</string>
-        </property>
-        <property name="text">
-         <string>highlight nocks</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton">
-        <property name="toolTip">
-         <string>Pick the nock color</string>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_2">
-        <property name="toolTip">
-         <string>delete this image</string>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>prev. series</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="text">
-         <string>next series</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="toolTip">
-         <string>reuse this image for next series (the arrows weren't collected before next series?)</string>
-        </property>
-        <property name="text">
-         <string>add series</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QStackedWidget" name="stackedWidget">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="page">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QListWidget" name="thumbnailsView">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>170</height>
-           </size>
-          </property>
-          <property name="dragDropMode">
-           <enum>QAbstractItemView::DragDrop</enum>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>200</width>
-            <height>150</height>
-           </size>
-          </property>
-          <property name="isWrapping" stdset="0">
-           <bool>false</bool>
-          </property>
-          <property name="resizeMode">
-           <enum>QListView::Adjust</enum>
-          </property>
-          <property name="viewMode">
-           <enum>QListView::IconMode</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="MainGraphicsView" name="graphicsView">
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="page_2"/>
-     </widget>
+     <layout class="QVBoxLayout" name="centralLayout"/>
     </item>
    </layout>
   </widget>
@@ -269,11 +142,6 @@ Use the button to select color
    <class>MainModelTreeView</class>
    <extends>QTreeView</extends>
    <header>mainmodeltreeview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MainGraphicsView</class>
-   <extends>QGraphicsView</extends>
-   <header>maingraphicsview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
