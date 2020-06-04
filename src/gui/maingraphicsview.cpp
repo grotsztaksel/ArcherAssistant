@@ -1,14 +1,15 @@
+#include "maingraphicsview.h"
 #include <qevent.h>
 #include <QDebug>
 #include <QEvent>
 #include <QGraphicsItem>
 #include <QGraphicsSceneWheelEvent>
-
+#include <QObject>
 #include "hitmarker.h"
-#include "maingraphicsview.h"
+#include "maingraphicscene.h"
 
 MainGraphicsView::MainGraphicsView(QWidget* parent) : QGraphicsView(parent) {
-  setDragMode(QGraphicsView::RubberBandDrag);
+  setDragMode(QGraphicsView::NoDrag);
   setAttribute(Qt::WA_AcceptTouchEvents, true);
 }
 
@@ -24,7 +25,7 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
   if (watched != scene()) {
     return false;
   }
-  hit.expectingRelease = false;
+
   switch (event->type()) {
     case QEvent::GraphicsSceneWheel: {
       // Zoom
@@ -66,26 +67,29 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
       switch (mouseEvent->buttons()) {
         case Qt::LeftButton: {
           if (midButtonPressed) {
-            break;
+            return true;
           }
-          qDebug() << "New Arrow";
           addHit(mouseEvent->scenePos());
+          return true;
           break;
         }
         case Qt::MidButton: {
           // Pan the view
-          midButtonPressed = true;
           setDragMode(QGraphicsView::ScrollHandDrag);
           // emit a left mouse click (the default button for the drag mode)
           // Thank you Gordon Boer(Legor)
           // (https://gist.github.com/Legor/a00760b6d7af32c01357fb7ff76ad86a)
           QMouseEvent* pressEvent = new QMouseEvent(
-              QEvent::GraphicsSceneMousePress,
-              mapFromScene(mouseEvent->scenePos()), Qt::MouseButton::LeftButton,
-              Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
+              QEvent::MouseButtonPress, mapFromScene(mouseEvent->scenePos()),
+              Qt::MouseButton::LeftButton, Qt::MouseButton::LeftButton,
+              Qt::KeyboardModifier::NoModifier);
+          // Need to disable the other LeftButton actions, by informing that it
+          // is the mid button that is in fact pressed
+          midButtonPressed = true;
           mousePressEvent(pressEvent);
+          return true;
           break;
-        } break;
+        }
       }
       break;
     }
@@ -93,8 +97,8 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
       midButtonPressed = false;
       QGraphicsSceneMouseEvent* mouseEvent =
           static_cast<QGraphicsSceneMouseEvent*>(event);
-      qDebug() << "Released!" << mouseEvent->screenPos();
-      setDragMode(QGraphicsView::RubberBandDrag);
+      setDragMode(QGraphicsView::NoDrag);
+      return true;
       break;
     }
     default: {
@@ -106,15 +110,17 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
 }
 void MainGraphicsView::zoom(int delta) {
   qreal factor = 1.15;
-  if (delta >= 0) {
-    scale(factor, factor);
-  } else {
-    scale(1 / factor, 1 / factor);
+  if (delta < 0) {
+    factor = 1 / factor;
   }
+  scale(factor, factor);
+  emit zoomed(factor);
 }
 
-void MainGraphicsView::addHit(QPointF pos) {
-  HitMarker* newHit = new HitMarker();
-  scene()->addItem(newHit);
-  newHit->setPos(pos);
+bool MainGraphicsView::addHit(QPointF pos) {
+  MainGraphicScene* mgscene = qobject_cast<MainGraphicScene*>(scene());
+  if (!mgscene) {
+    return false;
+  }
+  return mgscene->addHit(viewportTransform(), mapToScene(mapFromScene(pos)));
 }

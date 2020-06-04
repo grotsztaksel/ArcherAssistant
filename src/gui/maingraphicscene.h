@@ -13,13 +13,16 @@ class MainGraphicScene : public QGraphicsScene {
   void setModel(AATreeModel* model);
 
   AATreeModel* model() const;
+  bool addHit(QTransform viewportTransform, QPointF pos);
  signals:
 
  public slots:
   void switchImage(const QString& path);
+  void zoom(qreal factor);
 
  private:
   AATreeModel* m_model;
+  QList<QGraphicsItem*> m_arrows;
 };
 
 #endif  // MAINGRAPHICSCENE_H

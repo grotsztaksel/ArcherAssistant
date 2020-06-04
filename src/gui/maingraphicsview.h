@@ -3,18 +3,13 @@
 
 #include <QGraphicsView>
 
-struct hitMonitor {
-  bool expectingRelease;
-  QPoint leftClickPos;
-};
-
 class MainGraphicsView : public QGraphicsView {
   Q_OBJECT
  public:
   explicit MainGraphicsView(QWidget* parent = nullptr);
 
  signals:
-
+  void zoomed(qreal factor);
  public slots:
   void fitView();
 
@@ -23,11 +18,9 @@ class MainGraphicsView : public QGraphicsView {
 
   void zoom(int delta);
 
-  void addHit(QPointF pos);
+  bool addHit(QPointF pos);
 
  protected:
-  hitMonitor hit;
-
   bool midButtonPressed = false;
 };
 
