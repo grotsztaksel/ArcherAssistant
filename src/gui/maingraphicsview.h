@@ -23,8 +23,12 @@ class MainGraphicsView : public QGraphicsView {
 
   void zoom(int delta);
 
+  void addHit(QPointF pos);
+
  protected:
   hitMonitor hit;
+
+  bool midButtonPressed = false;
 };
 
 #endif  // MAINGRAPHICSVIEW_H

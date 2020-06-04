@@ -37,6 +37,7 @@ SOURCES += \
     gui/sessioncontrolwidget.cpp \
     gui/settingswindow.cpp \
     gui/trainingsessionwindow.cpp \
+    gui/hitmarker.cpp \
     model/aatreemodel.cpp \
     main.cpp \
     model/aatreenode_abstract.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     gui/sessioncontrolwidget.h \
     gui/settingswindow.h \
     gui/trainingsessionwindow.h \
+    gui/hitmarker.h \
     include/settings.h \
     model/aatreemodel.h \
     model/aatreenode_abstract.h \

@@ -1,10 +1,12 @@
-#include "maingraphicsview.h"
-
 #include <qevent.h>
 #include <QDebug>
 #include <QEvent>
 #include <QGraphicsItem>
 #include <QGraphicsSceneWheelEvent>
+
+#include "hitmarker.h"
+#include "maingraphicsview.h"
+
 MainGraphicsView::MainGraphicsView(QWidget* parent) : QGraphicsView(parent) {
   setDragMode(QGraphicsView::RubberBandDrag);
   setAttribute(Qt::WA_AcceptTouchEvents, true);
@@ -63,13 +65,16 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
           static_cast<QGraphicsSceneMouseEvent*>(event);
       switch (mouseEvent->buttons()) {
         case Qt::LeftButton: {
-          qDebug() << "Pressed";
-          hit.expectingRelease = true;
-          hit.leftClickPos = mouseEvent->screenPos();
+          if (midButtonPressed) {
+            break;
+          }
+          qDebug() << "New Arrow";
+          addHit(mouseEvent->scenePos());
           break;
         }
         case Qt::MidButton: {
           // Pan the view
+          midButtonPressed = true;
           setDragMode(QGraphicsView::ScrollHandDrag);
           // emit a left mouse click (the default button for the drag mode)
           // Thank you Gordon Boer(Legor)
@@ -85,6 +90,7 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
       break;
     }
     case QEvent::GraphicsSceneMouseRelease: {
+      midButtonPressed = false;
       QGraphicsSceneMouseEvent* mouseEvent =
           static_cast<QGraphicsSceneMouseEvent*>(event);
       qDebug() << "Released!" << mouseEvent->screenPos();
@@ -105,4 +111,10 @@ void MainGraphicsView::zoom(int delta) {
   } else {
     scale(1 / factor, 1 / factor);
   }
+}
+
+void MainGraphicsView::addHit(QPointF pos) {
+  HitMarker* newHit = new HitMarker();
+  scene()->addItem(newHit);
+  newHit->setPos(pos);
 }
