@@ -14,10 +14,7 @@ SeriesInputWidget::SeriesInputWidget(AATreeModel* model,
       m_sessionNode{node},
       m_settingsMgr{settingsManager} {
   ui->setupUi(this);
-  m_scene = new MainGraphicScene(this);
-  ui->graphicsView->setScene(m_scene);
-  m_scene->installEventFilter(ui->graphicsView);
-  m_scene->setModel(m_model);
+
   updateThumbnails();
   connect(ui->fitButton, SIGNAL(clicked()), ui->graphicsView, SLOT(fitView()));
   connect(ui->thumbnailsView, &QListWidget::itemClicked, this,
@@ -50,10 +47,17 @@ void SeriesInputWidget::updateThumbnails() {
 }
 
 void SeriesInputWidget::onImageSelected(QListWidgetItem* item) {
+  m_scene = new MainGraphicScene(this);
+  ui->graphicsView->setScene(m_scene);
+
+  connect(ui->graphicsView, SIGNAL(zoomed(qreal)), m_scene, SLOT(zoom(qreal)));
+
+  m_scene->installEventFilter(ui->graphicsView);
+  m_scene->setModel(m_model);
+
   QString path = item->toolTip();
-  MainGraphicScene* scene =
-      qobject_cast<MainGraphicScene*>(ui->graphicsView->scene());
-  scene->switchImage(path);
+
+  m_scene->switchImage(path);
   ui->graphicsView->fitView();
   currentImageNode = m_map.value(item);
 }
