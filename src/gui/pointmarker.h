@@ -3,6 +3,8 @@
 
 #include <QGraphicsItemGroup>
 
+// A generic class for point objects in the graphics scene (frane anchors, arrow
+// hits etc.)
 class PointMarker : public QGraphicsItemGroup {
  public:
   PointMarker(QGraphicsItem* parent = nullptr);

@@ -5,8 +5,8 @@
 #include <QGraphicsItem>
 #include <QGraphicsSceneWheelEvent>
 #include <QObject>
-#include "hitmarker.h"
 #include "maingraphicscene.h"
+#include "pointmarker.h"
 
 MainGraphicsView::MainGraphicsView(QWidget* parent) : QGraphicsView(parent) {
   setDragMode(QGraphicsView::NoDrag);
@@ -34,7 +34,7 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
           static_cast<QGraphicsSceneWheelEvent*>(event);
       int delta = wheelEvent->delta();
       zoom(delta);
-      break;
+      return true;
     }
     case QEvent::TabletPress:
     case QEvent::TabletMove:
@@ -69,8 +69,12 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
           if (midButtonPressed) {
             return true;
           }
-          addHit(mouseEvent->scenePos());
-          return true;
+          MainGraphicScene* mgscene = qobject_cast<MainGraphicScene*>(scene());
+          if (mgscene) {
+            qDebug() << "Set Sclale";
+            mgscene->setViewScale(viewportTransform());
+          }
+          return false;
           break;
         }
         case Qt::MidButton: {
@@ -95,8 +99,6 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
     }
     case QEvent::GraphicsSceneMouseRelease: {
       midButtonPressed = false;
-      QGraphicsSceneMouseEvent* mouseEvent =
-          static_cast<QGraphicsSceneMouseEvent*>(event);
       setDragMode(QGraphicsView::NoDrag);
       return true;
       break;
@@ -118,9 +120,11 @@ void MainGraphicsView::zoom(int delta) {
 }
 
 bool MainGraphicsView::addHit(QPointF pos) {
+  return false;
   MainGraphicScene* mgscene = qobject_cast<MainGraphicScene*>(scene());
   if (!mgscene) {
     return false;
   }
-  return mgscene->addHit(viewportTransform(), mapToScene(mapFromScene(pos)));
+  //  return mgscene->addHit(viewportTransform(),
+  //  mapToScene(mapFromScene(pos)));
 }

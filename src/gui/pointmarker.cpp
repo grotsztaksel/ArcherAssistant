@@ -1,14 +1,16 @@
-#include "hitmarker.h"
+#include "pointmarker.h"
 
 #include <QBrush>
 #include <QPen>
 
 #include <QDebug>
-HitMarker::HitMarker(QGraphicsItem* parent) : QGraphicsItemGroup(parent) {
+PointMarker::PointMarker(QGraphicsItem* parent) : QGraphicsItemGroup(parent) {
+  setAcceptTouchEvents(true);
+  setFlag(QGraphicsItem::ItemIsMovable);
   draw();
 }
 
-void HitMarker::draw() {
+void PointMarker::draw() {
   m_circle = new QGraphicsEllipseItem(-4, -4, 8, 8, this);
   m_circle->setBrush(QBrush(QColor(Qt::red)));
   m_circle->setPen(QPen(QColor(Qt::black)));

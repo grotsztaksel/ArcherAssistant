@@ -21,26 +21,39 @@ void MainGraphicScene::switchImage(const QString& path) {
 }
 
 void MainGraphicScene::zoom(qreal factor) {
-  QTransform t;
-  t.scale(1 / factor, 1 / factor);
+  m_viewScale = QTransform();
+  m_viewScale.scale(1 / factor, 1 / factor);
   for (auto item : m_arrows) {
-    item->setTransform(t, true);
+    item->setTransform(m_viewScale, true);
   }
 }
 
-bool MainGraphicScene::addHit(QTransform viewportTransform, QPointF pos) {
+void MainGraphicScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+  if (event->buttons() == Qt::LeftButton) {
+    qDebug() << "And hit!";
+    addHit(event->scenePos());
+  }
+}
+
+void MainGraphicScene::setViewScale(const QTransform& viewScale) {
+  QTransform inv = viewScale.inverted();
+  QTransform my_t;
+  my_t.scale(inv.m11(), inv.m11());
+  m_viewScale = my_t;
+}
+
+bool MainGraphicScene::addHit(QPointF pos) {
   PointMarker* newHit = new PointMarker();
   addItem(newHit);
   m_arrows.append(newHit);
   newHit->setPos(pos);
 
-  // Take only scaling factors from the input matrix, to avoid shearing or
-  // translating
-  QTransform inv = viewportTransform.inverted();
-  QTransform my_t;
-  my_t.scale(inv.m11(), inv.m11());
-  newHit->setTransform(my_t);
+  //  // Take only scaling factors from the input matrix, to avoid shearing or
+  //  // translating
+  //  QTransform inv = viewportTransform.inverted();
+  //  QTransform my_t;
+  //  my_t.scale(inv.m11(), inv.m11());
+  newHit->setTransform(m_viewScale);
 
-  newHit->setFlag(QGraphicsItem::ItemIsMovable);
   return true;
 }
