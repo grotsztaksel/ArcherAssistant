@@ -1,7 +1,7 @@
 #ifndef PATHVIEWPROXYMODEL_H
 #define PATHVIEWPROXYMODEL_H
 
-#include "QSortFIlterProxyModel.h"
+#include <QSortFIlterProxyModel>
 #include "aatreemodel.h"
 
 class pathViewModel : public QSortFilterProxyModel {

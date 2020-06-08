@@ -1,5 +1,5 @@
 #include "maingraphicscene.h"
-#include "hitmarker.h"
+#include "pointmarker.h"
 
 #include <QDebug>
 #include <QGraphicsItem>
@@ -29,7 +29,7 @@ void MainGraphicScene::zoom(qreal factor) {
 }
 
 bool MainGraphicScene::addHit(QTransform viewportTransform, QPointF pos) {
-  HitMarker* newHit = new HitMarker();
+  PointMarker* newHit = new PointMarker();
   addItem(newHit);
   m_arrows.append(newHit);
   newHit->setPos(pos);

@@ -33,11 +33,11 @@ SOURCES += \
     gui/mainmodeltreeview.cpp \
     gui/mainwindow.cpp \
     gui/pathviewproxymodel.cpp \
+    gui/pointmarker.cpp \
     gui/seriesinputwidget.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/settingswindow.cpp \
     gui/trainingsessionwindow.cpp \
-    gui/hitmarker.cpp \
     model/aatreemodel.cpp \
     main.cpp \
     model/aatreenode_abstract.cpp \
@@ -60,11 +60,11 @@ HEADERS += \
     gui/mainmodeltreeview.h \
     gui/mainwindow.h \
     gui/pathviewproxymodel.h \
+    gui/pointmarker.h \
     gui/seriesinputwidget.h \
     gui/sessioncontrolwidget.h \
     gui/settingswindow.h \
     gui/trainingsessionwindow.h \
-    gui/hitmarker.h \
     include/settings.h \
     model/aatreemodel.h \
     model/aatreenode_abstract.h \
