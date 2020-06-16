@@ -9,10 +9,11 @@
 //! Use this enum to identify items in the scene
 enum {
   Image = QGraphicsItem::UserType + 1,
-  Arrow = QGraphicsItem::UserType + 2,
-  TargetAreaCorner = QGraphicsItem::UserType + 3,
-  TargetAreaEdgePoint = QGraphicsItem::UserType + 4,
-  TargetAreaEdge = QGraphicsItem::UserType
+  Point = QGraphicsItem::UserType + 2,
+  Arrow = QGraphicsItem::UserType + 3,
+  TargetAreaCorner = QGraphicsItem::UserType + 4,
+  TargetAreaEdgePoint = QGraphicsItem::UserType + 5,
+  TargetAreaEdge = QGraphicsItem::UserType + 6
 };
 
 class MainGraphicScene : public QGraphicsScene {
@@ -35,10 +36,7 @@ class MainGraphicScene : public QGraphicsScene {
 
  protected:
   void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-
-  //! Returns an item at position pos, or, if the item is grouped, an itemGroup
-  //! to which this item belongs
-  QGraphicsItem* complexItem(QPointF pos);
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 
  private:
   AATreeModel* m_model;

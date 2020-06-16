@@ -30,33 +30,24 @@ void MainGraphicScene::zoom(qreal factor) {
 }
 void MainGraphicScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (event->buttons() == Qt::LeftButton) {
-    //    qDebug() << "-----------------------";
-    auto gitem = itemAt(event->scenePos(), m_viewScale.inverted());
-    //    qDebug() << "gitem" << gitem->data(0);
-
-    //    PointMarker* item = dynamic_cast<PointMarker*>(gitem);
-    //    qDebug() << "item" << item->data(0);
-    //    qDebug() << "Position:" << event->scenePos();
-    if (m_arrows.size() < 2) {
-      auto item = qgraphicsitem_cast<PointMarker*>(addHit(event->scenePos()));
-      sendEvent(item, event);
-      return;
+    auto itemBelow = itemAt(event->scenePos(), m_viewScale);
+    qDebug() << bool(itemBelow) << (itemBelow->type() != Point);
+    if (!itemBelow || itemBelow->type() != Point) {
+      if (m_arrows.size() < 2) {
+        auto item = qgraphicsitem_cast<PointMarker*>(addHit(event->scenePos()));
+        return;
+      }
     }
+
     QGraphicsScene::mousePressEvent(event);
   } else {
     //    qDebug() << "Hey, a marker!" << item;
   }
 }
 
-QGraphicsItem* MainGraphicScene::complexItem(QPointF pos) {
-  auto item = itemAt(pos, m_viewScale);
-  QGraphicsItemGroup* group = item->group();
-  qDebug() << group->data(0);
-  if (group) {
-    qDebug() << "Group!";
-    return group;
-  }
-  return item;
+void MainGraphicScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+  qDebug() << "clearSelection";
+  clearSelection();
 }
 
 void MainGraphicScene::setViewScale(const QTransform& viewScale) {
@@ -72,9 +63,8 @@ QGraphicsItem* MainGraphicScene::addHit(QPointF pos) {
   m_arrows.append(newHit);
   newHit->setPos(pos);
 
-  //  // Take only scaling factors from the input matrix, to avoid
-  //  shearing or
-  //  // translating
+  // Take only scaling factors from the input matrix, to avoid shearing or
+  // translating
   QTransform inv = m_viewScale.inverted();
   QTransform my_t;
   my_t.scale(inv.m11(), inv.m11());
