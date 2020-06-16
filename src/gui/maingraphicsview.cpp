@@ -71,7 +71,6 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
           }
           MainGraphicScene* mgscene = qobject_cast<MainGraphicScene*>(scene());
           if (mgscene) {
-            qDebug() << "Set Sclale";
             mgscene->setViewScale(viewportTransform());
           }
           return false;
@@ -117,14 +116,4 @@ void MainGraphicsView::zoom(int delta) {
   }
   scale(factor, factor);
   emit zoomed(factor);
-}
-
-bool MainGraphicsView::addHit(QPointF pos) {
-  return false;
-  MainGraphicScene* mgscene = qobject_cast<MainGraphicScene*>(scene());
-  if (!mgscene) {
-    return false;
-  }
-  //  return mgscene->addHit(viewportTransform(),
-  //  mapToScene(mapFromScene(pos)));
 }

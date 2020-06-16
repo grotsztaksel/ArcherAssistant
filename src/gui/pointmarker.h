@@ -11,9 +11,15 @@ class PointMarker : public QGraphicsItemGroup {
   void draw();
   void highlight(bool onoff);
 
+  int type() const override;
+  QRectF boundingRect() const override;
+
  private:
-  void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-  void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+  void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+  void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+  void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
   QGraphicsEllipseItem* m_circle;
 };
 

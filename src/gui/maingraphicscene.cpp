@@ -16,8 +16,9 @@ AATreeModel* MainGraphicScene::model() const {
 
 void MainGraphicScene::switchImage(const QString& path) {
   clear();
-  auto image = addPixmap(QPixmap::fromImage(QImage(path)));
-  setSceneRect(image->boundingRect());
+  m_photo = addPixmap(QPixmap::fromImage(QImage(path)));
+
+  setSceneRect(m_photo->boundingRect());
 }
 
 void MainGraphicScene::zoom(qreal factor) {
@@ -27,33 +28,57 @@ void MainGraphicScene::zoom(qreal factor) {
     item->setTransform(m_viewScale, true);
   }
 }
-
 void MainGraphicScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (event->buttons() == Qt::LeftButton) {
-    qDebug() << "And hit!";
-    addHit(event->scenePos());
+    //    qDebug() << "-----------------------";
+    auto gitem = itemAt(event->scenePos(), m_viewScale.inverted());
+    //    qDebug() << "gitem" << gitem->data(0);
+
+    //    PointMarker* item = dynamic_cast<PointMarker*>(gitem);
+    //    qDebug() << "item" << item->data(0);
+    //    qDebug() << "Position:" << event->scenePos();
+    if (m_arrows.size() < 2) {
+      auto item = qgraphicsitem_cast<PointMarker*>(addHit(event->scenePos()));
+      sendEvent(item, event);
+      return;
+    }
+    QGraphicsScene::mousePressEvent(event);
+  } else {
+    //    qDebug() << "Hey, a marker!" << item;
   }
 }
 
+QGraphicsItem* MainGraphicScene::complexItem(QPointF pos) {
+  auto item = itemAt(pos, m_viewScale);
+  QGraphicsItemGroup* group = item->group();
+  qDebug() << group->data(0);
+  if (group) {
+    qDebug() << "Group!";
+    return group;
+  }
+  return item;
+}
+
 void MainGraphicScene::setViewScale(const QTransform& viewScale) {
-  QTransform inv = viewScale.inverted();
+  QTransform inv = viewScale;
   QTransform my_t;
   my_t.scale(inv.m11(), inv.m11());
   m_viewScale = my_t;
 }
 
-bool MainGraphicScene::addHit(QPointF pos) {
+QGraphicsItem* MainGraphicScene::addHit(QPointF pos) {
   PointMarker* newHit = new PointMarker();
   addItem(newHit);
   m_arrows.append(newHit);
   newHit->setPos(pos);
 
-  //  // Take only scaling factors from the input matrix, to avoid shearing or
+  //  // Take only scaling factors from the input matrix, to avoid
+  //  shearing or
   //  // translating
-  //  QTransform inv = viewportTransform.inverted();
-  //  QTransform my_t;
-  //  my_t.scale(inv.m11(), inv.m11());
-  newHit->setTransform(m_viewScale);
-
-  return true;
+  QTransform inv = m_viewScale.inverted();
+  QTransform my_t;
+  my_t.scale(inv.m11(), inv.m11());
+  newHit->setTransform(my_t);
+  newHit->setSelected(true);
+  return newHit;
 }

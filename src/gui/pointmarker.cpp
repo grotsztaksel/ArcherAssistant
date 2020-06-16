@@ -2,6 +2,7 @@
 
 #include <QBrush>
 #include <QPen>
+#include "maingraphicscene.h"
 
 #include <QDebug>
 PointMarker::PointMarker(QGraphicsItem* parent) : QGraphicsItemGroup(parent) {
@@ -42,6 +43,26 @@ void PointMarker::highlight(bool onoff) {
   } else {
     m_circle->setBrush(QBrush(QColor(230, 230, 0, 128)));
   }
+}
+
+int PointMarker::type() const {
+  return Arrow;
+}
+
+QRectF PointMarker::boundingRect() const {
+  return m_circle->boundingRect();
+}
+
+void PointMarker::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+  setSelected(true);
+}
+
+void PointMarker::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+  setPos(event->scenePos());
+}
+
+void PointMarker::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+  setSelected(false);
 }
 
 void PointMarker::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {

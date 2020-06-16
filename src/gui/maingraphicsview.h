@@ -18,8 +18,6 @@ class MainGraphicsView : public QGraphicsView {
 
   void zoom(int delta);
 
-  bool addHit(QPointF pos);
-
  protected:
   bool midButtonPressed = false;
 };
