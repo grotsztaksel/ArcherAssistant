@@ -1,26 +1,27 @@
 #ifndef POINTMARKER_H
 #define POINTMARKER_H
 
-#include <QGraphicsItemGroup>
+#include <QGraphicsItem>
 
 // A generic class for point objects in the graphics scene (frane anchors, arrow
 // hits etc.)
-class PointMarker : public QGraphicsItemGroup {
+class PointMarker : public QGraphicsItem {
  public:
   PointMarker(QGraphicsItem* parent = nullptr);
-  void draw();
-  void highlight(bool onoff);
-
-  int type() const override;
   QRectF boundingRect() const override;
+  void paint(QPainter* painter,
+             const QStyleOptionGraphicsItem* option,
+             QWidget* widget = nullptr) override;
 
- private:
   void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-  void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
   void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
   void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
   void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
-  QGraphicsEllipseItem* m_circle;
+
+ protected:
+  bool hovered = false;
+  bool pressed = false;
 };
 
 #endif  // POINTMARKER_H
