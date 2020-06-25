@@ -11,7 +11,7 @@ SeriesInputWidget::SeriesInputWidget(AATreeModel* model,
     : QWidget(parent),
       ui(new Ui::SeriesInputWidget),
       m_model{model},
-      m_sessionNode{node},
+      m_seriesNode{node},
       m_settingsMgr{settingsManager} {
   ui->setupUi(this);
 
@@ -31,7 +31,7 @@ void SeriesInputWidget::updateThumbnails() {
   QStringList paths;
   QFileInfoList fileInfos;
 
-  for (AATreeNode_abstract* node : m_sessionNode->children("image")) {
+  for (AATreeNode_abstract* node : m_seriesNode->children("image")) {
     QString fileName(node->attribute("file").toString());
     QString dt(node->attribute("DateTime").toString());
     if (!QFile(fileName).exists()) {

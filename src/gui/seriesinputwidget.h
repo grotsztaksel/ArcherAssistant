@@ -29,7 +29,7 @@ class SeriesInputWidget : public QWidget {
 
   MainGraphicScene* m_scene;
   AATreeModel* m_model;
-  AATreeNode_abstract* m_sessionNode;
+  AATreeNode_abstract* m_seriesNode;
   AAObject* m_settingsMgr;
 
   QHash<QListWidgetItem*, AATreeNode_abstract*> m_map;
