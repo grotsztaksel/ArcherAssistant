@@ -13,6 +13,7 @@ class PointMarker : public QGraphicsItem {
              const QStyleOptionGraphicsItem* option,
              QWidget* widget = nullptr) override;
 
+  int type() const override;
   void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
   void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
