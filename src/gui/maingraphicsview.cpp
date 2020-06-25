@@ -97,9 +97,10 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
       break;
     }
     case QEvent::GraphicsSceneMouseRelease: {
+      qDebug() << "Mouse release event in graphics VIEW";
       midButtonPressed = false;
       setDragMode(QGraphicsView::NoDrag);
-      return true;
+      return false;
       break;
     }
     default: {

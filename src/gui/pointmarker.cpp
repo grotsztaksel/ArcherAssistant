@@ -37,15 +37,16 @@ void PointMarker::paint(QPainter* painter,
 
 void PointMarker::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   pressed = true;
+  qDebug() << "Pressed me!";
   setPos(event->scenePos());
   update();
 }
 
 void PointMarker::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
   pressed = false;
-  setPos(event->scenePos());
-  clearFocus();
+  //  setPos(event->scenePos());
   qDebug() << "Released dot";
+  clearFocus();
   update();
   QGraphicsItem::mouseReleaseEvent(event);
 }

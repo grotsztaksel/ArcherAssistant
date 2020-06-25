@@ -30,24 +30,35 @@ void MainGraphicScene::zoom(qreal factor) {
 }
 void MainGraphicScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (event->buttons() == Qt::LeftButton) {
-    auto itemBelow = itemAt(event->scenePos(), m_viewScale);
-    qDebug() << bool(itemBelow) << (itemBelow->type() != Point);
+    auto itemBelow = itemAt(event->scenePos(), m_viewScale.inverted());
+    qDebug() << "Pressed in scene and have item below?" << bool(itemBelow)
+             << "Is it a point?" << (itemBelow->type() == Point);
     if (!itemBelow || itemBelow->type() != Point) {
-      if (m_arrows.size() < 2) {
-        auto item = qgraphicsitem_cast<PointMarker*>(addHit(event->scenePos()));
-        return;
-      }
+      auto item = qgraphicsitem_cast<PointMarker*>(addHit(event->scenePos()));
+      sendEvent(item, event);
     }
-
-    QGraphicsScene::mousePressEvent(event);
-  } else {
-    //    qDebug() << "Hey, a marker!" << item;
   }
+  QGraphicsScene::mousePressEvent(event);
 }
 
 void MainGraphicScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-  qDebug() << "clearSelection";
+  auto point = itemOfType(event->scenePos(), Point);
+  qDebug() << "mouseReleaseEvent in graphics SCENE" << point;
+  for (auto item : items()) {
+    sendEvent(item, event);
+  }
   clearSelection();
+}
+
+QGraphicsItem* MainGraphicScene::itemOfType(QPointF pos, int type) {
+  for (QGraphicsItem* item :
+       items(pos, Qt::IntersectsItemShape, Qt::DescendingOrder,
+             m_viewScale.inverted())) {
+    if (item->type() == type) {
+      return item;
+    }
+  }
+  return nullptr;
 }
 
 void MainGraphicScene::setViewScale(const QTransform& viewScale) {

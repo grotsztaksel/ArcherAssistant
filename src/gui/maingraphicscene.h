@@ -31,12 +31,15 @@ class MainGraphicScene : public QGraphicsScene {
 
  public slots:
   void setViewScale(const QTransform& viewScale);
-
   void zoom(qreal factor);
 
  protected:
   void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
   void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+
+  //! Returns a pointer to the graphics item of given type at requested
+  //! position, if such item is available otherwise returns nullptr
+  QGraphicsItem* itemOfType(QPointF pos, int type);
 
  private:
   AATreeModel* m_model;
