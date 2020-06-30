@@ -2,6 +2,7 @@
 #define POINTMARKER_H
 
 #include <QGraphicsItem>
+#include <QGraphicsSceneMouseEvent>
 
 // A generic class for point objects in the graphics scene (frane anchors, arrow
 // hits etc.)

@@ -1,11 +1,11 @@
 #include "pointmarker.h"
 
 #include <QBrush>
+#include <QDebug>
+
 #include <QPainter>
 #include <QPen>
-#include "maingraphicscene.h"
-
-#include <QDebug>
+#include "graphicsitems.h"
 
 PointMarker::PointMarker(QGraphicsItem* parent) {
   setAcceptTouchEvents(true);

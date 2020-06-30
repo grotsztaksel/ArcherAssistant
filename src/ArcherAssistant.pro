@@ -54,6 +54,7 @@ HEADERS += \
     application/datamanager.h \
     application/exifreader.h \
     gui/series_input/arrowhitmarker.h \
+    gui/series_input/graphicsitems.h \
     gui/series_input/maingraphicscene.h \
     gui/series_input/maingraphicsview.h \
     gui/series_input/pointmarker.h \

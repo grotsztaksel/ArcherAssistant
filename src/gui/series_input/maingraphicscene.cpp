@@ -1,4 +1,6 @@
 #include "maingraphicscene.h"
+#include "arrowhitmarker.h"
+#include "graphicsitems.h"
 #include "pointmarker.h"
 
 #include <QDebug>
@@ -63,7 +65,7 @@ void MainGraphicScene::setViewScale(const QTransform& viewScale) {
 }
 
 QGraphicsItem* MainGraphicScene::addHit(QPointF pos) {
-  PointMarker* newHit = new PointMarker();
+  PointMarker* newHit = new ArrowHitMarker();
   addItem(newHit);
   m_arrows.append(newHit);
   newHit->setPos(pos);
