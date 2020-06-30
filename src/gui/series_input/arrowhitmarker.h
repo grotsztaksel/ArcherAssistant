@@ -5,7 +5,15 @@
 
 class ArrowHitMarker : public PointMarker {
  public:
-  ArrowHitMarker();
+  ArrowHitMarker(QGraphicsItem* parent = nullptr);
+
+  QRectF boundingRect() const override;
+  int type() const override;
+
+ protected:
+  void paint(QPainter* painter,
+             const QStyleOptionGraphicsItem* option,
+             QWidget* widget = nullptr) override;
 };
 
 #endif  // ARROWHITMARKER_H
