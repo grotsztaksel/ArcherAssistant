@@ -28,13 +28,13 @@ SOURCES += \
     gui/demowindow.cpp \
     gui/filemanagerwidget.cpp \
     gui/filemanagerwindow.cpp \
-    gui/maingraphicscene.cpp \
-    gui/maingraphicsview.cpp \
+    gui/series_input/maingraphicscene.cpp \
+    gui/series_input/maingraphicsview.cpp \
+    gui/series_input/pointmarker.cpp \
+    gui/series_input/seriesinputwidget.cpp \
     gui/mainmodeltreeview.cpp \
     gui/mainwindow.cpp \
     gui/pathviewproxymodel.cpp \
-    gui/pointmarker.cpp \
-    gui/seriesinputwidget.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/settingswindow.cpp \
     gui/trainingsessionwindow.cpp \
@@ -52,16 +52,16 @@ HEADERS += \
     application/aasettingsmanager.h \
     application/datamanager.h \
     application/exifreader.h \
+    gui/series_input/maingraphicscene.h \
+    gui/series_input/maingraphicsview.h \
+    gui/series_input/pointmarker.h \
+    gui/series_input/seriesinputwidget.h \
     gui/demowindow.h \
     gui/filemanagerwidget.h \
     gui/filemanagerwindow.h \
-    gui/maingraphicscene.h \
-    gui/maingraphicsview.h \
     gui/mainmodeltreeview.h \
     gui/mainwindow.h \
     gui/pathviewproxymodel.h \
-    gui/pointmarker.h \
-    gui/seriesinputwidget.h \
     gui/sessioncontrolwidget.h \
     gui/settingswindow.h \
     gui/trainingsessionwindow.h \
