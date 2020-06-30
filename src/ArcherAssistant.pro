@@ -28,6 +28,7 @@ SOURCES += \
     gui/demowindow.cpp \
     gui/filemanagerwidget.cpp \
     gui/filemanagerwindow.cpp \
+    gui/series_input/arrowhitmarker.cpp \
     gui/series_input/maingraphicscene.cpp \
     gui/series_input/maingraphicsview.cpp \
     gui/series_input/pointmarker.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     application/aasettingsmanager.h \
     application/datamanager.h \
     application/exifreader.h \
+    gui/series_input/arrowhitmarker.h \
     gui/series_input/maingraphicscene.h \
     gui/series_input/maingraphicsview.h \
     gui/series_input/pointmarker.h \
@@ -72,17 +74,18 @@ HEADERS += \
     widgets/hourminsecwidget.h
 
 FORMS += \
+    gui/series_input/seriesinputwidget.ui \
     gui/demowindow.ui \
     gui/filemanagerwidget.ui \
     gui/filemanagerwindow.ui \
     gui/mainwindow.ui \
-    gui/seriesinputwidget.ui \
     gui/sessioncontrolwidget.ui \
     gui/settingswindow.ui \
     gui/trainingsessionwindow.ui \
     widgets/hourminsecwidget.ui
 
 INCLUDEPATH += $${PWD}/gui/
+INCLUDEPATH += $${PWD}/gui/series_input
 INCLUDEPATH += $${PWD}/widgets/
 INCLUDEPATH += $${PWD}/application/
 INCLUDEPATH += $${PWD}/model/
