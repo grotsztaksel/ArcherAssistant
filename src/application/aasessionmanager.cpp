@@ -148,7 +148,7 @@ AATreeNode_abstract* AASessionManager::createNewSession(const int& after,
   QModelIndex sessionIndex =
       m_model->insertElement("session", index, after + 1);
   AATreeNode_abstract* newSession = m_model->nodeFromIndex(sessionIndex);
-
+  newSession->isNew = true;
   newSession->setAttribute("DateTime", dt.toString(DATE_FORMAT));
   return newSession;
 }
@@ -159,7 +159,7 @@ AATreeNode_abstract* AASessionManager::createNewSeries(
   QModelIndex index = m_model->indexFromNode(session);
   QModelIndex seriesIndex = m_model->insertElement("series", index);
   AATreeNode_abstract* newSeries = m_model->nodeFromIndex(seriesIndex);
-
+  newSeries->isNew = true;
   newSeries->setAttribute("DateTime", dt.toString(DATE_FORMAT));
   return newSeries;
 }
@@ -170,6 +170,7 @@ AATreeNode_abstract* AASessionManager::appendImage(AATreeNode_abstract* series,
   QModelIndex index = m_model->indexFromNode(series);
   QModelIndex imageIndex = m_model->insertElement("image", index);
   AATreeNode_abstract* image = m_model->nodeFromIndex(imageIndex);
+  image->isNew = true;
   image->setAttribute("DateTime", dt.toString(DATE_FORMAT));
   image->setAttribute("file", imageName);
   return image;
