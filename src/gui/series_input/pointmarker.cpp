@@ -11,6 +11,7 @@ PointMarker::PointMarker(QGraphicsItem* parent) {
   setAcceptTouchEvents(true);
   setAcceptHoverEvents(true);
   setFlag(QGraphicsItem::ItemIsMovable);
+  setFlag(QGraphicsItem::ItemIsSelectable);
   setFlag(QGraphicsItem::ItemClipsChildrenToShape);
 }
 
@@ -27,7 +28,7 @@ void PointMarker::paint(QPainter* painter,
   if (hovered) {
     brush.setColor(QColor(47, 58, 149));
   }
-  if (pressed) {
+  if (isSelected()) {
     brush.setColor(Qt::red);
   }
   painter->setBrush(brush);
@@ -40,14 +41,13 @@ int PointMarker::type() const {
 }
 
 void PointMarker::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-  pressed = true;
-
+  setSelected(true);
   setPos(event->scenePos());
   update();
 }
 
 void PointMarker::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-  pressed = false;
+  setSelected(false);
   update();
   QGraphicsItem::mouseReleaseEvent(event);
 }

@@ -21,11 +21,9 @@ class PointMarker : public QGraphicsItem {
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
   void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
   void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
-  void keyPressEvent(QKeyEvent* event) override;
 
  protected:
   bool hovered = false;
-  bool pressed = false;
 };
 
 #endif  // POINTMARKER_H

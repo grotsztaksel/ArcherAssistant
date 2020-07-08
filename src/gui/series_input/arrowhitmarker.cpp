@@ -46,7 +46,7 @@ void ArrowHitMarker::paint(QPainter* painter,
   if (hovered) {
     pen.setColor(myOrange);
   }
-  if (pressed) {
+  if (isSelected()) {
     pen.setColor(Qt::red);
   }
 
