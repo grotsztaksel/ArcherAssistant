@@ -96,6 +96,11 @@ class AATreeModel : public QAbstractItemModel {
                             QModelIndex parentIndex,
                             int row = -1);
 
+  //! Remove all elements from the model. if includeRoot is true, then also the
+  //! root node will be removed.
+  //!
+  bool clear(bool includeRoot = false);
+
   //! Read the model from a file. Discards all current content.
   //!
   bool readFile(const QFile& file);
@@ -132,6 +137,9 @@ class AATreeModel : public QAbstractItemModel {
   //! Returns true if the m_elementHeader is not empty.
   //!
   bool showItemsInFirstColumn() const;
+
+  //! Helper function, creating the root node.
+  void setupRoot();
 
  protected:
   //! Root node of this model

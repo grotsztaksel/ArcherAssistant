@@ -2,12 +2,20 @@
 
 #include <aatreenode_pugi.h>
 #include <QDebug>
+
 AATreeModel::AATreeModel(QObject* parent) : QAbstractItemModel(parent) {
-  m_rootNode = new AATreeNode_pugi();
+  setupRoot();
 }
 
 AATreeModel::~AATreeModel() {
   m_rootNode->deleteLater();
+}
+
+void AATreeModel::setupRoot() {
+  if (m_rootNode) {
+    m_rootNode->deleteLater();
+  }
+  m_rootNode = new AATreeNode_pugi();
 }
 
 QVariant AATreeModel::headerData(int section,
@@ -172,6 +180,15 @@ QModelIndex AATreeModel::insertElement(QString name,
   parentNode->addChild(name, row);
   endInsertRows();
   return index(row, 0, parentIndex);
+}
+
+bool AATreeModel::clear(bool includeRoot) {
+  if (includeRoot) {
+    setupRoot();
+  } else {
+    QModelIndex rootIndex = index(0, 0);
+    removeRows(0, rowCount(rootIndex), rootIndex);
+  }
 }
 
 bool AATreeModel::readFile(const QFile& file) {
