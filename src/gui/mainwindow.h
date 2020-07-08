@@ -19,6 +19,9 @@ class MainWindow : public QMainWindow {
   void connectWithCore(AACore* core);
 
  private slots:
+  void onSelectionChanged(const QItemSelection& selected,
+                          const QItemSelection& deselected);
+
   void on_actionGeneral_triggered();
 
   void on_actionAbout_Qt_triggered();
@@ -28,18 +31,19 @@ class MainWindow : public QMainWindow {
   void on_actionSave_triggered();
 
   void on_actionSave_as_triggered();
-  void onSelectionChanged(const QItemSelection& selected,
-                          const QItemSelection& deselected);
 
   void on_actionProgram_settings_triggered();
 
   void on_actionOpen_Project_triggered();
 
+ public:
+  const QString programName = "Archer Assistant";
+
  private:
   Ui::MainWindow* ui;
 
   AATreeModel* m_model;
-  SeriesInputProxyModel* m_proxyModel;
+  SeriesInputProxyModel* m_proxyModel = nullptr;
   AACore* m_core;
 };
 
