@@ -12,6 +12,9 @@ class SeriesInputProxyModel : public QSortFilterProxyModel {
   bool filterAcceptsRow(int source_row,
                         const QModelIndex& source_parent) const override;
 
+  QVariant data(const QModelIndex& index,
+                int role = Qt::DisplayRole) const override;
+
  private:
   AATreeModel* m_sourceModel;
 };

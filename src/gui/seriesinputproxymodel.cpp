@@ -1,5 +1,7 @@
 #include "seriesinputproxymodel.h"
 
+#include <QColor>
+
 SeriesInputProxyModel::SeriesInputProxyModel(QObject* parent)
     : QSortFilterProxyModel(parent) {}
 
@@ -29,4 +31,27 @@ bool SeriesInputProxyModel::filterAcceptsRow(
   }
 
   return true;
+}
+
+QVariant SeriesInputProxyModel::data(const QModelIndex& index, int role) const {
+  if (!index.isValid()) {
+    return QSortFilterProxyModel::data(index, role);
+  }
+  QModelIndex srcIndex = mapToSource(index);
+  auto node = m_sourceModel->nodeFromIndex(srcIndex);
+
+  if (role == Qt::BackgroundRole) {
+    if (node->isNew) {
+      return QColor(Qt::green).lighter(188);
+    }
+
+  } else if (role == Qt::DisplayRole) {
+    if (node->hasAttribute("DateTime")) {
+      auto date = node->attribute("DateTime").toString();
+      auto data = QSortFilterProxyModel::data(index, role).toString();
+      return QVariant(QString("%1 (%2)").arg(data).arg(date));
+    }
+  }
+
+  return QSortFilterProxyModel::data(index, role);
 }
