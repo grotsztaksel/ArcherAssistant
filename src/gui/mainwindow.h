@@ -33,6 +33,8 @@ class MainWindow : public QMainWindow {
 
   void on_actionProgram_settings_triggered();
 
+  void on_actionOpen_Project_triggered();
+
  private:
   Ui::MainWindow* ui;
 

@@ -86,3 +86,13 @@ void MainWindow::on_actionProgram_settings_triggered() {
   SettingsWindow window(m_core->settingsManager(), this);
   window.exec();
 }
+
+void MainWindow::on_actionOpen_Project_triggered() {
+  QString oldFileName = m_core->settingsManager()->get(CFG_FILE).toString();
+  QString fileName =
+      QFileDialog::getOpenFileNames(this, "Select data file to open",
+                                    oldFileName, "XML files (*.xml)")
+          .at(0);
+  m_core->settingsManager()->set(CFG_FILE, fileName);
+  m_core->reset();
+}
