@@ -4,6 +4,7 @@
 #include <QItemSelection>
 #include <QMainWindow>
 #include "aacore.h"
+#include "seriesinputproxymodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,6 +37,7 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow* ui;
 
   AATreeModel* m_model;
+  SeriesInputProxyModel* m_proxyModel;
   AACore* m_core;
 };
 

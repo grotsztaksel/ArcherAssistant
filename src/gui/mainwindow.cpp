@@ -21,7 +21,10 @@ MainWindow::~MainWindow() {
 void MainWindow::connectWithCore(AACore* core) {
   m_core = core;
   m_model = core->model();
-  ui->treeView->setModel(m_model);
+
+  m_proxyModel = new SeriesInputProxyModel(this);
+  m_proxyModel->setSourceModel(m_model);
+  ui->treeView->setModel(m_proxyModel);
 
   connect(ui->treeView->selectionModel(),
           SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
@@ -69,7 +72,8 @@ void MainWindow::onSelectionChanged(const QItemSelection& selected,
   }
 
   for (QModelIndex index : selected.indexes()) {
-    auto node = m_model->nodeFromIndex(index);
+    QModelIndex srcIndex = m_proxyModel->mapToSource(index);
+    auto node = m_model->nodeFromIndex(srcIndex);
     if (node->name() == "series") {
       setCentralWidget(new SeriesInputWidget(m_model, node,
                                              m_core->settingsManager(), this));
