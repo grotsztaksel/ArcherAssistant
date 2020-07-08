@@ -5,6 +5,7 @@
 
 #include <QDebug>
 #include <QGraphicsItem>
+#include <QKeyEvent>
 #include <QPixmap>
 
 MainGraphicScene::MainGraphicScene(QObject* parent) : QGraphicsScene(parent) {}
@@ -36,6 +37,7 @@ void MainGraphicScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     if (!itemBelow) {
       auto item = qgraphicsitem_cast<PointMarker*>(addHit(event->scenePos()));
       sendEvent(item, event);
+      item->setSelected(false);
     }
   }
   QGraphicsScene::mousePressEvent(event);
@@ -45,6 +47,14 @@ void MainGraphicScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
   auto point = itemOfType(event->scenePos(), Point);
   if (point) {
     sendEvent(point, event);
+  }
+}
+
+void MainGraphicScene::keyPressEvent(QKeyEvent* event) {
+  if (event->key() == Qt::Key_Delete) {
+    for (auto item : selectedItems()) {
+      removeItem(item);
+    }
   }
 }
 
@@ -76,6 +86,5 @@ QGraphicsItem* MainGraphicScene::addHit(QPointF pos) {
   QTransform my_t;
   my_t.scale(inv.m11(), inv.m11());
   newHit->setTransform(my_t);
-  newHit->setSelected(true);
   return newHit;
 }

@@ -26,6 +26,7 @@ class MainGraphicScene : public QGraphicsScene {
  protected:
   void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
   void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+  void keyPressEvent(QKeyEvent* event) override;
 
   //! Returns a pointer to the graphics item of given type at requested
   //! position, if such item is available otherwise returns nullptr
