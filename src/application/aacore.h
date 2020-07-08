@@ -24,9 +24,8 @@ class AACore : public AAObject {
   explicit AACore(AAObject* parent = nullptr,
                   const QStringList args = QStringList());
 
-  //! just a dummy function to see if the MainWindow object can communicate with
-  //! this
-  void sayHello();
+  //! Read the config file
+  void reset();
 
   //! Function used byy other objects to query the core about the arguments
   //!

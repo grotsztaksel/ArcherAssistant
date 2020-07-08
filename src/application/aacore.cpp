@@ -12,7 +12,14 @@ AACore::AACore(AAObject* parent, const QStringList args)
   m_fileManager = new AAFileManager(this);
   m_sessionManager = new AASessionManager(this);
 
-  m_model = new AATreeModel(this);
+  reset();
+}
+
+void AACore::reset() {
+  if (!m_model) {
+    m_model = new AATreeModel(this);
+  }
+  m_model->clear(true);
   m_model->readFile(QFile(getSetting(CFG_FILE).toString()));
 
   m_fileManager->setModel(m_model);
@@ -21,10 +28,6 @@ AACore::AACore(AAObject* parent, const QStringList args)
 
   QDateTime lastResult = m_sessionManager->getLastResult().addMSecs(1);
   m_sessionManager->updateSessions(lastResult);
-}
-
-void AACore::sayHello() {
-  qDebug() << "Hello!@ The manager is reporting!";
 }
 
 AATreeModel* AACore::model() const {
