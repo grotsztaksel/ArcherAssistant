@@ -69,6 +69,10 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
           if (midButtonPressed) {
             return true;
           }
+          if (mouseEvent->modifiers() == Qt::ShiftModifier) {
+            setDragMode(QGraphicsView::RubberBandDrag);
+            return true;
+          }
           MainGraphicScene* mgscene = qobject_cast<MainGraphicScene*>(scene());
           if (mgscene) {
             mgscene->setViewScale(viewportTransform());
@@ -109,6 +113,7 @@ bool MainGraphicsView::eventFilter(QObject* watched, QEvent* event) {
   }
   return true;
 }
+
 void MainGraphicsView::zoom(int delta) {
   qreal factor = 1.15;
   if (delta < 0) {
