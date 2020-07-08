@@ -12,6 +12,7 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+  setWindowTitle("Archer Assistant");
 }
 
 MainWindow::~MainWindow() {
@@ -29,7 +30,10 @@ void MainWindow::connectWithCore(AACore* core) {
   connect(ui->treeView->selectionModel(),
           SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
           SLOT(onSelectionChanged(QItemSelection, QItemSelection)));
-  setWindowTitle(QDir::cleanPath(m_core->getSetting(CFG_FILE).toString()));
+  setWindowTitle(
+      QString("%1 (%2)")
+          .arg(windowTitle())
+          .arg(QDir::cleanPath(m_core->getSetting(CFG_FILE).toString())));
 }
 
 void MainWindow::on_actionGeneral_triggered() {
