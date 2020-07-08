@@ -170,6 +170,7 @@ QModelIndex AATreeModel::insertElement(QString name,
   AATreeNode_abstract* parentNode = nodeFromIndex(parentIndex);
   beginInsertRows(parentIndex, row, row);
   parentNode->addChild(name, row);
+  parentNode->isNew = true;
   endInsertRows();
   return index(row, 0, parentIndex);
 }

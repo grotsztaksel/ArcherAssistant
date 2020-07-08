@@ -124,10 +124,19 @@ class AATreeNode_abstract : public QObject {
   //! child of this name
   virtual bool removeChild(const QString& name, const int index = -1) = 0;
 
-  //  //! Remove index-th child, regardless of its name. If index not provided,
-  //  //! remove last child
+  //! Remove index-th child, regardless of its name. If index not provided,
+  //! remove last child
   virtual bool removeChild(const int index = -1) = 0;
   //
+
+  /*------------------------------*
+   *                              *
+   *      objects                 *
+   *                              *
+   *------------------------------*/
+ public:
+  //! flag telling if the node is new compared to the data on file
+  bool isNew = false;
 };
 
 #endif  // AATREENODE_ABSTRACT_H
