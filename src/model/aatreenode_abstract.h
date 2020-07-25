@@ -17,6 +17,8 @@
 //! AATreeModel
 //! Therefore, the derived classes should not expose any new public objects or
 //! methods
+//!
+
 class AATreeNode_abstract : public QObject {
   Q_OBJECT
  public:
@@ -69,10 +71,39 @@ class AATreeNode_abstract : public QObject {
   //! Get attribute of given type
   //!
   virtual QVariant attribute(const QString name) = 0;
+  //! Get attribute of given type. If this node does not have such attribute,
+  //! check in the parent nodes
+  //! @param name - attribute name
+  //! @param checkParents - maximal number of parent levels to check. If -1,
+  //! then check all parents
+  //!
+  QVariant inheritedAttribute(const QString name, int checkParents = -1);
+  //! Get attribute of given type. If this node does not have such attribute,
+  //! check in the parent nodes
+  //! @param name - attribute name
+  //! @param oldestAncestorName - name of the ancestor node that should be the
+  //! last one checked
+  //!
+  QVariant inheritedAttribute(const QString name, QString oldestAncestorName);
 
   //! check if the node has a given attribute
   //!
   virtual bool hasAttribute(const QString name) = 0;
+
+  //! check if the node, or its parent has a given attribute
+  //! @param name - attribute name
+  //! @param checkParents - maximal number of parent levels to check. If -1,
+  //! then check all parents
+  //!
+  int hasInheritedAttribute(const QString name, int checkParents = -1);
+
+  //! check if the node, or its parent has a given attribute. Do not seek beyond
+  //! the oldestAncestorName
+  //! @param name - attribute name
+  //! @param oldestAncestorName - name of the ancestor node that should be the
+  //! last one checked
+  //!
+  QString hasInheritedAttribute(const QString name, QString oldestAncestorName);
 
   //! set attribute of given name
   //!
