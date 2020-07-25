@@ -1,4 +1,5 @@
 #include "seriesinputwidget.h"
+#include "seriesthumbnail.h"
 #include "ui_seriesinputwidget.h"
 
 #include <qdir.h>
@@ -38,8 +39,8 @@ void SeriesInputWidget::updateThumbnails() {
       continue;
     }
     QImageReader reader(fileName);
-    QListWidgetItem* thumb = new QListWidgetItem(
-        QIcon(QPixmap::fromImage(reader.read())), dt, ui->thumbnailsView);
+    QListWidgetItem* thumb = new SeriesThumbnail(
+        node, QIcon(QPixmap::fromImage(reader.read())), dt, ui->thumbnailsView);
     thumb->setToolTip(fileName);
     ui->thumbnailsView->addItem(thumb);
     m_map.insert(thumb, node);
@@ -57,7 +58,7 @@ void SeriesInputWidget::onImageSelected(QListWidgetItem* item) {
 
   QString path = item->toolTip();
 
-  m_scene->switchImage(path);
+  m_scene->switchImage(item);
   ui->graphicsView->fitView();
   currentImageNode = m_map.value(item);
 }
