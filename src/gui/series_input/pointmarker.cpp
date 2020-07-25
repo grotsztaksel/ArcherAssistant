@@ -10,13 +10,10 @@
 #include "maingraphicscene.h"
 
 PointMarker::PointMarker(QGraphicsScene* parentScene,
-                         AATreeNode_abstract* imageNode,
+                         AATreeNode_abstract* parentNode,
                          AATreeNode_abstract* existingNode,
                          QGraphicsItem* parent)
     : QGraphicsItem(parent), m_node{existingNode} {
-  if (!m_node) {
-    m_node = imageNode->addChild(m_nodeName);
-  }
   m_parentScene = qobject_cast<MainGraphicScene*>(parentScene);
 
   setAcceptTouchEvents(true);
@@ -113,4 +110,15 @@ QVariant PointMarker::itemChange(QGraphicsItem::GraphicsItemChange change,
     m_node->setAttribute("Y", pos.y());
   }
   return QGraphicsItem::itemChange(change, value);
+}
+
+void PointMarker::createNode(AATreeNode_abstract* parentNode) {
+  if (m_node || !parentNode) {
+    return;
+  }
+  m_node = parentNode->addChild(this->nodeName());
+}
+
+QString PointMarker::nodeName() {
+  return m_nodeName;
 }

@@ -12,7 +12,7 @@
 class PointMarker : public QGraphicsItem {
  public:
   PointMarker(QGraphicsScene* parentScene,
-              AATreeNode_abstract* imageNode,
+              AATreeNode_abstract* parentNode,
               AATreeNode_abstract* existingNode = nullptr,
               QGraphicsItem* parent = nullptr);
   ~PointMarker();
@@ -27,6 +27,8 @@ class PointMarker : public QGraphicsItem {
   QVariant itemChange(QGraphicsItem::GraphicsItemChange change,
                       const QVariant& value) override;
 
+  QString nodeName();
+
  protected:
   void paint(QPainter* painter,
              const QStyleOptionGraphicsItem* option,
@@ -37,13 +39,15 @@ class PointMarker : public QGraphicsItem {
   void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
   void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
+  void createNode(AATreeNode_abstract* parentNode);
+
  protected:
   bool hovered = false;
 
   AATreeNode_abstract* m_node = nullptr;
   MainGraphicScene* m_parentScene = nullptr;
 
-  const QString m_nodeName;
+  QString m_nodeName;
 };
 
 #endif  // POINTMARKER_H
