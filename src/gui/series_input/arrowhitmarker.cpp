@@ -9,17 +9,16 @@
 #include <QPen>
 
 ArrowHitMarker::ArrowHitMarker(QGraphicsScene* parentScene,
-                               AATreeNode_abstract* imageNode,
+                               AATreeNode_abstract* parentNode,
                                AATreeNode_abstract* existingNode,
                                QGraphicsItem* parent)
-    : PointMarker(parentScene, imageNode, existingNode, parent) {}
+    : PointMarker(parentScene, parentNode, existingNode, parent) {
+  m_nodeName = "hit";
+  createNode(parentNode);
+}
 
 QRectF ArrowHitMarker::boundingRect() const {
   return QRectF(-12, -12, 24, 24);
-}
-
-int ArrowHitMarker::type() const {
-  return Point;
 }
 
 void ArrowHitMarker::paint(QPainter* painter,
