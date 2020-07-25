@@ -33,6 +33,7 @@ SOURCES += \
     gui/series_input/maingraphicsview.cpp \
     gui/series_input/pointmarker.cpp \
     gui/series_input/seriesinputwidget.cpp \
+    gui/series_input/targetareacorner.cpp \
     gui/mainmodeltreeview.cpp \
     gui/mainwindow.cpp \
     gui/pathviewproxymodel.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
     gui/series_input/maingraphicsview.h \
     gui/series_input/pointmarker.h \
     gui/series_input/seriesinputwidget.h \
+    gui/series_input/targetareacorner.h \
     gui/demowindow.h \
     gui/filemanagerwidget.h \
     gui/filemanagerwindow.h \
