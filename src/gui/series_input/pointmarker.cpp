@@ -7,6 +7,8 @@
 #include <QPen>
 #include "graphicsitems.h"
 
+#include "maingraphicscene.h"
+
 PointMarker::PointMarker(QGraphicsItem* parent) {
   setAcceptTouchEvents(true);
   setAcceptHoverEvents(true);
@@ -45,6 +47,18 @@ void PointMarker::setSelected(bool selected) {
   if (!selected) {
     hovered = false;
   }
+}
+
+void PointMarker::setPos(const QPointF& pos) {
+  auto sc = scene();
+  MainGraphicScene* scene = qobject_cast<MainGraphicScene*>(sc);
+  if (!scene) {
+    return;
+  }
+  if (!scene->imageRect().contains(pos)) {
+    return;
+  }
+  QGraphicsItem::setPos(pos);
 }
 
 void PointMarker::mousePressEvent(QGraphicsSceneMouseEvent* event) {

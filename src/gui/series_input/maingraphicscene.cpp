@@ -42,6 +42,10 @@ void MainGraphicScene::switchImage(QListWidgetItem* item) {
   setSceneRect(m_photo->boundingRect());
 }
 
+QRectF MainGraphicScene::imageRect() {
+  return m_photo->boundingRect();
+}
+
 void MainGraphicScene::zoom(qreal factor) {
   m_viewScale = QTransform();
   m_viewScale.scale(1 / factor, 1 / factor);
@@ -54,8 +58,10 @@ void MainGraphicScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     auto itemBelow = itemOfType(event->scenePos(), Point);
     if (!itemBelow) {
       auto item = qgraphicsitem_cast<PointMarker*>(addHit(event->scenePos()));
-      sendEvent(item, event);
-      item->setSelected(false);
+      if (item) {
+        sendEvent(item, event);
+        item->setSelected(false);
+      }
     }
   }
   QGraphicsScene::mousePressEvent(event);
@@ -98,6 +104,9 @@ void MainGraphicScene::setViewScale(const QTransform& viewScale) {
 }
 
 QGraphicsItem* MainGraphicScene::addHit(QPointF pos) {
+  if (!m_photo || !imageRect().contains(pos)) {
+    return nullptr;
+  }
   PointMarker* newHit = new ArrowHitMarker(m_currentImage);
   addItem(newHit);
   m_arrows.append(newHit);

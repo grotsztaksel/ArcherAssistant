@@ -18,6 +18,7 @@ class MainGraphicScene : public QGraphicsScene {
   QGraphicsItem* addHit(QPointF pos);
 
   void switchImage(QListWidgetItem* item);
+  QRectF imageRect();
  signals:
 
  public slots:

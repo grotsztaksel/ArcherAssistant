@@ -14,6 +14,8 @@ class PointMarker : public QGraphicsItem {
 
   void setSelected(bool selected);
 
+  void setPos(const QPointF& pos);
+
  protected:
   void paint(QPainter* painter,
              const QStyleOptionGraphicsItem* option,
