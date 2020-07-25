@@ -8,7 +8,11 @@
 #include <QPainter>
 #include <QPen>
 
-ArrowHitMarker::ArrowHitMarker(QGraphicsItem* parent) : PointMarker(parent) {}
+ArrowHitMarker::ArrowHitMarker(AATreeNode_abstract* imageNode,
+                               QGraphicsItem* parent)
+    : PointMarker(parent) {
+  m_hitNode = imageNode->addChild("hit");
+}
 
 QRectF ArrowHitMarker::boundingRect() const {
   return QRectF(-12, -12, 24, 24);
@@ -16,6 +20,12 @@ QRectF ArrowHitMarker::boundingRect() const {
 
 int ArrowHitMarker::type() const {
   return Point;
+}
+
+void ArrowHitMarker::setPos(const QPointF& pos) {
+  PointMarker::setPos(pos);
+  m_hitNode->setAttribute("X", pos.x());
+  m_hitNode->setAttribute("Y", pos.y());
 }
 
 void ArrowHitMarker::paint(QPainter* painter,
