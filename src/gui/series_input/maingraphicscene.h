@@ -5,6 +5,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QGraphicsSceneWheelEvent>
+#include <QListWidgetItem>
 
 class MainGraphicScene : public QGraphicsScene {
   Q_OBJECT
@@ -16,7 +17,7 @@ class MainGraphicScene : public QGraphicsScene {
   AATreeModel* model() const;
   QGraphicsItem* addHit(QPointF pos);
 
-  void switchImage(const QString& path);
+  void switchImage(QListWidgetItem* item);
  signals:
 
  public slots:
@@ -34,6 +35,7 @@ class MainGraphicScene : public QGraphicsScene {
 
  private:
   AATreeModel* m_model;
+  AATreeNode_abstract* m_currentImage;
   QList<QGraphicsItem*> m_arrows;
   QGraphicsPixmapItem* m_photo;
   QTransform m_viewScale;

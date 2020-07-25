@@ -2,12 +2,13 @@
 #include "arrowhitmarker.h"
 #include "graphicsitems.h"
 #include "pointmarker.h"
+#include "seriesthumbnail.h"
 
 #include <QDebug>
+#include <QFile>
 #include <QGraphicsItem>
 #include <QKeyEvent>
 #include <QPixmap>
-
 MainGraphicScene::MainGraphicScene(QObject* parent) : QGraphicsScene(parent) {}
 
 void MainGraphicScene::setModel(AATreeModel* model) {
@@ -18,8 +19,24 @@ AATreeModel* MainGraphicScene::model() const {
   return m_model;
 }
 
-void MainGraphicScene::switchImage(const QString& path) {
+void MainGraphicScene::switchImage(QListWidgetItem* item) {
   clear();
+  SeriesThumbnail* thumb = static_cast<SeriesThumbnail*>(item);
+  if (!thumb) {
+    return;
+  }
+  m_currentImage = thumb->node();
+  QVariant pathattribute = m_currentImage->attribute("file");
+  if (!pathattribute.isValid()) {
+    return;
+  }
+  QString path = pathattribute.toString();
+  if (path.isEmpty()) {
+    return;
+  }
+  if (!QFile(path).exists()) {
+    return;
+  }
   m_photo = addPixmap(QPixmap::fromImage(QImage(path)));
 
   setSceneRect(m_photo->boundingRect());
@@ -55,6 +72,11 @@ void MainGraphicScene::keyPressEvent(QKeyEvent* event) {
   if (event->key() == Qt::Key_Delete) {
     for (auto item : selectedItems()) {
       removeItem(item);
+      delete item;
+    }
+  } else if (event->key() == Qt::Key_Escape) {
+    for (auto item : m_arrows) {
+      item->setSelected(false);
     }
   }
 }
@@ -76,7 +98,7 @@ void MainGraphicScene::setViewScale(const QTransform& viewScale) {
 }
 
 QGraphicsItem* MainGraphicScene::addHit(QPointF pos) {
-  PointMarker* newHit = new ArrowHitMarker();
+  PointMarker* newHit = new ArrowHitMarker(m_currentImage);
   addItem(newHit);
   m_arrows.append(newHit);
   newHit->setPos(pos);
