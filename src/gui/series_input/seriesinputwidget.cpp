@@ -61,4 +61,6 @@ void SeriesInputWidget::onImageSelected(QListWidgetItem* item) {
   m_scene->switchImage(item);
   ui->graphicsView->fitView();
   currentImageNode = m_map.value(item);
+  m_scene->setViewScale(ui->graphicsView->viewportTransform());
+  m_scene->createMarkersForExistingHits();
 }

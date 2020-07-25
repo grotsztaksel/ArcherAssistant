@@ -96,6 +96,42 @@ QGraphicsItem* MainGraphicScene::itemOfType(QPointF pos, int type) {
   return nullptr;
 }
 
+void MainGraphicScene::createMarkersForExistingHits() {
+  for (auto hit : m_currentImage->children("hit")) {
+    bool ok;
+    double x = hit->attribute("X").toDouble(&ok);
+    if (!ok) {
+      continue;
+    }
+    double y = hit->attribute("Y").toDouble(&ok);
+    if (!ok) {
+      continue;
+    }
+    placeOnImage(hit, x, y);
+  }
+}
+
+QPointF MainGraphicScene::posRelativeToImage(QGraphicsItem* item) {
+  QPointF pos = item->pos();
+  QRectF frame = imageRect();
+  QPointF Delta = pos - frame.topLeft();
+  qreal rx = Delta.x() / frame.width();
+  qreal ry = Delta.y() / frame.height();
+  return QPointF(rx, ry);
+}
+
+void MainGraphicScene::placeOnImage(AATreeNode_abstract* hit,
+                                    const double x,
+                                    const double y) {
+  QRectF frame = imageRect();
+  double Dx = x * frame.width();
+  double Dy = y * frame.height();
+  QPointF Delta(Dx, Dy);
+  QPointF pos = frame.topLeft() + Delta;
+  qDebug() << frame << pos;
+  addHit(pos, hit);
+}
+
 void MainGraphicScene::setViewScale(const QTransform& viewScale) {
   QTransform inv = viewScale;
   QTransform my_t;
@@ -103,11 +139,11 @@ void MainGraphicScene::setViewScale(const QTransform& viewScale) {
   m_viewScale = my_t;
 }
 
-QGraphicsItem* MainGraphicScene::addHit(QPointF pos) {
+QGraphicsItem* MainGraphicScene::addHit(QPointF pos, AATreeNode_abstract* hit) {
   if (!m_photo || !imageRect().contains(pos)) {
     return nullptr;
   }
-  PointMarker* newHit = new ArrowHitMarker(m_currentImage);
+  PointMarker* newHit = new ArrowHitMarker(m_currentImage, hit);
   addItem(newHit);
   m_arrows.append(newHit);
   newHit->setPos(pos);

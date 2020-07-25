@@ -7,6 +7,7 @@
 class ArrowHitMarker : public PointMarker {
  public:
   ArrowHitMarker(AATreeNode_abstract* imageNode,
+                 AATreeNode_abstract* existingHitNode = nullptr,
                  QGraphicsItem* parent = nullptr);
   ~ArrowHitMarker();
   QRectF boundingRect() const override;
@@ -18,7 +19,10 @@ class ArrowHitMarker : public PointMarker {
   void paint(QPainter* painter,
              const QStyleOptionGraphicsItem* option,
              QWidget* widget = nullptr) override;
-  AATreeNode_abstract* m_hitNode;
+
+  QVariant itemChange(GraphicsItemChange change,
+                      const QVariant& value) override;
+  AATreeNode_abstract* m_hitNode = nullptr;
 };
 
 #endif  // ARROWHITMARKER_H

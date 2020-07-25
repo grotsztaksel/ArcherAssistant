@@ -1,6 +1,7 @@
 #include "arrowhitmarker.h"
 
 #include "graphicsitems.h"
+#include "maingraphicscene.h"
 
 #include <QBrush>
 #include <QDebug>
@@ -9,9 +10,12 @@
 #include <QPen>
 
 ArrowHitMarker::ArrowHitMarker(AATreeNode_abstract* imageNode,
+                               AATreeNode_abstract* existingHitNode,
                                QGraphicsItem* parent)
-    : PointMarker(parent) {
-  m_hitNode = imageNode->addChild("hit");
+    : PointMarker(parent), m_hitNode{existingHitNode} {
+  if (!m_hitNode) {
+    m_hitNode = imageNode->addChild("hit");
+  }
 }
 
 ArrowHitMarker::~ArrowHitMarker() {
@@ -29,7 +33,8 @@ int ArrowHitMarker::type() const {
 }
 
 void ArrowHitMarker::setPos(const QPointF& pos) {
-  PointMarker::setPos(pos);
+  qDebug() << "ARROW! setting pos" << pos;
+  QGraphicsItem::setPos(pos);
   m_hitNode->setAttribute("X", pos.x());
   m_hitNode->setAttribute("Y", pos.y());
 }
@@ -76,4 +81,12 @@ void ArrowHitMarker::paint(QPainter* painter,
   painter->setPen(pen);
   painter->drawLine(0, bR.top() * lineExt, 0, bR.bottom() * lineExt);
   painter->drawLine(bR.left() * lineExt, 0, bR.right() * lineExt, 0);
+}
+
+QVariant ArrowHitMarker::itemChange(QGraphicsItem::GraphicsItemChange change,
+                                    const QVariant& value) {
+  if (change == ItemSelectedHasChanged && scene()) { /*
+     qDebug() << "I see changing myself" << scene()->sceneRect() << pos();*/
+  }
+  return QGraphicsItem::itemChange(change, value);
 }
