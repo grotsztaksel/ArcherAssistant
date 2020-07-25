@@ -38,7 +38,6 @@ void MainGraphicScene::switchImage(QListWidgetItem* item) {
     return;
   }
   m_photo = addPixmap(QPixmap::fromImage(QImage(path)));
-
   setSceneRect(m_photo->boundingRect());
 }
 
@@ -143,7 +142,7 @@ QGraphicsItem* MainGraphicScene::addHit(QPointF pos, AATreeNode_abstract* hit) {
   if (!m_photo || !imageRect().contains(pos)) {
     return nullptr;
   }
-  PointMarker* newHit = new ArrowHitMarker(m_currentImage, hit);
+  PointMarker* newHit = new ArrowHitMarker(this, m_currentImage, hit);
   addItem(newHit);
   m_arrows.append(newHit);
   newHit->setPos(pos);

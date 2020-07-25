@@ -9,13 +9,15 @@
 #include <QPainter>
 #include <QPen>
 
-ArrowHitMarker::ArrowHitMarker(AATreeNode_abstract* imageNode,
+ArrowHitMarker::ArrowHitMarker(QGraphicsScene* parentScene,
+                               AATreeNode_abstract* imageNode,
                                AATreeNode_abstract* existingHitNode,
                                QGraphicsItem* parent)
     : PointMarker(parent), m_hitNode{existingHitNode} {
   if (!m_hitNode) {
     m_hitNode = imageNode->addChild("hit");
   }
+  m_parentScene = qobject_cast<MainGraphicScene*>(parentScene);
 }
 
 ArrowHitMarker::~ArrowHitMarker() {
@@ -85,8 +87,10 @@ void ArrowHitMarker::paint(QPainter* painter,
 
 QVariant ArrowHitMarker::itemChange(QGraphicsItem::GraphicsItemChange change,
                                     const QVariant& value) {
-  if (change == ItemSelectedHasChanged && scene()) { /*
-     qDebug() << "I see changing myself" << scene()->sceneRect() << pos();*/
+  if (change == ItemScenePositionHasChanged) {
+    QPointF pos = m_parentScene->posRelativeToImage(this);
+    m_hitNode->setAttribute("X", pos.x());
+    m_hitNode->setAttribute("Y", pos.y());
   }
   return QGraphicsItem::itemChange(change, value);
 }

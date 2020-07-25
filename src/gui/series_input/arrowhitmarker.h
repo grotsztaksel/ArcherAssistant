@@ -2,11 +2,13 @@
 #define ARROWHITMARKER_H
 
 #include "aatreenode_abstract.h"
+#include "maingraphicscene.h"
 #include "pointmarker.h"
 
 class ArrowHitMarker : public PointMarker {
  public:
-  ArrowHitMarker(AATreeNode_abstract* imageNode,
+  ArrowHitMarker(QGraphicsScene* parentScene,
+                 AATreeNode_abstract* imageNode,
                  AATreeNode_abstract* existingHitNode = nullptr,
                  QGraphicsItem* parent = nullptr);
   ~ArrowHitMarker();
@@ -23,6 +25,7 @@ class ArrowHitMarker : public PointMarker {
   QVariant itemChange(GraphicsItemChange change,
                       const QVariant& value) override;
   AATreeNode_abstract* m_hitNode = nullptr;
+  MainGraphicScene* m_parentScene = nullptr;
 };
 
 #endif  // ARROWHITMARKER_H
