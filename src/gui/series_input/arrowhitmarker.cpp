@@ -14,6 +14,12 @@ ArrowHitMarker::ArrowHitMarker(AATreeNode_abstract* imageNode,
   m_hitNode = imageNode->addChild("hit");
 }
 
+ArrowHitMarker::~ArrowHitMarker() {
+  auto parent = m_hitNode->parent();
+  int row = m_hitNode->getIndex();
+  parent->removeChild(row);
+}
+
 QRectF ArrowHitMarker::boundingRect() const {
   return QRectF(-12, -12, 24, 24);
 }

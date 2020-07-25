@@ -8,7 +8,7 @@ class ArrowHitMarker : public PointMarker {
  public:
   ArrowHitMarker(AATreeNode_abstract* imageNode,
                  QGraphicsItem* parent = nullptr);
-
+  ~ArrowHitMarker();
   QRectF boundingRect() const override;
   int type() const override;
 
