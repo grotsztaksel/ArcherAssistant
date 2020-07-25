@@ -15,6 +15,7 @@ PointMarker::PointMarker(QGraphicsItem* parent) {
   setFlag(QGraphicsItem::ItemIsMovable);
   setFlag(QGraphicsItem::ItemIsSelectable);
   setFlag(QGraphicsItem::ItemClipsChildrenToShape);
+  setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 }
 
 QRectF PointMarker::boundingRect() const {
