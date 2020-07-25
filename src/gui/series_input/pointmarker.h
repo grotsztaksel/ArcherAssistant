@@ -12,6 +12,8 @@ class PointMarker : public QGraphicsItem {
   QRectF boundingRect() const override;
   int type() const override;
 
+  void setSelected(bool selected);
+
  protected:
   void paint(QPainter* painter,
              const QStyleOptionGraphicsItem* option,

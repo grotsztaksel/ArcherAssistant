@@ -40,6 +40,13 @@ int PointMarker::type() const {
   return Point;
 }
 
+void PointMarker::setSelected(bool selected) {
+  QGraphicsItem::setSelected(selected);
+  if (!selected) {
+    hovered = false;
+  }
+}
+
 void PointMarker::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   setSelected(true);
   setPos(event->scenePos());
