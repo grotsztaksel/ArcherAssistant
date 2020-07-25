@@ -1,7 +1,6 @@
 #include "arrowhitmarker.h"
 
 #include "graphicsitems.h"
-#include "maingraphicscene.h"
 
 #include <QBrush>
 #include <QDebug>
@@ -11,20 +10,9 @@
 
 ArrowHitMarker::ArrowHitMarker(QGraphicsScene* parentScene,
                                AATreeNode_abstract* imageNode,
-                               AATreeNode_abstract* existingHitNode,
+                               AATreeNode_abstract* existingNode,
                                QGraphicsItem* parent)
-    : PointMarker(parent), m_hitNode{existingHitNode} {
-  if (!m_hitNode) {
-    m_hitNode = imageNode->addChild("hit");
-  }
-  m_parentScene = qobject_cast<MainGraphicScene*>(parentScene);
-}
-
-ArrowHitMarker::~ArrowHitMarker() {
-  auto parent = m_hitNode->parent();
-  int row = m_hitNode->getIndex();
-  parent->removeChild(row);
-}
+    : PointMarker(parentScene, imageNode, existingNode, parent) {}
 
 QRectF ArrowHitMarker::boundingRect() const {
   return QRectF(-12, -12, 24, 24);
@@ -32,13 +20,6 @@ QRectF ArrowHitMarker::boundingRect() const {
 
 int ArrowHitMarker::type() const {
   return Point;
-}
-
-void ArrowHitMarker::setPos(const QPointF& pos) {
-  qDebug() << "ARROW! setting pos" << pos;
-  QGraphicsItem::setPos(pos);
-  m_hitNode->setAttribute("X", pos.x());
-  m_hitNode->setAttribute("Y", pos.y());
 }
 
 void ArrowHitMarker::paint(QPainter* painter,
@@ -75,7 +56,6 @@ void ArrowHitMarker::paint(QPainter* painter,
 
   painter->setPen(pen);
 
-  //  painter->setBrush(brush);
   painter->drawEllipse(QPointF(0, 0), bR.top() * smallerCirc,
                        bR.right() * smallerCirc);
   pen.setWidth(1);
@@ -83,14 +63,4 @@ void ArrowHitMarker::paint(QPainter* painter,
   painter->setPen(pen);
   painter->drawLine(0, bR.top() * lineExt, 0, bR.bottom() * lineExt);
   painter->drawLine(bR.left() * lineExt, 0, bR.right() * lineExt, 0);
-}
-
-QVariant ArrowHitMarker::itemChange(QGraphicsItem::GraphicsItemChange change,
-                                    const QVariant& value) {
-  if (change == ItemScenePositionHasChanged) {
-    QPointF pos = m_parentScene->posRelativeToImage(this);
-    m_hitNode->setAttribute("X", pos.x());
-    m_hitNode->setAttribute("Y", pos.y());
-  }
-  return QGraphicsItem::itemChange(change, value);
 }

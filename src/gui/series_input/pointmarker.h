@@ -1,6 +1,9 @@
 #ifndef POINTMARKER_H
 #define POINTMARKER_H
 
+#include "maingraphicscene.h"
+
+#include <aatreenode_abstract.h>
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 
@@ -8,13 +11,21 @@
 // hits etc.)
 class PointMarker : public QGraphicsItem {
  public:
-  PointMarker(QGraphicsItem* parent = nullptr);
+  PointMarker(QGraphicsScene* parentScene,
+              AATreeNode_abstract* imageNode,
+              AATreeNode_abstract* existingNode = nullptr,
+              QGraphicsItem* parent = nullptr);
+  ~PointMarker();
+
   QRectF boundingRect() const override;
   int type() const override;
 
   void setSelected(bool selected);
 
   void setPos(const QPointF& pos);
+
+  QVariant itemChange(QGraphicsItem::GraphicsItemChange change,
+                      const QVariant& value) override;
 
  protected:
   void paint(QPainter* painter,
@@ -28,6 +39,11 @@ class PointMarker : public QGraphicsItem {
 
  protected:
   bool hovered = false;
+
+  AATreeNode_abstract* m_node = nullptr;
+  MainGraphicScene* m_parentScene = nullptr;
+
+  const QString m_nodeName;
 };
 
 #endif  // POINTMARKER_H

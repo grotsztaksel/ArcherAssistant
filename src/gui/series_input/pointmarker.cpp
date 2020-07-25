@@ -9,13 +9,28 @@
 
 #include "maingraphicscene.h"
 
-PointMarker::PointMarker(QGraphicsItem* parent) {
+PointMarker::PointMarker(QGraphicsScene* parentScene,
+                         AATreeNode_abstract* imageNode,
+                         AATreeNode_abstract* existingNode,
+                         QGraphicsItem* parent)
+    : QGraphicsItem(parent), m_node{existingNode} {
+  if (!m_node) {
+    m_node = imageNode->addChild(m_nodeName);
+  }
+  m_parentScene = qobject_cast<MainGraphicScene*>(parentScene);
+
   setAcceptTouchEvents(true);
   setAcceptHoverEvents(true);
   setFlag(QGraphicsItem::ItemIsMovable);
   setFlag(QGraphicsItem::ItemIsSelectable);
   setFlag(QGraphicsItem::ItemClipsChildrenToShape);
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
+}
+
+PointMarker::~PointMarker() {
+  auto parent = m_node->parent();
+  int row = m_node->getIndex();
+  parent->removeChild(row);
 }
 
 QRectF PointMarker::boundingRect() const {
@@ -88,4 +103,14 @@ void PointMarker::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 void PointMarker::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
   hovered = false;
   update();
+}
+
+QVariant PointMarker::itemChange(QGraphicsItem::GraphicsItemChange change,
+                                 const QVariant& value) {
+  if (change == ItemScenePositionHasChanged) {
+    QPointF pos = m_parentScene->posRelativeToImage(this);
+    m_node->setAttribute("X", pos.x());
+    m_node->setAttribute("Y", pos.y());
+  }
+  return QGraphicsItem::itemChange(change, value);
 }

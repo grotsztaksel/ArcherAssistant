@@ -1,17 +1,14 @@
 #ifndef ARROWHITMARKER_H
 #define ARROWHITMARKER_H
 
-#include "aatreenode_abstract.h"
-#include "maingraphicscene.h"
 #include "pointmarker.h"
 
 class ArrowHitMarker : public PointMarker {
  public:
   ArrowHitMarker(QGraphicsScene* parentScene,
                  AATreeNode_abstract* imageNode,
-                 AATreeNode_abstract* existingHitNode = nullptr,
+                 AATreeNode_abstract* existingNode = nullptr,
                  QGraphicsItem* parent = nullptr);
-  ~ArrowHitMarker();
   QRectF boundingRect() const override;
   int type() const override;
 
@@ -22,10 +19,8 @@ class ArrowHitMarker : public PointMarker {
              const QStyleOptionGraphicsItem* option,
              QWidget* widget = nullptr) override;
 
-  QVariant itemChange(GraphicsItemChange change,
-                      const QVariant& value) override;
-  AATreeNode_abstract* m_hitNode = nullptr;
-  MainGraphicScene* m_parentScene = nullptr;
+ private:
+  const QString m_nodeName = "hit";
 };
 
 #endif  // ARROWHITMARKER_H
