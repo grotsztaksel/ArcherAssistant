@@ -6,3 +6,7 @@ SeriesThumbnail::SeriesThumbnail(AATreeNode_abstract* imageNode,
                                  QListWidget* parent,
                                  int type)
     : QListWidgetItem(icon, text, parent, type), m_node{imageNode} {}
+
+AATreeNode_abstract* SeriesThumbnail::node() const {
+  return m_node;
+}

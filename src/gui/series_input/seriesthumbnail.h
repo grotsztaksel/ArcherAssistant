@@ -12,6 +12,8 @@ class SeriesThumbnail : public QListWidgetItem {
                   QListWidget* parent = nullptr,
                   int type = Type);
 
+  AATreeNode_abstract* node() const;
+
  private:
   AATreeNode_abstract* m_node;
 };
