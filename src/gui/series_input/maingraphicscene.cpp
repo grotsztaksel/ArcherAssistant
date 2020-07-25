@@ -3,6 +3,7 @@
 #include "graphicsitems.h"
 #include "pointmarker.h"
 #include "seriesthumbnail.h"
+#include "targetareacorner.h"
 
 #include <QDebug>
 #include <QFile>
@@ -142,7 +143,7 @@ QGraphicsItem* MainGraphicScene::addHit(QPointF pos, AATreeNode_abstract* hit) {
   if (!m_photo || !imageRect().contains(pos)) {
     return nullptr;
   }
-  PointMarker* newHit = new ArrowHitMarker(this, m_currentImage, hit);
+  PointMarker* newHit = new TargetAreaCorner(this, m_currentImage, hit);
   addItem(newHit);
   m_arrows.append(newHit);
   newHit->setPos(pos);
