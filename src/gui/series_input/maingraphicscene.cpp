@@ -9,6 +9,7 @@
 #include <QPixmap>
 
 MainGraphicScene::MainGraphicScene(QObject* parent) : QGraphicsScene(parent) {}
+
 void MainGraphicScene::setModel(AATreeModel* model) {
   m_model = model;
 }
