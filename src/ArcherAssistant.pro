@@ -36,6 +36,7 @@ SOURCES += \
     gui/mainmodeltreeview.cpp \
     gui/mainwindow.cpp \
     gui/pathviewproxymodel.cpp \
+    gui/series_input/seriesthumbnail.cpp \
     gui/seriesinputproxymodel.cpp \
     gui/sessioncontrolwidget.cpp \
     gui/settingswindow.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     gui/mainmodeltreeview.h \
     gui/mainwindow.h \
     gui/pathviewproxymodel.h \
+    gui/series_input/seriesthumbnail.h \
     gui/seriesinputproxymodel.h \
     gui/sessioncontrolwidget.h \
     gui/settingswindow.h \
